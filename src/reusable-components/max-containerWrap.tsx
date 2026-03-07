@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import type { HTMLAttributes, ReactNode } from "react";
 
 export default function MaxContainerWrapper({
@@ -8,5 +9,9 @@ export default function MaxContainerWrapper({
   children: ReactNode;
   className?: string;
 } & HTMLAttributes<HTMLDivElement>) {
-  return <div>MaxContainerWrapper</div>;
+  return (
+    <div className={cn("max-w-7xl mx-auto", className)} {...props}>
+      {children}
+    </div>
+  );
 }
