@@ -9,7 +9,7 @@ import {Services} from './pages/ourServices/services'
 import {Registration} from './pages/registration/registration'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import './main.css';
 createRoot(document.getElementById('root')!).render(
 <BrowserRouter>
   <Routes>

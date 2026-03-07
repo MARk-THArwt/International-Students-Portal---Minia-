@@ -2,6 +2,8 @@ import React from "react";
 import LoginIcon from '@mui/icons-material/Login';
 import LanguageIcon from '@mui/icons-material/Language';
 import {NavLink,Link} from "react-router-dom"
+
+import Image from 'react-bootstrap/Image';
 import "./navbar.css";
 import {Navbar,Nav,Container,Button} from 'react-bootstrap'
 const MainNav: React.FC = () => {
@@ -9,7 +11,7 @@ const MainNav: React.FC = () => {
     <Navbar  style={{display:"flex",justifyContent:"space-around",borderBottom:"1px solid"}}>
       <Container fluid>
         <div className="header">
-          <img className="icon" src="./../../" alt="logo Minia University" />
+          <Image src="./../../assets/logo minia university.webp" roundedCircle />
           <div className="subTitle">
               <h1>Minia University</h1>
               <p>International Students Partal</p>

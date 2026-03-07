@@ -10,7 +10,7 @@ const Footer: React.FC = () => {
         {/* Column 1 */}
         <div className="footer-col">
           <div className="logo-section">
-            <div ><img className="logo-circle" src="../../public/logo minia university.webp" /></div>
+            <div ><img className="logo-circle" src="../assets/logo minia university.webp" /></div>
             <div>
               <h2>Minia University</h2>
               <p className="subtitle">International Portal</p>

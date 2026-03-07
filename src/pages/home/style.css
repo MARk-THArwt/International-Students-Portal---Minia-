@@ -1,0 +1,130 @@
+.head{
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+.head h1{
+    font-family:Arial;
+    font-weight: 800;
+    font-size: 44px;
+    line-height: 48px;
+    margin: 0;
+    color: rgba(13, 13, 28, 1);
+}
+.head .titile{
+    width:fit-content;
+    padding-bottom: 10px;
+    color:rgba(9, 9, 170, 1);
+    border-bottom: solid 8px rgba(255, 215, 0, 1);
+}
+.head p{
+    font-size: 18px;
+    line-height: 29.25px;
+    color:rgba(71, 85, 105, 1);
+}
+.bottoms{
+    display: flex;
+    font-size: 16px;
+    line-height: 24px;
+    padding: 0.5rem;
+    gap: .5rem;
+}
+    .bottoms a{
+        display: flex;
+    gap: 3px;
+    align-items: center;
+    justify-content: center;
+    width: 11.9rem;
+    height: 3rem;
+    padding: 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    }
+.bottoms a:nth-child(1){
+
+    color: rgba(255, 255, 255, 1);
+    background-color:rgba(15, 15, 189, 1);
+}
+.bottoms a:nth-child(2){
+    color: rgba(0, 33, 71, 1);
+    border: 1px solid rgba(226, 232, 240, 1);
+}
+.numbers{
+    display: flex;
+    width: 50%;
+    gap: 2rem;
+}
+.numbers div{
+    text-align:center;
+}
+.numbers .number{
+    font-weight: 900;
+    font-size: 30px;
+    line-height: 36px;
+    color:rgba(0, 33, 71, 1);
+}
+.numbers .disk{
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color:rgba(100, 116, 139, 1);
+}
+.acadmic{
+    display: flex;
+    align-items: center;
+    width: 30%;
+    gap: 0.3rem;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 16px;
+    color: rgba(15, 15, 189, 1);
+    background-color: rgba(15, 15, 189, 0.1);
+    padding: 4px 12px;
+    border-radius: 9999px;
+}
+
+.mapLi{
+    display: flex;
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 8px;
+    border: 1px solid rgba(241, 245, 249, 1);
+    gap: 5px;
+    align-items: center;
+    padding: 12px;
+}
+.mapLi p{
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: rgba(0, 33, 71, 1);
+}
+.mapL{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.padg{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: 13rem;
+    height: 2.6rem;
+    background-color: white;
+    border-radius: 9999px;
+    position: absolute;
+}
+.map{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    position: relative;
+    padding: 2rem;
+}
+.map p{
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    color: rgba(0, 33, 71, 1);
+}
