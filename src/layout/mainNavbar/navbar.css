@@ -2,19 +2,6 @@
   border-bottom: 3px solid #0F0FBD!important;
   color: #0F0FBD !important;
 }
-.header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 20px;
-  width: fit-content;
-}
-
-.icon {
-  width: 70px;
-  height: 70px;
-  object-fit: contain;
-}
 
 .subTitle h1 {
   margin: 0;

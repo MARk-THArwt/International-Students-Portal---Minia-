@@ -8,24 +8,9 @@ import { Login } from "./pages/login/login";
 import { Services } from "./pages/ourServices/services";
 import { Registration } from "./pages/registration/registration";
 
-<<<<<<< HEAD
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './main.css';
-createRoot(document.getElementById('root')!).render(
-<BrowserRouter>
-  <Routes>
-  <Route path="/" element={<Home/>}/>
-  <Route path="/Contact" element={<Contact/>}/>
-  <Route path="/Announcement" element={<Announcement/>}/>
-  <Route path="/Login" element={<Login/>}/>
-  <Route path="/Services" element={<Services/>}/>
-  <Route path="/Registration" element={<Registration/>}/>
-  </Routes>
-</BrowserRouter>
-)
-=======
+
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Toaster } from "sonner";
+import { Toaster } from "./components/ui/sonner";
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
@@ -41,4 +26,4 @@ createRoot(document.getElementById("root")!).render(
     </Routes>
   </BrowserRouter>,
 );
->>>>>>> a2265da49d2b814dc2fa9a7866a297f991219a37
+

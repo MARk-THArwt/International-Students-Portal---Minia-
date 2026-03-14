@@ -1,7 +1,11 @@
+
 .head{
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
+    padding-right: 8rem!important;
+}
+.headImag{    padding-left: 3rem!important;
 }
 .head h1{
     font-family:Arial;
@@ -31,7 +35,7 @@
 }
     .bottoms a{
         display: flex;
-    gap: 3px;
+    gap: 5px;
     align-items: center;
     justify-content: center;
     width: 11.9rem;
@@ -58,6 +62,7 @@
     text-align:center;
 }
 .numbers .number{
+        margin: 0px;
     font-weight: 900;
     font-size: 30px;
     line-height: 36px;
@@ -72,7 +77,7 @@
 .acadmic{
     display: flex;
     align-items: center;
-    width: 30%;
+    width: 35%;
     gap: 0.3rem;
     font-size: 12px;
     font-weight: 700;
@@ -93,6 +98,7 @@
     padding: 12px;
 }
 .mapLi p{
+    margin: 0px;
     font-weight: 500;
     font-size: 14px;
     line-height: 20px;
@@ -122,7 +128,7 @@
     position: relative;
     padding: 2rem;
 }
-.map p{
+.map span{
     font-weight: 700;
     font-size: 16px;
     line-height: 24px;

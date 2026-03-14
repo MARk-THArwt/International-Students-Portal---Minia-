@@ -1,4 +1,5 @@
 import React from "react";
+import logo from "@/assets/Minya University Logo.jpg";
 import "./Footer.css";
 import { FaFacebookF, FaInstagram, FaTwitter, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 
@@ -9,11 +10,11 @@ const Footer: React.FC = () => {
 
         {/* Column 1 */}
         <div className="footer-col">
-          <div className="logo-section">
-            <div ><img className="logo-circle" src="../assets/logo minia university.webp" /></div>
+          <div className="logo-section" >
+            <img src={logo} alt="logo" className="size-16 rounded-full" />
             <div>
-              <h2>Minia University</h2>
-              <p className="subtitle">International Portal</p>
+              <h2 style={{fontWeight:"700",fontSize:"18px",lineHeight:"18px",margin:"0px"}}>Minia University</h2>
+              <p className="subtitle "style={{margin:"0px"}}>International Portal</p>
             </div>
           </div>
 

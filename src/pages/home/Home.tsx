@@ -18,6 +18,10 @@ import Map from '../../assets/icons-svg/map.svg?react'
 import Dot from '../../assets/icons-svg/dot.svg?react'
 import Virtual from '../../assets/icons-svg/virtual.svg?react'
 import ExploreArrow from '../../assets/icons-svg/exploreArrow.svg?react'
+import BackgraundImage from '@/assets/Background+Shadow.jpg'
+import logo from '@/assets/Minya University Logo.jpg'
+
+
 import './style.css'
 export const Home = () => {
   return (
@@ -25,8 +29,8 @@ export const Home = () => {
     <MainNav/>
     <Container fluid style={{display:"flex",flexDirection:"column",gap:"3em"}}>
       {/* head */}
-      <Row>
-        <Col xs={12} md={6} className="head">
+      <Row className='p-4' style={{minHeight:"100%"}}>
+        <Col xs={12} md={6} className="head ">
         <div className='acadmic'><Dot/>Academic Year 2025-2026</div>
         <h1>Start Your Global</h1>
         <h1>Journey at</h1>
@@ -53,18 +57,49 @@ world-class programs and a supportive community.</p>
             </div>
           </div>
         </Col>
-        <Col xs={12} md={6}>
-        
+        <Col xs={12} md={6} className='headImag '>
+        <div className="relative w-full h-full flex justify-center items-center ">
+
+  <div className="absolute inset-0 bg-[linear-gradient(rgba(15,15,189,0.05),rgba(197,160,89,0.1))] rotate-[178deg] rounded-lg" ></div>
+
+  <img
+    src={BackgraundImage}
+    className="relative w-[95%] h-[95%] object-cover rounded-3xl "
+  />
+
+  <div className="absolute bottom-8 left-13 bg-white/50 border-l-4 border-[#C5A059] backdrop-blur-[2px] rounded-[16px] p-2.5 w-[55%]">
+
+    <div className="flex items-start gap-3">
+      <img
+        src={logo}
+        className="w-12 h-12 rounded-full"
+      />
+
+      <div>
+        <span className="font-bold text-[rgba(0,33,71,1)]">
+          Excellence in Education
+        </span>
+
+        <p className="text-[rgba(71,85,105,1)] text-sm mt-1">
+          Join a community dedicated to innovation and research across 18 faculties.
+        </p>
+      </div>
+      
+    </div>
+
+  </div>
+
+</div>
         </Col>
       </Row>
       {/* news */}
       <Row style={{backgroundColor:"rgba(197, 160, 89, 0.1)",borderLeft:"4px solid rgba(197, 160, 89, 1)",borderRadius:"8px",alignItems:"center",height:"52px"}}>
         <Col xs={2} style={{display:"flex" ,alignItems:"center",gap:"4px"}}>
         <LastestNews/>
-        <p style={{color:"rgba(197, 160, 89, 1)",fontWeight:"700",fontSize:"14px",lineHeight:"20px",letterSpacing:"0.7",textTransform:"uppercase"}}>Latest News</p>
+        <p style={{color:"rgba(197, 160, 89, 1)",margin:"0px",fontWeight:"700",fontSize:"14px",lineHeight:"20px",letterSpacing:"0.7",textTransform:"uppercase"}}>Latest News</p>
         </Col>
         <Col xs={8} style={{display:"flex",gap:"4px"}}><p style={{margin:"0px",color:"rgba(0, 33, 71, 1)",fontWeight:"500",fontSize:"14px",lineHeight:"20px"}}>Registration for the Spring Semester 2026 is now open. </p> <p style={{margin:"0px",color:"rgba(0, 33, 71, 1)",fontWeight:"700",fontSize:"14px",lineHeight:"20px"}}>Deadline: March 15th.</p></Col>
-        <Col xs={2} ><Link to="/" style={{color:"rgba(15, 15, 189, 1)",fontWeight:"bold",fontSize:"14px",lineHeight:"20px",textDecoration:"none"}}>Read details<Arow/></Link></Col>
+        <Col xs={2} ><Link to="/" style={{color:"rgba(15, 15, 189, 1)",fontWeight:"bold",fontSize:"14px",lineHeight:"20px",textDecoration:"none",display:"flex",alignItems:"center",gap:"3px"}}>Read details<Arow/></Link></Col>
       </Row>
       {/* our services */}
       <Row className='gap-5'>
@@ -116,7 +151,7 @@ world-class programs and a supportive community.</p>
              style={{border:"0",borderRadius:"20px"}}
                loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"></iframe>
-          <div className='padg'><Map/><p>Open Interactive Map</p></div>
+          <div className='padg'><Map/><span>Open Interactive Map</span></div>
           </div></Col>
       </Row>
     </Container>
