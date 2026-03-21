@@ -1,8 +1,5 @@
 import React from 'react'
 import ServicesCard from '../../component/common/card/card';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import MainNav from '../../layout/mainNavbar/navbar'
 import Footer from '../../layout/mainFooter/footer'
 import { Link } from 'react-router-dom';
@@ -22,140 +19,212 @@ import BackgraundImage from '@/assets/Background+Shadow.jpg'
 import logo from '@/assets/Minya University Logo.jpg'
 
 
-import './style.css'
+const navigation = [
+      { title: "Home", path: "/" },
+      { title: "Services", path: "/Services" },
+      { title: "Announcements", path: "/Announcements" },
+      { title: "Contact", path: "/Contact" }
+  ]
 export const Home = () => {
   return (
     <>
-    <MainNav/>
-    <Container fluid style={{display:"flex",flexDirection:"column",gap:"3em"}}>
-      {/* head */}
-      <Row className='p-4' style={{minHeight:"100%"}}>
-        <Col xs={12} md={6} className="head ">
-        <div className='acadmic'><Dot/>Academic Year 2025-2026</div>
-        <h1>Start Your Global</h1>
-        <h1>Journey at</h1>
-        <h1 className='titile'>Minia University</h1>
-        <p>Welcome to the Minia University International Students
-Portal. Your journey to academic success starts here with
-world-class programs and a supportive community.</p>
-        <div className='bottoms'>
-          <Link to="/" >Explore Services<ExploreArrow/></Link>
-          <Link to="/"><Virtual/>Virtual Tour</Link>
+    <MainNav navigation={navigation}/>
+    <div className="flex flex-col gap-12 w-full p-4 font-['Public_Sans']">
+
+  {/* head */}
+  <div className="flex flex-col md:flex-row p-4 min-h-full">
+
+    {/* left */}
+    <div className="w-full md:w-1/2 flex flex-col gap-[0.3rem] md:pr-[8rem]">
+
+      {/* acadmic */}
+      <div className="flex items-center w-[35%] gap-[0.3rem] text-[12px] font-bold leading-[16px] text-[#0F0FBD] bg-[rgba(15,15,189,0.1)] px-3 py-[4px] rounded-full">
+        <Dot />
+        Academic Year 2025-2026
+      </div>
+
+      {/* titles */}
+      <h1 className="font-[Arial] font-extrabold text-[44px] leading-[48px] text-[#0D0D1C] m-0">
+        Start Your Global
+      </h1>
+      <h1 className="font-[Arial] font-extrabold text-[44px] leading-[48px] text-[#0D0D1C] m-0">
+        Journey at
+      </h1>
+
+      {/* title special */}
+      <h1 className="font-[Arial] font-extrabold text-[44px] leading-[48px] text-[#0909AA] w-fit border-b-[8px] border-[#FFD700] pb-[10px] m-0">
+        Minia University
+      </h1>
+
+      {/* paragraph */}
+      <p className="text-[18px] leading-[29.25px] text-[#475569]">
+        Welcome to the Minia University International Students Portal. Your journey to academic success starts here with world-class programs and a supportive community.
+      </p>
+
+      {/* buttons */}
+      <div className="flex text-[16px] leading-[24px] p-2 gap-2">
+
+        <Link
+          to="/"
+          className="flex gap-[5px] items-center justify-center w-[11.9rem] h-[3rem] p-4 rounded-lg bg-[#0F0FBD] text-white no-underline"
+        >
+          Explore Services <ExploreArrow />
+        </Link>
+
+        <Link
+          to="/"
+          className="flex gap-[5px] items-center justify-center w-[11.9rem] h-[3rem] p-4 rounded-lg border border-[#E2E8F0] text-[#002147] no-underline"
+        >
+          <Virtual /> Virtual Tour
+        </Link>
+
+      </div>
+
+      {/* numbers */}
+      <div className="flex w-1/2 gap-8 mt-2">
+        <div className="text-center">
+          <p className="m-0 font-black text-[30px] leading-[36px] text-[#002147]">15K+</p>
+          <p className="font-medium text-[14px] leading-[20px] text-[#64748B]">Students</p>
         </div>
-        <div className='numbers'>
-          <div style={{textAlign:"center"}}>
-            <p className='number'>15K+</p>
-            <p className='disk'>Students</p>
+
+        <div className="text-center">
+          <p className="m-0 font-black text-[30px] leading-[36px] text-[#002147]">120+</p>
+          <p className="font-medium text-[14px] leading-[20px] text-[#64748B]">Programs</p>
+        </div>
+
+        <div className="text-center">
+          <p className="m-0 font-black text-[30px] leading-[36px] text-[#002147]">45</p>
+          <p className="font-medium text-[14px] leading-[20px] text-[#64748B]">Countries</p>
+        </div>
+      </div>
+    </div>
+
+    {/* right */}
+    <div className="w-full md:w-1/2 md:pl-[3rem] flex items-center justify-center relative">
+
+      <div className="relative w-full h-1/2 lg:h-full flex items-center justify-center p-1 lg:p-8">
+
+        {/* gradient */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(15,15,189,0.05),rgba(197,160,89,0.1))] rotate-[178deg] rounded-lg"></div>
+
+        {/* image */}
+        <img
+          src={BackgraundImage}
+          className="relative object-cover rounded-3xl"
+        />
+
+        {/* floating card */}
+        <div className="absolute bottom-4 left-4 lg:bottom-9 lg:left-12 bg-white/50 border-l-4 border-[#C5A059] backdrop-blur-[2px] rounded-2xl p-2 lg:p-5 w-3/4 lg:w-70">
+
+          <div className="flex items-start gap-3">
+            <img src={logo} className="w-12 h-12 rounded-full" />
+
+            <div>
+              <span className="font-bold text-[#002147]">
+                Excellence in Education
+              </span>
+
+              <p className="text-[#475569] text-sm mt-1">
+                Join a community dedicated to innovation and research across 18 faculties.
+              </p>
             </div>
-          <div>
-            <p className='number'>120+</p>
-            <p className='disk'>Programs</p>
-            </div>
-          <div>
-            <p className='number'>45</p>
-            <p className='disk'>Countries</p>
-            </div>
+
           </div>
-        </Col>
-        <Col xs={12} md={6} className='headImag '>
-        <div className="relative w-full h-full flex justify-center items-center ">
 
-  <div className="absolute inset-0 bg-[linear-gradient(rgba(15,15,189,0.05),rgba(197,160,89,0.1))] rotate-[178deg] rounded-lg" ></div>
+        </div>
 
-  <img
-    src={BackgraundImage}
-    className="relative w-[95%] h-[95%] object-cover rounded-3xl "
-  />
+      </div>
+    </div>
+  </div>
+  {/* news */}
+       <div className="flex items-center bg-[rgba(197,160,89,0.1)] border-l-4 border-[#C5A059] rounded-lg h-[52px] px-4"> 
+        <div className="w-2/12 flex items-center gap-1">
+         <LastestNews /> <p className="text-[#C5A059] font-bold text-sm uppercase tracking-wide"> Latest News </p>
+          </div> <div className="w-8/12 flex gap-1 text-sm"> <p className="text-[#002147] font-medium"> Registration for the Spring Semester 2026 is now open. </p>
+           <p className="text-[#002147] font-bold"> Deadline: March 15th. </p>
+            </div>
+             <div className="w-2/12">
+              <Link to="/" className="flex items-center gap-1 text-[#0F0FBD] font-bold text-sm"> Read details <Arow /> </Link>
+               </div>
+                </div>
+                 {/* services */}
+                  <div className="flex flex-col gap-6">
+                     <div className="flex border-b border-[#E2E8F0] p-4">
+                       <div className="w-10/12"> <h2 className="text-[#002147] font-bold text-3xl"> Student Services </h2>
+                        <p className="text-[#64748B] text-base"> Comprehensive support for your acadimic journey </p>
+                         </div> <div className="flex items-end ml-auto">
+                           <Link to="/" className="text-[#0F0FBD] font-bold text-sm"> View All Services </Link>
+                            </div>
+                             </div>
+                              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                 <ServicesCard data={{ title: "Admission Guide", description: "Step-by-step procedures for international applicants, including document requirements and…" }} > <AdmissionLogo className='fill-[#C5A059]'/>
+                                  </ServicesCard> <ServicesCard data={{ title: "Visa Support", description: "Complete guidance on obtaining and renewing your student visa, residency permits, and legal…" }} > <VisaLogo className='fill-[#C5A059]'/> 
+                                  </ServicesCard> <ServicesCard data={{ title: "Campus Housing", description: "Find comfortable accommodation on or off campus with our housing assistance program for…" }} > <CampusLogo className='fill-[#C5A059]'/>
+                                   </ServicesCard>
+                                    </div>
+                                    </div>
 
-  <div className="absolute bottom-8 left-13 bg-white/50 border-l-4 border-[#C5A059] backdrop-blur-[2px] rounded-[16px] p-2.5 w-[55%]">
+  {/* map */}
+  <div className="border border-[#F1F5F9] rounded-2xl bg-[#F8FAFC] p-8 flex flex-col md:flex-row gap-6">
 
-    <div className="flex items-start gap-3">
-      <img
-        src={logo}
-        className="w-12 h-12 rounded-full"
-      />
+    {/* left */}
+    <div className="w-full md:w-7/12 flex flex-col gap-4 pr-8">
 
-      <div>
-        <span className="font-bold text-[rgba(0,33,71,1)]">
-          Excellence in Education
+      <h2 className="font-bold text-2xl text-[#002147]">
+        Find your way around campus
+      </h2>
+
+      <p className="text-[#475569]">
+        Explore our interactive map to locate faculties, libraries, and student centers.
+      </p>
+
+      
+
+      {/* map list */}
+      <div className="flex flex-col gap-2">
+
+        <div className="flex bg-white border border-[#F1F5F9] rounded-lg gap-[5px] items-center p-3">
+          <LibraryIcon />
+          <p className="m-0 font-medium text-[14px] text-[#002147]">Central Library</p>
+        </div>
+
+        <div className="flex bg-white border border-[#F1F5F9] rounded-lg gap-[5px] items-center p-3">
+          <LabIcon />
+          <p className="m-0 font-medium text-[14px] text-[#002147]">Science Labs Complex</p>
+        </div>
+
+        <div className="flex bg-white border border-[#F1F5F9] rounded-lg gap-[5px] items-center p-3">
+          <SportCenerIcon />
+          <p className="m-0 font-medium text-[14px] text-[#002147]">Sports Center</p>
+        </div>
+
+      </div>
+    </div>
+
+    {/* right */}
+    <div className="w-full md:w-5/12 flex items-center justify-center relative ">
+
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d112600.76689370809!2d30.5822877!3d28.1229178!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145b25c9ff4ca9db%3A0xb233ef3a6077958c!2sMinia%20University!5e0!3m2!1sen!2seg!4v1772907339299!5m2!1sen!2seg"
+        className="w-full h-[250px] rounded-[20px] border-0"
+      ></iframe>
+
+      {/* badge */}
+      <div className="absolute flex items-center justify-center gap-1 w-[13rem] h-[2.6rem] bg-white rounded-full ">
+
+        <Map />
+        <span className="font-bold text-[16px] text-[#002147]">
+          Open Interactive Map
         </span>
 
-        <p className="text-[rgba(71,85,105,1)] text-sm mt-1">
-          Join a community dedicated to innovation and research across 18 faculties.
-        </p>
       </div>
-      
+
     </div>
 
   </div>
 
 </div>
-        </Col>
-      </Row>
-      {/* news */}
-      <Row style={{backgroundColor:"rgba(197, 160, 89, 0.1)",borderLeft:"4px solid rgba(197, 160, 89, 1)",borderRadius:"8px",alignItems:"center",height:"52px"}}>
-        <Col xs={2} style={{display:"flex" ,alignItems:"center",gap:"4px"}}>
-        <LastestNews/>
-        <p style={{color:"rgba(197, 160, 89, 1)",margin:"0px",fontWeight:"700",fontSize:"14px",lineHeight:"20px",letterSpacing:"0.7",textTransform:"uppercase"}}>Latest News</p>
-        </Col>
-        <Col xs={8} style={{display:"flex",gap:"4px"}}><p style={{margin:"0px",color:"rgba(0, 33, 71, 1)",fontWeight:"500",fontSize:"14px",lineHeight:"20px"}}>Registration for the Spring Semester 2026 is now open. </p> <p style={{margin:"0px",color:"rgba(0, 33, 71, 1)",fontWeight:"700",fontSize:"14px",lineHeight:"20px"}}>Deadline: March 15th.</p></Col>
-        <Col xs={2} ><Link to="/" style={{color:"rgba(15, 15, 189, 1)",fontWeight:"bold",fontSize:"14px",lineHeight:"20px",textDecoration:"none",display:"flex",alignItems:"center",gap:"3px"}}>Read details<Arow/></Link></Col>
-      </Row>
-      {/* our services */}
-      <Row className='gap-5'>
-        <Row className='gap-2' style={{borderBottom:"1px solid #E2E8F0",padding:"1rem"}}>
-          <Col xs={10}>
-          <h2 style={{color:"#002147",fontFamily:"Public Sans",fontWeight:"bold",fontSize:"30px",lineHeight:"36px"}}>Student Services</h2>
-          <p style={{color:"#64748B",fontFamily:"Public Sans",fontSize:"16px",lineHeight:"24px"}}>Comprehensive support for your acadimic journey</p>
-          </Col>
-          <Col className='mt-auto'>
-                    <Link className='ml-auto' to={"/"} style={{color:"#0F0FBD",fontFamily:"Public Sans",fontWeight:"bold",fontSize:"14px",lineHeight:"20px",textDecoration:"none"}}>View All Services</Link>
-          </Col>
-        </Row>
-        <Row xs={1} md={3} lg={3} className='gap-0'>
-          <Col >
-          <ServicesCard data={{title:"Admission Guide",
-               description:`Step-by-step procedures for international applicants, including document requirements and…`
-               }} ><AdmissionLogo/></ServicesCard>
-        </Col>
-        <Col >
-          <ServicesCard data={{title:"Visa Support",
-               description:`Complete guidance on obtaining and renewing your student visa, residency permits, and legal…`
-               }} ><VisaLogo/></ServicesCard>
-        </Col>
-        <Col >
-          <ServicesCard data={{title:"Campus Housing",
-               description:`Find comfortable accommodation on or off campus with our housing assistance program for…`
-               }} ><CampusLogo/></ServicesCard>
-        </Col>
-        </Row>
-        
-      </Row>
-      {/* map */}
-      <Row style={{border:"1px solid rgba(241, 245, 249, 1)",borderRadius:"16px",backgroundColor:"rgba(248, 250, 252, 1)",padding:"2rem !important"}}>
-        <Col xs={12} md={6} style={{padding:"2rem",display:"flex",flexDirection:"column",gap:"1rem"}}>
-
-        <h2 style={{fontWeight:"700",fontSize:"24px",lineHeight:"32px",color:"rgba(0, 33, 71, 1)"}}>Find your way around campus</h2>
-        <p style={{fontSize:"16px",lineHeight:"24px",color:"rgba(71, 85, 105, 1)"}}>Explore our interactive map to locate faculties, libraries, and student centers.</p>
-        <div className="mapL">
-           <div className='mapLi'><LibraryIcon/><p>Central Library</p></div>
-        <div className='mapLi'><LabIcon/><p>Science Labs Complex</p></div>
-        <div className='mapLi'><SportCenerIcon/><p>Sports Center</p></div>
-        </div>
-        </Col>
-        <Col xs={12} md={6}>
-        <div className='map'>
-          <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d112600.76689370809!2d30.5822877!3d28.1229178!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145b25c9ff4ca9db%3A0xb233ef3a6077958c!2sMinia%20University!5e0!3m2!1sen!2seg!4v1772907339299!5m2!1sen!2seg"
-           width="600"
-            height="250"
-             style={{border:"0",borderRadius:"20px"}}
-               loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"></iframe>
-          <div className='padg'><Map/><span>Open Interactive Map</span></div>
-          </div></Col>
-      </Row>
-    </Container>
     <Footer/>
     </>
-  )
+  );
 }

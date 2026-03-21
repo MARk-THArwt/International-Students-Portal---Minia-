@@ -5,15 +5,11 @@ import Logo from '@/assets/Minya University Logo.jpg'
 import LanguageIcon from '@mui/icons-material/Language';
 import LoginIcon from '@mui/icons-material/Login';
 import './navbar.css'
-const MainNav: React.FC = () => {
-  const [state, setState] = useState(false)
 
-  const navigation = [
-      { title: "Home", path: "/" },
-      { title: "Services", path: "/Services" },
-      { title: "Announcements", path: "/Announcements" },
-      { title: "Contact", path: "/Contact" }
-  ]
+const MainNav = ({ navigation }: { navigation: { title: string; path: string }[] }) => {
+      const [state, setState] = useState(false)
+
+  
 
   return (
       <nav className="bg-white w-full  border-[#E2E8F0] md:border-b md:static ">
@@ -77,37 +73,5 @@ const MainNav: React.FC = () => {
           </div>
       </nav>
   )
-  
-
-    // <Navbar  style={{display:"flex",justifyContent:"space-around",borderBottom:"1px solid"}}>
-    //   <Container fluid>
-    //     <div className="header">
-    //         <img src={logo} alt="logo" className="size-16 rounded-full" />
-    //       <div className="subTitle">
-    //           <h1>Minia University</h1>
-    //           <p>International Students Partal</p>
-    //       </div>
-    //       </div>
-        
-        
-    //       <Nav
-    //         className="my-2 my-lg-0"
-    //         style={{ maxHeight: '100px' ,gap:"10px"}}
-    //       >
-    //         <Nav.Link as={NavLink} to="/" >Home</Nav.Link>
-    //         <Nav.Link as={NavLink} to="/Services">Services</Nav.Link>
-    //         <Nav.Link as={NavLink} to="/Announcements">Announcements</Nav.Link>
-    //         <Nav.Link as={NavLink} to="/Contact">Contact</Nav.Link>
-            
-            
-    //       </Nav>
-    //       <div style={{display:"flex",alignItems:"center",gap:"10px"}}>
-    //         <div style={{color:"#475569",display:"flex",gap:"5px",fontSize:"16px"}}><LanguageIcon/>AR / EN</div>
-    //         <Link to="/Login" style={{textDecoration:"none"}}> <Button style={{color:"#FFFFFF",display:"flex",gap:"5px",fontSize:"16px",backgroundColor:"#0F0FBD"}}><LoginIcon/>Login</Button></Link> 
-    //       </div>
-    //   </Container>
-    // </Navbar>
-  
 };
-
 export default MainNav;

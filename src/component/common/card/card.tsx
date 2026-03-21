@@ -1,6 +1,6 @@
-import Card from 'react-bootstrap/Card';
 import type { ReactNode } from "react";
-import ArrowIcon from "./../../../assets/icons-svg/arrow.svg?react"
+import ArrowIcon from "./../../../assets/icons-svg/arrow.svg?react";
+
 function ServicesCard({
   data,
   children,
@@ -9,16 +9,33 @@ function ServicesCard({
   children: ReactNode;
 }) {
   return (
-    <Card style={{border:"solid 1px #E2E8F0"}}>
-      <Card.Body>
-        <div style={{backgroundColor:"#c59f5928",width:"48px",height:"48px",borderRadius:"10px",display: "flex",alignItems: "center",justifyContent: "center",margin:"0.8rem 0rem"}}>{children}</div>
-        <Card.Title style={{color:"#002147",fontFamily:"Public Sans",fontWeight:"bold",fontSize:"20px",lineHeight:"28px"}}>{data.title}</Card.Title>
-        <Card.Text style={{color:"#475569",fontFamily:"Public Sans",fontSize:"14px",lineHeight:"28px"}}>
-          {data.description}
-        </Card.Text>
-        <Card.Link href="#"  style={{color:"#0F0FBD",fontFamily:"Public Sans",fontWeight:"bold",fontSize:"14px",lineHeight:"20px",textDecoration:"none",display:"flex",gap:"3px",alignItems:"center"}}>Learn More<ArrowIcon/> </Card.Link>
-      </Card.Body>
-    </Card>
+    <div className="border border-[#E2E8F0] rounded-lg p-4 font-['Public_Sans']">
+
+      {/* icon */}
+      <div className="bg-[#c59f5928] w-12 h-12 rounded-[10px] flex items-center justify-center my-[0.8rem]">
+        {children}
+      </div>
+
+      {/* title */}
+      <h3 className="text-[#002147] font-bold text-[20px] leading-[28px]">
+        {data.title}
+      </h3>
+
+      {/* description */}
+      <p className="text-[#475569] text-[14px] leading-[28px] mt-1">
+        {data.description}
+      </p>
+
+      {/* link */}
+      <a
+        href="#"
+        className="text-[#0F0FBD] font-bold text-[14px] leading-[20px] no-underline flex items-center gap-[3px] mt-2"
+      >
+        Learn More
+        <ArrowIcon />
+      </a>
+
+    </div>
   );
 }
 

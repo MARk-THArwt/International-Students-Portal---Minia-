@@ -7,9 +7,8 @@ import { Announcement } from "./pages/Announcement/announcement";
 import { Login } from "./pages/login/login";
 import { Services } from "./pages/ourServices/services";
 import { Registration } from "./pages/registration/registration";
+import Dashbord from "./pages/Dashbord/dashbord"
 
-
-import "bootstrap/dist/css/bootstrap.min.css";
 import { Toaster } from "./components/ui/sonner";
 
 createRoot(document.getElementById("root")!).render(
@@ -23,6 +22,7 @@ createRoot(document.getElementById("root")!).render(
       <Route path="/Login" element={<Login />} />
       <Route path="/Services" element={<Services />} />
       <Route path="/Registration" element={<Registration />} />
+      <Route path="/Dashbord" element={<Dashbord/>}></Route>
     </Routes>
   </BrowserRouter>,
 );
