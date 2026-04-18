@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-
+import { store } from './store/store'
+import { Provider } from 'react-redux'
 import { Home } from "./pages/home/Home";
 import { Contact } from "./pages/contact/contact";
 import { Announcement } from "./pages/Announcement/announcement";
@@ -12,6 +13,8 @@ import Dashbord from "./pages/Dashbord/dashbord"
 import { Toaster } from "./components/ui/sonner";
 
 createRoot(document.getElementById("root")!).render(
+      <Provider store={store}>
+
   <BrowserRouter>
     <Toaster richColors />
 
@@ -24,6 +27,7 @@ createRoot(document.getElementById("root")!).render(
       <Route path="/Registration" element={<Registration />} />
       <Route path="/Dashbord" element={<Dashbord/>}></Route>
     </Routes>
-  </BrowserRouter>,
+  </BrowserRouter>
+  </Provider>
 );
 
