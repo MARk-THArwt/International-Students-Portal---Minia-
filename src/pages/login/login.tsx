@@ -20,37 +20,13 @@ import {
 } from "lucide-react";
 import { MdLockPerson } from "react-icons/md";
 import { PiBankLight } from "react-icons/pi";
-import { authClient } from "../../lib/auth-client";
-import { useNavigate } from "react-router-dom";
-import { useState, useTransition } from "react";
-import { toast } from "sonner";
 
 export const Login = () => {
-  const navigate = useNavigate();
-  const [isNavigating, startTransition] = useTransition();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-
-    try {
-      setIsSubmitting(true);
-      const { error } = await authClient.signIn.email({
-        email: email,
-        password: password,
-      });
-      if (!error) startTransition(() => navigate("/"));
-      throw new Error(error?.message);
-    } catch (error) {
-      toast.error(
-        error instanceof Error ? error.message : "Something went wrong",
-      );
-    } finally {
-      setIsSubmitting(false);
-    }
+    alert("check your console");
+    console.log(formData);
   };
 
   return (
@@ -164,12 +140,12 @@ export const Login = () => {
                     className="rounded-md! py-2.5! flex! justify-center! items-center! text-white bg-[#0909AA]
                   hover:bg-[#0909AA]/80 text-sm!"
                   >
-                    {isSubmitting ? (
+                    {false ? (
                       <>
                         <Loader2 className="animate-spin size-4" />
                         Signing In
                       </>
-                    ) : isNavigating ? (
+                    ) : false ? (
                       <>
                         <Loader2 className="animate-spin size-4" />
                         Redirecting...

@@ -10,8 +10,11 @@ export default function MaxContainerWrapper({
   className?: string;
 } & HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn("max-w-7xl mx-auto", className)} {...props}>
+    <section
+      className={cn("max-w-7xl mx-auto px-2.5 lg:px-20", className)}
+      {...props}
+    >
       {children}
-    </div>
+    </section>
   );
 }
