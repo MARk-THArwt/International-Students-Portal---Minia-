@@ -1,10 +1,10 @@
 import {
   createAsyncThunk,} from '@reduxjs/toolkit'
-  import axiosInstance from "../../api/axios";
+  import axiosInstance from "../../api/api";
   import axios from 'axios'
   import type {Service,UpdateServicePayload,ApiItemResponse,ApiListResponse} from "../types/servicesType"
 
-  // ─────────────────────────────────────────────
+  // ────────────────────────────────────────────
   // Error-handling utility
   // ─────────────────────────────────────────────
   
