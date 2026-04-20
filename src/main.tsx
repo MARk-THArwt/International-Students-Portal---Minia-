@@ -1,11 +1,13 @@
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-
+import { store } from './store/store'
+import { Provider } from 'react-redux'
 import { Home } from "./pages/home/Home";
 import { Contact } from "./pages/contact/contact";
 import { Announcement } from "./pages/Announcement/announcement";
 import { Services } from "./pages/ourServices/services";
 import { Registration } from "./pages/registration/registration";
+import Dashbord from "./pages/Dashbord/dashbord"
 
 import { Toaster } from "sonner";
 import { Login } from "./pages/Login/login";
@@ -18,12 +20,14 @@ import {
 } from "./components/ui/sidebar";
 
 createRoot(document.getElementById("root")!).render(
+      <Provider store={store}>
+
   <BrowserRouter>
     <TooltipProvider>
       <SidebarProvider>
         <Toaster richColors />
         <AppSidebar />
-        <SidebarTrigger className="md:hidden " />{" "}
+        <SidebarTrigger className="md:hidden " />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Contact" element={<Contact />} />
@@ -36,3 +40,4 @@ createRoot(document.getElementById("root")!).render(
     </TooltipProvider>
   </BrowserRouter>,
 );
+
