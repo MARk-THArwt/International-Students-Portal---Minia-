@@ -1,26 +1,17 @@
 import {Sidebar} from './../../component/DashbordComp/Slider'
 import {Topbar} from '../../component/DashbordComp/Topbar'
 import {Card} from '../../component/DashbordComp/Card'
+import {DashboardTable} from '../../component/DashbordComp/table'
 export default function Dashboard() {
   return (
     <div className="flex min-h-screen bg-[#F4F7FB]">
-
       <Sidebar />
 
       <main className="flex-1 p-4 md:p-6 overflow-y-auto">
 
         <Topbar />
 
-        {/* Welcome */}
-        <div className="mb-6">
-          <h1 className="text-xl font-bold">
-            Welcome back, Ahmed 👋
-          </h1>
-          <p className="text-gray-500 text-sm">
-            Here's what's happening with your international application today.
-          </p>
-        </div>
-
+        
         {/* Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
@@ -64,48 +55,7 @@ export default function Dashboard() {
 
           {/* Table */}
           <div className="lg:col-span-2 bg-white p-4 rounded-xl shadow-sm">
-            <h3 className="font-bold mb-3">Recent Activity</h3>
-
-            {[
-              ["Document Uploaded", "Success"],
-              ["Visa Extension Request", "In Review"],
-              ["Registration Fee", "Paid"],
-            ].map((item, i) => (
-              <div
-                key={i}
-                className="flex justify-between py-3 border-b last:border-none"
-              >
-                <p>{item[0]}</p>
-
-                <span className={`px-3 py-1 rounded-full text-xs ${
-                  item[1] === "Success"
-                    ? "bg-green-100 text-green-700"
-                    : item[1] === "In Review"
-                    ? "bg-yellow-100 text-yellow-700"
-                    : "bg-blue-100 text-blue-700"
-                }`}>
-                  {item[1]}
-                </span>
-              </div>
-            ))}
-          </div>
-
-          {/* Right */}
-          <div className="flex flex-col gap-4">
-
-            <div className="bg-white p-4 rounded-xl shadow-sm">
-              <h3 className="font-bold mb-2">Quick Actions</h3>
-
-              {["Upload Document", "Print Enrollment", "Book Meeting"].map(
-                (item, i) => (
-                  <div
-                    key={i}
-                    className="bg-gray-100 p-2 rounded-lg mt-2 cursor-pointer hover:bg-gray-200 transition"
-                  >
-                    {item} →
-                  </div>
-                )
-              )}
+                      <DashboardTable/>
             </div>
 
             {/* Map */}
@@ -117,9 +67,6 @@ export default function Dashboard() {
             </div>
 
           </div>
-
-        </div>
-
       </main>
     </div>
   );
