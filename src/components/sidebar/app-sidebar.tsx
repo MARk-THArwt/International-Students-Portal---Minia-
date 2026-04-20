@@ -10,6 +10,7 @@ import {
   SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import {
@@ -353,11 +354,11 @@ export function AppSidebar() {
   };
 
   return (
-    <div className="flex h-dvh bg-background">
+    <div className="flex relative flex-row-reverse h-dvh ">
       <Sidebar
         side="left"
         variant="sidebar"
-        collapsible="offcanvas"
+        collapsible="icon"
         className="w-64 border-r"
       >
         {!activeItem ? (
@@ -370,6 +371,9 @@ export function AppSidebar() {
               <SidebarGroup>
                 <SidebarGroupContent>
                   <SidebarMenu>
+                    <SidebarMenuItem>
+                      <SidebarTrigger />
+                    </SidebarMenuItem>
                     {sidebarItems.map((item) => {
                       const Icon = item.icon;
                       const chevronIndicator = (
@@ -442,6 +446,7 @@ export function AppSidebar() {
             <>
               <SidebarHeader className="flex flex-row items-center justify-between border-b px-4">
                 <button
+                  title="back"
                   onClick={handleBackToMain}
                   className="h-8 w-8 p-0 rounded-md hover:bg-sidebar-accent flex items-center justify-center"
                 >
