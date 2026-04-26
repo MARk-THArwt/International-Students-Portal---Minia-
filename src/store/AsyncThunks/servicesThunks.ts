@@ -6,7 +6,7 @@ import {
 
   // ────────────────────────────────────────────
   // Error-handling utility
-  // ─────────────────────────────────────────────
+  // ────────────────────────────────────────────
   
   /**
    * Extracts a human-readable message from an unknown error thrown inside a

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import type {PayloadAction}from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+
 // ─── Types ─────────────────────────────────────────────────────────────────────
 
 export interface User {
@@ -10,14 +11,10 @@ export interface User {
   avatar?: string;
 }
 
-export interface AuthTokens {
-  accessToken: string;
-  refreshToken: string;
-}
-
 export interface LoginCredentials {
   email: string;
   password: string;
+  role: string;
 }
 
 export interface RegisterData {
@@ -26,26 +23,15 @@ export interface RegisterData {
   password: string;
 }
 
-export interface AuthResponse extends AuthTokens {
-  user: User;
-}
-
-export interface RefreshResponse {
-  accessToken: string;
-}
-
 export interface AuthLoadingState {
   login: boolean;
   register: boolean;
   logout: boolean;
-  refresh: boolean;
   fetchUser: boolean;
 }
 
 export interface AuthState {
   user: User | null;
-  accessToken: string | null;
-  refreshToken: string | null;
   isAuthenticated: boolean;
   loading: AuthLoadingState;
   error: string | null;
@@ -53,19 +39,10 @@ export interface AuthState {
 
 // ─── Config ────────────────────────────────────────────────────────────────────
 
-const API_URL = "https://internationalstudentsportal-production.up.railway.app/api";
+const API_URL =
+  "https://internationalstudentsportal-production-5e18.up.railway.app/api";
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-
-function saveTokens(tokens: AuthTokens): void {
-  localStorage.setItem("accessToken", tokens.accessToken);
-  localStorage.setItem("refreshToken", tokens.refreshToken);
-}
-
-function clearTokens(): void {
-  localStorage.removeItem("accessToken");
-  localStorage.removeItem("refreshToken");
-}
+// ─── Helper (with cookies) ─────────────────────────────────────────────────────
 
 async function apiFetch<T>(
   endpoint: string,
@@ -73,6 +50,7 @@ async function apiFetch<T>(
 ): Promise<T> {
   const response = await fetch(`${API_URL}${endpoint}`, {
     headers: { "Content-Type": "application/json", ...options.headers },
+    credentials: "include", // 🔥 أهم سطر
     ...options,
   });
 
@@ -87,90 +65,63 @@ async function apiFetch<T>(
 
 // ─── Async Thunks ──────────────────────────────────────────────────────────────
 
+// LOGIN
 export const login = createAsyncThunk<
-  AuthResponse,
+  { user: User },
   LoginCredentials,
   { rejectValue: string }
 >("auth/login", async (credentials, { rejectWithValue }) => {
   try {
-    const data = await apiFetch<AuthResponse>("/auth/login", {
+    const data = await apiFetch<{ user: User }>("/auth/login", {
       method: "POST",
       body: JSON.stringify(credentials),
     });
-    saveTokens(data);
     return data;
   } catch (err) {
     return rejectWithValue((err as Error).message);
   }
 });
 
+// REGISTER
 export const register = createAsyncThunk<
-  AuthResponse,
+  { user: User },
   RegisterData,
   { rejectValue: string }
 >("auth/register", async (userData, { rejectWithValue }) => {
   try {
-    const data = await apiFetch<AuthResponse>("/auth/register", {
+    const data = await apiFetch<{ user: User }>("/auth/register", {
       method: "POST",
       body: JSON.stringify(userData),
     });
-    saveTokens(data);
     return data;
   } catch (err) {
     return rejectWithValue((err as Error).message);
   }
 });
 
+// LOGOUT
 export const logout = createAsyncThunk<
   void,
   void,
-  { state: { auth: AuthState }; rejectValue: string }
->("auth/logout", async (_, { getState, rejectWithValue }) => {
+  { rejectValue: string }
+>("auth/logout", async (_, { rejectWithValue }) => {
   try {
-    const { accessToken } = getState().auth;
     await apiFetch("/auth/logout", {
       method: "POST",
-      headers: { Authorization: `Bearer ${accessToken ?? ""}` },
     });
   } catch (err) {
-    return rejectWithValue((err as Error).message);
-  } finally {
-    clearTokens();
-  }
-});
-
-export const refreshAccessToken = createAsyncThunk<
-  RefreshResponse,
-  void,
-  { rejectValue: string }
->("auth/refresh", async (_, { rejectWithValue }) => {
-  try {
-    const refreshToken = localStorage.getItem("refreshToken");
-    if (!refreshToken) return rejectWithValue("No refresh token available");
-
-    const data = await apiFetch<RefreshResponse>("/auth/refresh", {
-      method: "POST",
-      body: JSON.stringify({ refreshToken }),
-    });
-
-    localStorage.setItem("accessToken", data.accessToken);
-    return data;
-  } catch (err) {
-    clearTokens();
     return rejectWithValue((err as Error).message);
   }
 });
 
+// FETCH CURRENT USER
 export const fetchCurrentUser = createAsyncThunk<
   { user: User },
   void,
-  { state: { auth: AuthState }; rejectValue: string }
->("auth/me", async (_, { getState, rejectWithValue }) => {
+  { rejectValue: string }
+>("auth/me", async (_, { rejectWithValue }) => {
   try {
-    const { accessToken } = getState().auth;
-    return await apiFetch<{ user: User }>("/auth/me", {
-      headers: { Authorization: `Bearer ${accessToken ?? ""}` },
-    });
+    return await apiFetch<{ user: User }>("/auth/me");
   } catch (err) {
     return rejectWithValue((err as Error).message);
   }
@@ -180,14 +131,11 @@ export const fetchCurrentUser = createAsyncThunk<
 
 const initialState: AuthState = {
   user: null,
-  accessToken: localStorage.getItem("accessToken"),
-  refreshToken: localStorage.getItem("refreshToken"),
-  isAuthenticated: Boolean(localStorage.getItem("accessToken")),
+  isAuthenticated: false,
   loading: {
     login: false,
     register: false,
     logout: false,
-    refresh: false,
     fetchUser: false,
   },
   error: null,
@@ -202,21 +150,13 @@ const authSlice = createSlice({
     clearError(state) {
       state.error = null;
     },
-    hydrateAuth(state) {
-      const accessToken = localStorage.getItem("accessToken");
-      const refreshToken = localStorage.getItem("refreshToken");
-      if (accessToken) {
-        state.accessToken = accessToken;
-        state.refreshToken = refreshToken;
-        state.isAuthenticated = true;
-      }
-    },
     setUser(state, action: PayloadAction<User>) {
       state.user = action.payload;
+      state.isAuthenticated = true;
     },
   },
   extraReducers: (builder) => {
-    // Login
+    // LOGIN
     builder
       .addCase(login.pending, (state) => {
         state.loading.login = true;
@@ -225,8 +165,6 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, { payload }) => {
         state.loading.login = false;
         state.user = payload.user;
-        state.accessToken = payload.accessToken;
-        state.refreshToken = payload.refreshToken;
         state.isAuthenticated = true;
       })
       .addCase(login.rejected, (state, { payload }) => {
@@ -234,7 +172,7 @@ const authSlice = createSlice({
         state.error = payload ?? "Login failed";
       });
 
-    // Register
+    // REGISTER
     builder
       .addCase(register.pending, (state) => {
         state.loading.register = true;
@@ -243,8 +181,6 @@ const authSlice = createSlice({
       .addCase(register.fulfilled, (state, { payload }) => {
         state.loading.register = false;
         state.user = payload.user;
-        state.accessToken = payload.accessToken;
-        state.refreshToken = payload.refreshToken;
         state.isAuthenticated = true;
       })
       .addCase(register.rejected, (state, { payload }) => {
@@ -252,7 +188,7 @@ const authSlice = createSlice({
         state.error = payload ?? "Registration failed";
       });
 
-    // Logout
+    // LOGOUT
     builder
       .addCase(logout.pending, (state) => {
         state.loading.logout = true;
@@ -260,39 +196,16 @@ const authSlice = createSlice({
       .addCase(logout.fulfilled, (state) => {
         state.loading.logout = false;
         state.user = null;
-        state.accessToken = null;
-        state.refreshToken = null;
         state.isAuthenticated = false;
         state.error = null;
       })
       .addCase(logout.rejected, (state) => {
         state.loading.logout = false;
         state.user = null;
-        state.accessToken = null;
-        state.refreshToken = null;
         state.isAuthenticated = false;
       });
 
-    // Refresh
-    builder
-      .addCase(refreshAccessToken.pending, (state) => {
-        state.loading.refresh = true;
-      })
-      .addCase(refreshAccessToken.fulfilled, (state, { payload }) => {
-        state.loading.refresh = false;
-        state.accessToken = payload.accessToken;
-        state.isAuthenticated = true;
-      })
-      .addCase(refreshAccessToken.rejected, (state, { payload }) => {
-        state.loading.refresh = false;
-        state.user = null;
-        state.accessToken = null;
-        state.refreshToken = null;
-        state.isAuthenticated = false;
-        state.error = payload ?? null;
-      });
-
-    // Fetch current user
+    // FETCH USER
     builder
       .addCase(fetchCurrentUser.pending, (state) => {
         state.loading.fetchUser = true;
@@ -301,27 +214,32 @@ const authSlice = createSlice({
       .addCase(fetchCurrentUser.fulfilled, (state, { payload }) => {
         state.loading.fetchUser = false;
         state.user = payload.user;
+        state.isAuthenticated = true;
       })
-      .addCase(fetchCurrentUser.rejected, (state, { payload }) => {
+      .addCase(fetchCurrentUser.rejected, (state) => {
         state.loading.fetchUser = false;
-        state.error = payload ?? null;
+        state.user = null;
+        state.isAuthenticated = false;
       });
   },
 });
 
 // ─── Actions ───────────────────────────────────────────────────────────────────
-export const { clearError, hydrateAuth, setUser } = authSlice.actions;
+
+export const { clearError, setUser } = authSlice.actions;
 
 // ─── Selectors ─────────────────────────────────────────────────────────────────
+
 export type RootState = { auth: AuthState };
 
 export const selectUser = (state: RootState) => state.auth.user;
 export const selectIsAuthenticated = (state: RootState) =>
   state.auth.isAuthenticated;
-export const selectAccessToken = (state: RootState) => state.auth.accessToken;
 export const selectAuthError = (state: RootState) => state.auth.error;
 export const selectAuthLoading =
   (key: keyof AuthLoadingState) => (state: RootState) =>
     state.auth.loading[key];
+
+// ─── Reducer ───────────────────────────────────────────────────────────────────
 
 export default authSlice.reducer;

@@ -23,9 +23,9 @@ const MainNav = ({ navigation }: { navigation: { title: string; path: string }[]
                             alt="Minia University logo"
                         />
                     </Link>
-                  <div className="subTitle">
-                    <h1>Minia University</h1>
-                    <p>International Students Partal</p>
+                  <div>
+                    <h1 className="m-0 text-2xl font-bold text-[#1e1e1e]">Minia University</h1>
+                    <p className="m-0 text-sm font-medium text-[#2f66c5]">International Students Partal</p>
                   </div>
                 </div>
                     

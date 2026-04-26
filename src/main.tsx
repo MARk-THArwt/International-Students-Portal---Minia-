@@ -8,26 +8,16 @@ import { Announcement } from "./pages/Announcement/announcement";
 import { Services } from "./pages/ourServices/services";
 import { Registration } from "./pages/registration/registration";
 import Dashbord from "./pages/Dashbord/dashbord"
+import { Login } from "./pages/login/login";
+import {AppLayout} from './layout/AppLayout'
 
-import { Toaster } from "sonner";
-import { Login } from "./pages/Login/login";
-import { TooltipProvider } from "./components/ui/tooltip";
-import { AppSidebar } from "./components/sidebar/app-sidebar";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "./components/ui/sidebar";
 
 createRoot(document.getElementById("root")!).render(
       <Provider store={store}>
-
+        
   <BrowserRouter>
-    <TooltipProvider>
-      <SidebarProvider>
-        <Toaster richColors />
-        <AppSidebar />
-        <SidebarTrigger className="md:hidden " />
+   
+        
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Contact" element={<Contact />} />
@@ -35,9 +25,14 @@ createRoot(document.getElementById("root")!).render(
           <Route path="/Login" element={<Login />} />
           <Route path="/Services" element={<Services />} />
           <Route path="/Registration" element={<Registration />} />
+          <Route element={ <AppLayout/>}>
+          <Route path="/dashboard" element={<Dashbord />} />
+          </Route>
+          
         </Routes>
-      </SidebarProvider>
-    </TooltipProvider>
-  </BrowserRouter>,
+        
+  </BrowserRouter>
+  
+  </Provider>,
 );
 

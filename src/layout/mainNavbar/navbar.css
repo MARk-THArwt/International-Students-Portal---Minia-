@@ -1,18 +1,4 @@
-.active{
-  border-bottom: 3px solid #0F0FBD!important;
+.active {
+  border-bottom: 3px solid #0F0FBD !important;
   color: #0F0FBD !important;
-}
-
-.subTitle h1 {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 700;
-  color: #1e1e1e;
-}
-
-.subTitle p {
-  margin: 0;
-  font-size: 14px;
-  color: #2f66c5;
-  font-weight: 500;
 }

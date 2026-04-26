@@ -100,41 +100,44 @@ export const Home = () => {
     </div>
 
     {/* right */}
-    <div className="w-full md:w-1/2 md:pl-[3rem] flex items-center justify-center relative">
+<div className="w-full md:w-1/2 md:pl-12 flex items-center justify-center relative mt-8 md:mt-0">
 
-      <div className="relative w-full h-1/2 lg:h-full flex items-center justify-center p-1 lg:p-8">
+  <div className="relative w-full max-w-md md:max-w-full flex items-center justify-center p-2 sm:p-4 lg:p-8">
 
-        {/* gradient */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(15,15,189,0.05),rgba(197,160,89,0.1))] rotate-[178deg] rounded-lg"></div>
+    {/* gradient */}
+    <div className="absolute inset-0 bg-[linear-gradient(rgba(15,15,189,0.05),rgba(197,160,89,0.1))] rotate-[178deg] rounded-xl lg:rounded-2xl"></div>
 
-        {/* image */}
-        <img
-          src={BackgraundImage}
-          className="relative object-cover rounded-3xl"
-        />
+    {/* image */}
+    <img
+      src={BackgraundImage}
+      className="relative w-full h-auto object-cover rounded-2xl lg:rounded-3xl"
+    />
 
-        {/* floating card */}
-        <div className="absolute bottom-4 left-4 lg:bottom-9 lg:left-12 bg-white/50 border-l-4 border-[#C5A059] backdrop-blur-[2px] rounded-2xl p-2 lg:p-5 w-3/4 lg:w-70">
+    {/* floating card */}
+    <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 lg:bottom-10 lg:left-12 
+                    bg-white/60 border-l-4 border-[#C5A059] backdrop-blur-sm 
+                    rounded-xl lg:rounded-2xl p-2 sm:p-3 lg:p-5 
+                    w-[85%] sm:w-[75%] md:w-[70%] lg:w-[280px]">
 
-          <div className="flex items-start gap-3">
-            <img src={logo} className="w-12 h-12 rounded-full" />
+      <div className="flex items-start gap-2 sm:gap-3">
+        <img src={logo} className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full" />
 
-            <div>
-              <span className="font-bold text-[#002147]">
-                Excellence in Education
-              </span>
+        <div>
+          <span className="font-bold text-[#002147] text-sm sm:text-base">
+            Excellence in Education
+          </span>
 
-              <p className="text-[#475569] text-sm mt-1">
-                Join a community dedicated to innovation and research across 18 faculties.
-              </p>
-            </div>
-
-          </div>
-
+          <p className="text-[#475569] text-xs sm:text-sm mt-1 leading-relaxed">
+            Join a community dedicated to innovation and research across 18 faculties.
+          </p>
         </div>
 
       </div>
+
     </div>
+
+  </div>
+</div>
   </div>
   {/* news */}
        <div className="flex items-center bg-[rgba(197,160,89,0.1)] border-l-4 border-[#C5A059] rounded-lg h-[52px] px-4"> 

@@ -187,6 +187,7 @@ export function DashboardTable() {
 
         {/* PAGINATION */}
         <TablePagination
+          component="div"
           rowsPerPageOptions={[5, 10]}
           count={filteredRows.length}
           rowsPerPage={rowsPerPage}
