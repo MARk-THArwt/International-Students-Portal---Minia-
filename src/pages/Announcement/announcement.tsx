@@ -2,15 +2,15 @@ import { Button } from "@/components/ui/button";
 import MaxContainerWrapper from "@/reusable-components/max-containerWrap";
 import { ArrowRight } from "lucide-react";
 // import { STEP_2 } from "./steps/step2";
-import STEP_3 from "./steps/step3";
+// import STEP_3 from "./steps/step3";
 import { Stepper } from "./stepper";
-import STEP_4 from "./steps/step4";
+import STEP_4 from "./steps/step4"; 
 
 export const Announcement = () => {
   return (
     <div className="min-h-screen py-10 bg-gray-300/40">
-      <MaxContainerWrapper className="flex flex-col justify-center items-center gap-5 ">
-        {/* <Stepper activeStep={3} /> */}
+      <MaxContainerWrapper className="flex flex-col justify-center items-center gap-5  ">
+        <Stepper activeStep={4} />
         {/* <STEP_1 /> */}
         {/* <STEP_2 /> */}
         {/* <STEP_3 /> */}

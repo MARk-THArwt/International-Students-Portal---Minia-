@@ -8,6 +8,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 
 import {
@@ -38,6 +39,7 @@ export function AppSidebar() {
   const navigate = useNavigate();
   const location = useLocation();
   return (
+<<<<<<< HEAD
     <Sidebar className=" bg-[#0A1931] text-white flex flex-col h-screen px-1 py-3">
 
       {/* HEADER */}
@@ -56,6 +58,33 @@ export function AppSidebar() {
                   </div>
                 </div>
       </SidebarHeader>
+=======
+    <div className="flex relative flex-row-reverse h-dvh ">
+      <Sidebar
+        side="left"
+        variant="sidebar"
+        collapsible="icon"
+        className="w-64 border-r"
+      >
+        {!activeItem ? (
+          <>
+            <SidebarHeader>
+              <TeamSwitcher teams={data.teams} />
+            </SidebarHeader>
+
+            <SidebarContent>
+              <SidebarGroup>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    <SidebarMenuItem>
+                      <SidebarTrigger />
+                    </SidebarMenuItem>
+                    {sidebarItems.map((item) => {
+                      const Icon = item.icon;
+                      const chevronIndicator = (
+                        <IconChevronRight className="h-4 w-4 transition-transform shrink-0" />
+                      );
+>>>>>>> 92f6f64e3dc6a2b7b08523880452d721f28bdcb6
 
       {/* MENU */}
       <SidebarContent>
@@ -63,9 +92,54 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
 
+<<<<<<< HEAD
               {menuItems.map((item) => {
                 const Icon = item.icon;
                   const isActive  = location.pathname === item.route;
+=======
+            <SidebarFooter>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton className="w-full h-12 px-3">
+                    <div className="flex items-center gap-3 flex-1 min-w-0">
+                      <Avatar className="h-8 w-8 rounded-full">
+                        <AvatarImage src="/avatar-01.png" alt="ephraim" />
+                        <AvatarFallback className="rounded-full">
+                          E
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1 text-left min-w-0">
+                        <div className="text-sm font-medium truncate">
+                          ephraim
+                        </div>
+                        <div className="text-xs text-muted-foreground truncate">
+                          ephraim@blocks.so
+                        </div>
+                      </div>
+                    </div>
+                    <IconLogout className="h-4 w-4 shrink-0" />
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarFooter>
+          </>
+        ) : (
+          activeItemData?.subItems && (
+            <>
+              <SidebarHeader className="flex flex-row items-center justify-between border-b px-4">
+                <button
+                  title="back"
+                  onClick={handleBackToMain}
+                  className="h-8 w-8 p-0 rounded-md hover:bg-sidebar-accent flex items-center justify-center"
+                >
+                  <IconArrowLeft className="h-4 w-4" />
+                </button>
+                <h3 className="font-medium flex-1 text-center">
+                  {activeItemData.label}
+                </h3>
+                <div className="w-8" />
+              </SidebarHeader>
+>>>>>>> 92f6f64e3dc6a2b7b08523880452d721f28bdcb6
 
 
                 return (
