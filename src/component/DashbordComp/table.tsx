@@ -1,203 +1,121 @@
-import * as React from 'react';
-import {
-  Box,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
-  Toolbar,
-  Typography,
-  Paper,
-  TextField,
-  MenuItem,
-} from '@mui/material';
+import React, { useState, useMemo } from "react";
+import { ChevronLeft, ChevronRight, Filter, Download } from "lucide-react";
 
-// ================== TYPES ==================
-interface Data {
-  id: number;
-  title: string;
+export interface ColumnConfig<T> {
+  key: string;
+  label: string;
+  render?: (row: T) => React.ReactNode;
+}
+
+interface ReusableTableProps<T> {
+  columns: ColumnConfig<T>[];
+  data: T[];
+  isLoading?: boolean;
+  title?: string;
   subtitle?: string;
-  category: string;
-  date: string;
-  status: 'Success' | 'In Review' | 'Paid';
+  actions?: React.ReactNode;
 }
 
-// ================== DATA ==================
-function createData(
-  id: number,
-  title: string,
-  subtitle: string,
-  category: string,
-  date: string,
-  status: Data['status'],
-): Data {
-  return { id, title, subtitle, category, date, status };
-}
+export function ReusableTable<T extends Record<string, any>>({
+  columns,
+  data,
+  isLoading,
+  title,
+  subtitle,
+  actions,
+}: ReusableTableProps<T>) {
+  const [page, setPage] = useState(1);
+  const rowsPerPage = 5;
 
-const rows: Data[] = [
-  createData(1, 'Document Uploaded', 'Transcript_Final.pdf', 'Admission', 'Oct 02, 2026', 'Success'),
-  createData(2, 'Visa Extension Request', 'Ref: #VS-2023-899', 'Immigration', 'Sep 28, 2026', 'In Review'),
-  createData(3, 'Registration Fee', '$250.00 via Stripe', 'Finance', 'Sep 15, 2026', 'Paid'),
-];
+  const totalPages = Math.ceil(data.length / rowsPerPage);
+  const visibleData = useMemo(() => {
+    const start = (page - 1) * rowsPerPage;
+    return data.slice(start, start + rowsPerPage);
+  }, [data, page]);
 
-// ================== STATUS STYLE ==================
-const getStatusStyle = (status: string) => {
-  switch (status) {
-    case 'Success':
-      return { bgcolor: '#D1FADF', color: '#027A48' };
-    case 'In Review':
-      return { bgcolor: '#FEF0C7', color: '#B54708' };
-    case 'Paid':
-      return { bgcolor: '#D1FADF', color: '#027A48' };
-    default:
-      return {};
-  }
-};
-
-// ================== COMPONENT ==================
-export function DashboardTable() {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  // FILTER STATES
-  const [search, setSearch] = React.useState('');
-  const [categoryFilter, setCategoryFilter] = React.useState('All');
-  const [statusFilter, setStatusFilter] = React.useState('All');
-
-  // ================== FILTER ==================
-  const filteredRows = React.useMemo(() => {
-    return rows.filter((row) => {
-      const matchesSearch =
-        row.title.toLowerCase().includes(search.toLowerCase()) ||
-        row.subtitle?.toLowerCase().includes(search.toLowerCase());
-
-      const matchesCategory =
-        categoryFilter === 'All' || row.category === categoryFilter;
-
-      const matchesStatus =
-        statusFilter === 'All' || row.status === statusFilter;
-
-      return matchesSearch && matchesCategory && matchesStatus;
-    });
-  }, [search, categoryFilter, statusFilter]);
-
-  // ================== PAGINATION ==================
-  const visibleRows = React.useMemo(
-    () =>
-      filteredRows.slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage
-      ),
-    [filteredRows, page, rowsPerPage],
-  );
-
-  // ================== UI ==================
   return (
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      {/* Table Header Section */}
+      {(title || subtitle || actions) && (
+        <div className="p-6 border-b border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            {title && <h2 className="text-xl font-bold text-gray-900">{title}</h2>}
+            {subtitle && <p className="text-sm text-gray-500 mt-1">{subtitle}</p>}
+          </div>
+          {actions && <div className="flex items-center gap-3">{actions}</div>}
+        </div>
+      )}
 
-        {/* FILTER BAR */}
-                    <span className='text-2xl font-bold text-[rgba(30,41,59,1)] justify-self-start ml-2'>Recent Activity</span>
-        <Toolbar sx={{ display: 'flex', gap: 2, flexWrap: 'wrap',justifyContent:'center' }}>
-           <TextField
-            size="small"
-            label="Search"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-
-          <TextField
-            select
-            size="small"
-            label="Category"
-            value={categoryFilter}
-            onChange={(e) => setCategoryFilter(e.target.value)}
-          >
-            {['All', 'Admission', 'Immigration', 'Finance'].map((c) => (
-              <MenuItem key={c} value={c}>{c}</MenuItem>
-            ))}
-          </TextField>
-
-          <TextField
-            select
-            size="small"
-            label="Status"
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-          >
-            {['All', 'Success', 'In Review', 'Paid'].map((s) => (
-              <MenuItem key={s} value={s}>{s}</MenuItem>
-            ))}
-          </TextField>
-        </Toolbar>
-
-        {/* TABLE */}
-        <TableContainer>
-          <Table>
-
-            {/* HEAD */}
-            <TableHead>
-              <TableRow>
-                <TableCell>REQUEST / ACTION</TableCell>
-                <TableCell>CATEGORY</TableCell>
-                <TableCell>DATE</TableCell>
-                <TableCell>STATUS</TableCell>
-              </TableRow>
-            </TableHead>
-
-            {/* BODY */}
-            <TableBody>
-              {visibleRows.map((row) => (
-                <TableRow key={row.id} hover>
-
-                  <TableCell>
-                    <Typography fontWeight={600}>{row.title}</Typography>
-                    <Typography variant="body2" color="gray">
-                      {row.subtitle}
-                    </Typography>
-                  </TableCell>
-
-                  <TableCell>{row.category}</TableCell>
-                  <TableCell>{row.date}</TableCell>
-
-                  <TableCell>
-                    <Box
-                      sx={{
-                        px: 2,
-                        py: 0.5,
-                        borderRadius: '20px',
-                        display: 'inline-block',
-                        fontSize: '12px',
-                        fontWeight: 500,
-                        ...getStatusStyle(row.status),
-                      }}
-                    >
-                      {row.status}
-                    </Box>
-                  </TableCell>
-
-                </TableRow>
+      {/* Table Container */}
+      <div className="overflow-x-auto">
+        <table className="w-full text-left border-collapse">
+          <thead>
+            <tr className="bg-gray-50/50 border-b border-gray-100">
+              {columns.map((col) => (
+                <th
+                  key={col.key}
+                  className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                >
+                  {col.label}
+                </th>
               ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-50">
+            {isLoading ? (
+              <tr>
+                <td colSpan={columns.length} className="px-6 py-12 text-center">
+                  <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                  <p className="mt-2 text-sm text-gray-500">Loading data...</p>
+                </td>
+              </tr>
+            ) : visibleData.length === 0 ? (
+              <tr>
+                <td colSpan={columns.length} className="px-6 py-12 text-center text-gray-500">
+                  No records found.
+                </td>
+              </tr>
+            ) : (
+              visibleData.map((row, rowIndex) => (
+                <tr key={row.id || row._id || rowIndex} className="hover:bg-gray-50/50 transition-colors">
+                  {columns.map((col) => (
+                    <td key={col.key} className="px-6 py-4 whitespace-nowrap">
+                      {col.render ? col.render(row) : (row as any)[col.key]}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
 
-        {/* PAGINATION */}
-        <TablePagination
-          component="div"
-          rowsPerPageOptions={[5, 10]}
-          count={filteredRows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={(_, newPage) => setPage(newPage)}
-          onRowsPerPageChange={(e) =>
-            setRowsPerPage(parseInt(e.target.value, 10))
-          }
-        />
-      </Paper>
-    </Box>
+      {/* Pagination */}
+      {!isLoading && data.length > 0 && (
+        <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between">
+          <p className="text-sm text-gray-500">
+            Showing <span className="font-medium">{(page - 1) * rowsPerPage + 1}</span> to{" "}
+            <span className="font-medium">{Math.min(page * rowsPerPage, data.length)}</span> of{" "}
+            <span className="font-medium">{data.length}</span> results
+          </p>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page === 1}
+              className="p-1.5 rounded-md border border-gray-200 text-gray-600 disabled:opacity-50 hover:bg-gray-50 transition-colors"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              disabled={page === totalPages}
+              className="p-1.5 rounded-md border border-gray-200 text-gray-600 disabled:opacity-50 hover:bg-gray-50 transition-colors"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

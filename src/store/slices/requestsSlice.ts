@@ -51,10 +51,9 @@ const requestsSlice = createSlice({
       .addCase(getMyRequests.fulfilled, (state, { payload }) => {
         state.loading.fetch = false;
         state.requests = payload.data;
-        state.page = payload.page;
-        state.limit = payload.limit;
+        state.totalItems = payload.results;
         state.totalPages = payload.totalPages;
-        state.totalItems = payload.totalItems;
+        state.page = payload.page;
       })
       .addCase(getMyRequests.rejected, (state, { payload }) => {
         state.loading.fetch = false;
@@ -69,8 +68,8 @@ const requestsSlice = createSlice({
       })
       .addCase(cancelRequest.fulfilled, (state, { payload }) => {
         state.loading.cancel = false;
-        // Replace the updated request in-place
-        const idx = state.requests.findIndex((r) => r.id === payload.id);
+        // Replace the updated request in-place using _id
+        const idx = state.requests.findIndex((r) => r._id === payload._id);
         if (idx !== -1) state.requests[idx] = payload;
       })
       .addCase(cancelRequest.rejected, (state, { payload }) => {
@@ -86,7 +85,7 @@ const requestsSlice = createSlice({
       })
       .addCase(reviewRequest.fulfilled, (state, { payload }) => {
         state.loading.review = false;
-        const idx = state.requests.findIndex((r) => r.id === payload.id);
+        const idx = state.requests.findIndex((r) => r._id === payload._id);
         if (idx !== -1) state.requests[idx] = payload;
       })
       .addCase(reviewRequest.rejected, (state, { payload }) => {
@@ -119,7 +118,7 @@ const requestsSlice = createSlice({
       })
       .addCase(uploadFiles.fulfilled, (state, { payload }) => {
         state.loading.upload = false;
-        const idx = state.requests.findIndex((r) => r.id === payload.id);
+        const idx = state.requests.findIndex((r) => r._id === payload._id);
         if (idx !== -1) state.requests[idx] = payload;
       })
       .addCase(uploadFiles.rejected, (state, { payload }) => {

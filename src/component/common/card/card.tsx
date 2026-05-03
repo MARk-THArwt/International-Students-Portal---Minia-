@@ -10,7 +10,6 @@ function ServicesCard({
 }) {
   return (
     <div className="border border-[#E2E8F0] rounded-lg p-4 font-['Public_Sans']">
-
       {/* icon */}
       <div className="bg-[#c59f5928] w-12 h-12 rounded-[10px] flex items-center justify-center my-[0.8rem]">
         {children}
@@ -34,7 +33,6 @@ function ServicesCard({
         Learn More
         <ArrowIcon />
       </a>
-
     </div>
   );
 }

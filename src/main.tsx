@@ -5,62 +5,48 @@ import { Contact } from "./pages/contact/contact";
 import { Home } from "./pages/home/Home";
 import { Services } from "./pages/ourServices/services";
 import { Registration } from "./pages/registration/registration";
-<<<<<<< HEAD
-import Dashbord from "./pages/Dashbord/dashbord"
+import { DashboardSwitcher } from "./pages/Dashbord/DashboardSwitcher";
+import { StaffDashboard } from "./pages/Dashbord/StaffDashboard";
+import { ProtectedStaffRoute } from "./pages/Dashbord/ProtectedStaffRoute";
+import { ProtectedAdminRoute } from "./pages/Dashbord/ProtectedAdminRoute";
+import { AdminDashboard } from "./pages/dashboard/AdminDashboard";
 import { Login } from "./pages/login/login";
-import {AppLayout} from './layout/AppLayout'
-
+import { AppLayout } from "./layout/AppLayout";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
+import { EventsList } from "./pages/Events/EventsList";
 
 createRoot(document.getElementById("root")!).render(
-      <Provider store={store}>
-        
-  <BrowserRouter>
-   
-        
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/Contact" element={<Contact />} />
-          <Route path="/Announcement" element={<Announcement />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/Services" element={<Services />} />
-          <Route path="/Registration" element={<Registration />} />
-          <Route element={ <AppLayout/>}>
-          <Route path="/dashboard" element={<Dashbord />} />
-          </Route>
-          
-        </Routes>
-        
-  </BrowserRouter>
-  
+  <Provider store={store}>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/Contact" element={<Contact />} />
+        <Route path="/Announcement" element={<Announcement />} />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Services" element={<Services />} />
+        <Route path="/Registration" element={<Registration />} />
+        <Route element={<AppLayout />}>
+          <Route path="/dashboard" element={<DashboardSwitcher />} />
+          <Route 
+            path="/staff-dashboard" 
+            element={
+              <ProtectedStaffRoute>
+                <StaffDashboard />
+              </ProtectedStaffRoute>
+            } 
+          />
+          <Route path="/events" element={<EventsList />} />
+          <Route 
+            path="/dashboard/admin" 
+            element={
+              <ProtectedAdminRoute>
+                <AdminDashboard />
+              </ProtectedAdminRoute>
+            } 
+          />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   </Provider>,
-=======
-
-import { Toaster } from "sonner";
-import { AppSidebar } from "./components/sidebar/app-sidebar";
-import { SidebarInset, SidebarProvider } from "./components/ui/sidebar";
-import { TooltipProvider } from "./components/ui/tooltip";
-import { Login } from "./pages/Login/login";
-
-createRoot(document.getElementById("root")!).render(
-  // <Provider store={store}>
-
-  <BrowserRouter>
-    <TooltipProvider>
-      <SidebarProvider>
-        <Toaster richColors />
-        <AppSidebar />
-        <SidebarInset>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/Contact" element={<Contact />} />
-            <Route path="/Announcement" element={<Announcement />} />
-            <Route path="/Login" element={<Login />} />
-            <Route path="/Services" element={<Services />} />
-            <Route path="/Registration" element={<Registration />} />
-          </Routes>
-        </SidebarInset>
-      </SidebarProvider>
-    </TooltipProvider>
-  </BrowserRouter>,
->>>>>>> 92f6f64e3dc6a2b7b08523880452d721f28bdcb6
 );

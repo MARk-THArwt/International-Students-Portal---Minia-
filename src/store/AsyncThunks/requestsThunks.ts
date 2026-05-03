@@ -2,30 +2,32 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import api, { extractErrorMessage } from "../../api/api";
 import type {
   ServiceRequest,
-  PaginatedResponse,
   GetMyRequestsParams,
   CreateRequestPayload,
   CancelRequestPayload,
   ReviewRequestPayload,
   UploadFilesPayload,
+  PaginatedRequestsResponse,
 } from "../types/requestsTypes";
 
-// ─── 1. Get My Requests (Paginated) ──────────────────────────────────────────
+// ─── 1. Get My Requests ───────────────────────────────────────────────────────
 export const getMyRequests = createAsyncThunk<
-  PaginatedResponse<ServiceRequest>,
+  PaginatedRequestsResponse,
   GetMyRequestsParams,
   { rejectValue: string }
->("requests/getMyRequests", async ({ page = 1, limit = 8 }, { rejectWithValue }) => {
-  try {
-    const { data } = await api.get<PaginatedResponse<ServiceRequest>>(
-      "/requests/my",
-      { params: { page, limit } }
-    );
-    return data;
-  } catch (error) {
-    return rejectWithValue(extractErrorMessage(error));
-  }
-});
+>(
+  "requests/getMyRequests",
+  async ({ page = 1, limit = 8 }, { rejectWithValue }) => {
+    try {
+      const { data } = await api.get<PaginatedRequestsResponse>("/requests/my", {
+        params: { page, limit },
+      });
+      return data;
+    } catch (error) {
+      return rejectWithValue(extractErrorMessage(error));
+    }
+  },
+);
 
 // ─── 2. Cancel Request ────────────────────────────────────────────────────────
 export const cancelRequest = createAsyncThunk<
@@ -35,7 +37,7 @@ export const cancelRequest = createAsyncThunk<
 >("requests/cancelRequest", async ({ requestId }, { rejectWithValue }) => {
   try {
     const { data } = await api.put<ServiceRequest>(
-      `/requests/${requestId}/cancel`
+      `/requests/${requestId}/cancel`,
     );
     return data;
   } catch (error) {
@@ -54,13 +56,13 @@ export const reviewRequest = createAsyncThunk<
     try {
       const { data } = await api.put<ServiceRequest>(
         `/requests/${requestId}/review`,
-        { status, notes }
+        { status, notes },
       );
       return data;
     } catch (error) {
       return rejectWithValue(extractErrorMessage(error));
     }
-  }
+  },
 );
 
 // ─── 4. Create Request ────────────────────────────────────────────────────────
@@ -70,7 +72,9 @@ export const createRequest = createAsyncThunk<
   { rejectValue: string }
 >("requests/createRequest", async ({ serviceId }, { rejectWithValue }) => {
   try {
-    const { data } = await api.post<ServiceRequest>("/requests/", { serviceId });
+    const { data } = await api.post<ServiceRequest>("/requests/", {
+      serviceId,
+    });
     return data;
   } catch (error) {
     return rejectWithValue(extractErrorMessage(error));
@@ -90,7 +94,7 @@ export const uploadFiles = createAsyncThunk<
     const { data } = await api.post<ServiceRequest>(
       `/requests/${requestId}/upload`,
       formData,
-      { headers: { "Content-Type": "multipart/form-data" } }
+      { headers: { "Content-Type": "multipart/form-data" } },
     );
     return data;
   } catch (error) {

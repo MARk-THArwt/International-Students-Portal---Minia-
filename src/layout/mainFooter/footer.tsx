@@ -1,20 +1,37 @@
 import React from "react";
 import logo from "@/assets/Minya University Logo.jpg";
 import "./Footer.css";
-import { FaFacebookF, FaInstagram, FaTwitter, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaTwitter,
+  FaPhoneAlt,
+  FaEnvelope,
+  FaMapMarkerAlt,
+} from "react-icons/fa";
 
 const Footer: React.FC = () => {
   return (
     <footer className="footer">
       <div className="footer-container">
-
         {/* Column 1 */}
         <div className="footer-col">
-          <div className="logo-section" >
+          <div className="logo-section">
             <img src={logo} alt="logo" className="size-16 rounded-full" />
             <div>
-              <h2 style={{fontWeight:"700",fontSize:"18px",lineHeight:"18px",margin:"0px"}}>Minia University</h2>
-              <p className="subtitle "style={{margin:"0px"}}>International Portal</p>
+              <h2
+                style={{
+                  fontWeight: "700",
+                  fontSize: "18px",
+                  lineHeight: "18px",
+                  margin: "0px",
+                }}
+              >
+                Minia University
+              </h2>
+              <p className="subtitle " style={{ margin: "0px" }}>
+                International Portal
+              </p>
             </div>
           </div>
 
@@ -59,12 +76,17 @@ const Footer: React.FC = () => {
         <div className="footer-col">
           <h3>CONTACT US</h3>
           <ul className="contact">
-            <li><FaMapMarkerAlt /> Main Campus, Minia City, Egypt</li>
-            <li><FaPhoneAlt /> +20 86 236 2365</li>
-            <li><FaEnvelope /> info@minia.edu.eg</li>
+            <li>
+              <FaMapMarkerAlt /> Main Campus, Minia City, Egypt
+            </li>
+            <li>
+              <FaPhoneAlt /> +20 86 236 2365
+            </li>
+            <li>
+              <FaEnvelope /> info@minia.edu.eg
+            </li>
           </ul>
         </div>
-
       </div>
 
       <div className="footer-bottom">

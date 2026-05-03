@@ -1,5 +1,5 @@
 .footer {
-  background-color: #0F172A;
+  background-color: #0f172a;
   color: #d4dce8;
   padding: 60px 8%;
   font-family: Arial, sans-serif;
@@ -78,7 +78,6 @@
   display: flex;
   gap: 15px;
   font-size: 18px;
-  
 }
 
 .social-icons svg {
@@ -87,7 +86,6 @@
   padding: 5px;
   background-color: #1c3d73;
   border-radius: 50%;
-
 }
 
 .social-icons svg:hover {

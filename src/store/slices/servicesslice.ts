@@ -1,9 +1,16 @@
-import {createSlice} from "@reduxjs/toolkit";
-import type {PayloadAction}from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store"; // adjust path to your store
-import type {Service,ServicesState,LoadingStatus} from "../types/servicesType"
-import {getServices,updateService,deleteService} from "../AsyncThunks/servicesThunks"
-
+import type {
+  Service,
+  ServicesState,
+  LoadingStatus,
+} from "../types/servicesType";
+import {
+  getServices,
+  updateService,
+  deleteService,
+} from "../AsyncThunks/servicesThunks";
 
 // ─────────────────────────────────────────────
 // 7.  Initial state
@@ -94,7 +101,7 @@ const servicesSlice = createSlice({
 
         // Replace the stale item in-place; avoids a full re-fetch.
         const index = state.items.findIndex(
-          (svc) => svc.id === action.payload.id
+          (svc) => svc.id === action.payload.id,
         );
         if (index !== -1) {
           state.items[index] = action.payload;

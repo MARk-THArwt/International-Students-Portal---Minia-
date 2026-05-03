@@ -10,17 +10,16 @@ import { Outlet } from "react-router-dom";
 export const AppLayout = () => {
   return (
     <TooltipProvider>
-  <SidebarProvider>
-    <Toaster richColors />
+      <SidebarProvider>
+        <Toaster richColors />
 
-    <AppSidebar />
+        <AppSidebar />
 
-    <SidebarInset>
-      <SidebarTrigger className="md:hidden" />
-      <Outlet />
-    </SidebarInset>
-
-  </SidebarProvider>
-</TooltipProvider>
-  )
-}
+        <SidebarInset>
+          <SidebarTrigger className="md:hidden" />
+          <Outlet />
+        </SidebarInset>
+      </SidebarProvider>
+    </TooltipProvider>
+  );
+};

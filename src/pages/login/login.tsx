@@ -40,20 +40,20 @@ export const Login = () => {
   const error = useSelector(selectAuthError);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const formData = new FormData(e.currentTarget);
+    const formData = new FormData(e.currentTarget);
 
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
-  const role = (formData.get("role") as string) || "student";
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+    const role = (formData.get("role") as string) || "student";
 
-  const result = await dispatch(login({ email, password, role }));
+    const result = await dispatch(login({ email, password, role }));
 
-  if (login.fulfilled.match(result)) {
-    navigate("/dashboard");
-  }
-};
+    if (login.fulfilled.match(result)) {
+      navigate("/dashboard");
+    }
+  };
 
   return (
     <section className="grid grid-cols-1 lg:grid-cols-2 w-screen min-h-dvh text-white">
@@ -113,10 +113,7 @@ export const Login = () => {
 
           <div className="rounded-xl pt-1.5 w-full shadow-2xl shadow-gray-300 overflow-hidden bg-linear-to-r from-[#0D40A5] via-[#60A5FA] to-[#0D40A5]">
             <div className="bg-white px-3 py-5 md:p-10">
-              <form
-                onSubmit={handleSubmit}
-                className="flex flex-col gap-8"
-              >
+              <form onSubmit={handleSubmit} className="flex flex-col gap-8">
                 <div className="flex flex-col items-center">
                   <div className="bg-[#EFF6FF] rounded-full">
                     <MdLockPerson className="m-2 size-7" />
@@ -163,22 +160,20 @@ export const Login = () => {
                   </Field>
                   {/* role */}
                   <Field>
-  <FieldLabel>Role</FieldLabel>
-  <select
-    name="role"
-    className="bg-gray-100 rounded-md py-1 px-3 w-full"
-    defaultValue="student"
-  >
-    <option value="student">Student</option>
-    <option value="staff">Staff</option>
-    <option value="admin">Admin</option>
-  </select>
+                    <FieldLabel>Role</FieldLabel>
+                    <select
+                      name="role"
+                      className="bg-gray-100 rounded-md py-1 px-3 w-full"
+                      defaultValue="student"
+                    >
+                      <option value="student">Student</option>
+                      <option value="staff">Staff</option>
+                      <option value="admin">Admin</option>
+                    </select>
                   </Field>
                   {/* Error */}
                   {error && (
-                    <p className="text-red-500 text-sm text-center">
-                      {error}
-                    </p>
+                    <p className="text-red-500 text-sm text-center">{error}</p>
                   )}
 
                   {/* Button */}

@@ -1,22 +1,22 @@
 /** Generic paginated / enveloped list response from the backend. */
-  export interface ApiListResponse<T> {
-    data: T[];
-    total: number;
-    page: number;
-    pageSize: number;
-  }
-  
-  /** Generic single-resource response from the backend. */
-  export interface ApiItemResponse<T> {
-    data: T;
-    message?: string;
-  }
-  /** Payload accepted by updateService. */
+export interface ApiListResponse<T> {
+  data: T[];
+  total: number;
+  page: number;
+  pageSize: number;
+}
+
+/** Generic single-resource response from the backend. */
+export interface ApiItemResponse<T> {
+  data: T;
+  message?: string;
+}
+/** Payload accepted by updateService. */
 export interface UpdateServicePayload {
   id: string;
   data: Partial<Omit<Service, "id" | "createdAt" | "updatedAt">>;
 }
-  export type LoadingStatus = "idle" | "loading" | "succeeded" | "failed";
+export type LoadingStatus = "idle" | "loading" | "succeeded" | "failed";
 export interface Service {
   id: string;
   name: string;

@@ -8,7 +8,7 @@ import {
   selectAuthError,
   selectAuthLoading,
 } from "./../../store/slices/authSlice";
- 
+
 // ─── Inline styles (no external CSS needed) ────────────────────────────────────
 const styles: Record<string, React.CSSProperties> = {
   page: {
@@ -112,7 +112,7 @@ const styles: Record<string, React.CSSProperties> = {
     background: "linear-gradient(135deg, #00d4b4, #008cff)",
     flexShrink: 0,
   },
- 
+
   // Right form panel
   formSide: {
     flex: 1,
@@ -137,7 +137,7 @@ const styles: Record<string, React.CSSProperties> = {
     color: "rgba(255,255,255,0.4)",
     marginBottom: "40px",
   },
- 
+
   // Form elements
   fieldGroup: {
     marginBottom: "20px",
@@ -173,7 +173,7 @@ const styles: Record<string, React.CSSProperties> = {
   inputError: {
     borderColor: "#ff4d6d",
   },
- 
+
   // Toggle password button
   toggleBtn: {
     position: "absolute",
@@ -188,7 +188,7 @@ const styles: Record<string, React.CSSProperties> = {
     padding: 0,
     lineHeight: 1,
   },
- 
+
   // Remember me row
   row: {
     display: "flex",
@@ -219,7 +219,7 @@ const styles: Record<string, React.CSSProperties> = {
     cursor: "pointer",
     padding: 0,
   },
- 
+
   // Submit button
   submitBtn: {
     width: "100%",
@@ -240,7 +240,7 @@ const styles: Record<string, React.CSSProperties> = {
     cursor: "not-allowed",
     transform: "none",
   },
- 
+
   // Error banner
   errorBanner: {
     padding: "12px 16px",
@@ -254,7 +254,7 @@ const styles: Record<string, React.CSSProperties> = {
     alignItems: "center",
     gap: "8px",
   },
- 
+
   divider: {
     display: "flex",
     alignItems: "center",
@@ -268,7 +268,7 @@ const styles: Record<string, React.CSSProperties> = {
     height: "1px",
     background: "rgba(255,255,255,0.08)",
   },
- 
+
   registerRow: {
     textAlign: "center" as const,
     fontSize: "14px",
@@ -285,7 +285,7 @@ const styles: Record<string, React.CSSProperties> = {
     padding: 0,
     fontSize: "14px",
   },
- 
+
   // Spinner
   spinner: {
     display: "inline-block",
@@ -299,47 +299,47 @@ const styles: Record<string, React.CSSProperties> = {
     marginRight: "8px",
   },
 };
- 
+
 // ─── Component ─────────────────────────────────────────────────────────────────
- 
+
 const LoginPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
- 
+
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const error = useAppSelector(selectAuthError);
   const isLoading = useAppSelector(selectAuthLoading("login"));
- 
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
- 
+
   // Redirect after successful login
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/dashboard");
     }
   }, [isAuthenticated, navigate]);
- 
+
   // Clear error when user starts editing
   useEffect(() => {
     if (error) dispatch(clearError());
   }, [email, password]); // eslint-disable-line
- 
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim() || !password.trim()) return;
     await dispatch(login({ email: email.trim(), password }));
   };
- 
+
   const getInputStyle = (field: string, hasError = false) => ({
     ...styles.input,
     ...(focusedField === field ? styles.inputFocused : {}),
     ...(hasError ? styles.inputError : {}),
   });
- 
+
   return (
     <>
       {/* Global keyframe for spinner */}
@@ -348,13 +348,13 @@ const LoginPage: React.FC = () => {
         @keyframes spin { to { transform: rotate(360deg); } }
         * { box-sizing: border-box; margin: 0; padding: 0; }
       `}</style>
- 
+
       <div style={styles.page}>
         {/* ── Left panel ─────────────────────────────────────────── */}
         <div style={styles.panel}>
           <div style={styles.panelGlow} />
           <div style={styles.panelGlow2} />
- 
+
           <div style={styles.brand}>
             <div style={styles.brandIcon}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
@@ -369,7 +369,7 @@ const LoginPage: React.FC = () => {
             </div>
             <span style={styles.brandName}>Nexus</span>
           </div>
- 
+
           <h1 style={styles.headline}>
             Your workspace,{" "}
             <span style={styles.headlineAccent}>reimagined.</span>
@@ -378,7 +378,7 @@ const LoginPage: React.FC = () => {
             A modern platform built for teams who move fast and ship with
             confidence.
           </p>
- 
+
           <div style={styles.featureList}>
             {[
               "Real-time collaboration across teams",
@@ -392,13 +392,15 @@ const LoginPage: React.FC = () => {
             ))}
           </div>
         </div>
- 
+
         {/* ── Right form ─────────────────────────────────────────── */}
         <div style={styles.formSide}>
           <div style={styles.card}>
             <h2 style={styles.cardTitle}>Welcome back</h2>
-            <p style={styles.cardSubtitle}>Sign in to continue to your workspace</p>
- 
+            <p style={styles.cardSubtitle}>
+              Sign in to continue to your workspace
+            </p>
+
             {/* Error banner */}
             {error && (
               <div style={styles.errorBanner}>
@@ -406,7 +408,7 @@ const LoginPage: React.FC = () => {
                 {error}
               </div>
             )}
- 
+
             <form onSubmit={handleSubmit} noValidate>
               {/* Email */}
               <div style={styles.fieldGroup}>
@@ -429,7 +431,7 @@ const LoginPage: React.FC = () => {
                   />
                 </div>
               </div>
- 
+
               {/* Password */}
               <div style={styles.fieldGroup}>
                 <label style={styles.label} htmlFor="password">
@@ -445,7 +447,10 @@ const LoginPage: React.FC = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     onFocus={() => setFocusedField("password")}
                     onBlur={() => setFocusedField(null)}
-                    style={{ ...getInputStyle("password"), paddingRight: "44px" }}
+                    style={{
+                      ...getInputStyle("password"),
+                      paddingRight: "44px",
+                    }}
                     disabled={isLoading}
                     required
                   />
@@ -453,13 +458,15 @@ const LoginPage: React.FC = () => {
                     type="button"
                     style={styles.toggleBtn}
                     onClick={() => setShowPassword((v) => !v)}
-                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
                   >
                     {showPassword ? "🙈" : "👁"}
                   </button>
                 </div>
               </div>
- 
+
               {/* Remember me + Forgot */}
               <div style={styles.row}>
                 <label style={styles.checkLabel}>
@@ -479,7 +486,7 @@ const LoginPage: React.FC = () => {
                   Forgot password?
                 </button>
               </div>
- 
+
               {/* Submit */}
               <button
                 type="submit"
@@ -495,14 +502,14 @@ const LoginPage: React.FC = () => {
                 {isLoading ? "Signing in…" : "Sign in"}
               </button>
             </form>
- 
+
             {/* Divider */}
             <div style={styles.divider}>
               <span style={styles.dividerLine} />
               OR
               <span style={styles.dividerLine} />
             </div>
- 
+
             {/* Register link */}
             <div style={styles.registerRow}>
               Don't have an account?
@@ -519,5 +526,5 @@ const LoginPage: React.FC = () => {
     </>
   );
 };
- 
+
 export default LoginPage;

@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 // import { STEP_2 } from "./steps/step2";
 // import STEP_3 from "./steps/step3";
 import { Stepper } from "./stepper";
-import STEP_4 from "./steps/step4"; 
+import STEP_4 from "./steps/step4";
 
 export const Announcement = () => {
   return (

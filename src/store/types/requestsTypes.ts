@@ -2,15 +2,20 @@
 
 export type RequestStatus = "Pending" | "Approved" | "Rejected" | "Cancelled";
 
+export interface RequestService {
+  _id: string;
+  name: string;
+}
+
 export interface ServiceRequest {
-  id: string;
-  serviceId: string;
-  serviceName?: string;
+  _id: string;
+  student: string;
+  service: RequestService;
   status: RequestStatus;
-  notes?: string;
+  documents: string[];
   createdAt: string;
   updatedAt: string;
-  attachments?: string[];
+  __v: number;
 }
 
 // ─── API Payload Types ────────────────────────────────────────────────────────
@@ -41,12 +46,12 @@ export interface GetMyRequestsParams {
 
 // ─── API Response Types ───────────────────────────────────────────────────────
 
-export interface PaginatedResponse<T> {
-  data: T[];
+export interface PaginatedRequestsResponse {
+  status: string;
   page: number;
-  limit: number;
+  results: number;
   totalPages: number;
-  totalItems: number;
+  data: ServiceRequest[];
 }
 
 // ─── Slice State ──────────────────────────────────────────────────────────────
@@ -65,7 +70,7 @@ export interface RequestsState {
 
   error: string | null;
 
-  // Pagination
+  // Pagination (kept for future use / page UI controls)
   page: number;
   limit: number;
   totalPages: number;

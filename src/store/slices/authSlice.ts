@@ -7,8 +7,8 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  role?: string;
-  avatar?: string;
+  role: string;
+  avatar: string | null;
 }
 
 export interface LoginCredentials {
@@ -46,7 +46,7 @@ const API_URL =
 
 async function apiFetch<T>(
   endpoint: string,
-  options: RequestInit = {}
+  options: RequestInit = {},
 ): Promise<T> {
   const response = await fetch(`${API_URL}${endpoint}`, {
     headers: { "Content-Type": "application/json", ...options.headers },
@@ -100,19 +100,18 @@ export const register = createAsyncThunk<
 });
 
 // LOGOUT
-export const logout = createAsyncThunk<
-  void,
-  void,
-  { rejectValue: string }
->("auth/logout", async (_, { rejectWithValue }) => {
-  try {
-    await apiFetch("/auth/logout", {
-      method: "POST",
-    });
-  } catch (err) {
-    return rejectWithValue((err as Error).message);
-  }
-});
+export const logout = createAsyncThunk<void, void, { rejectValue: string }>(
+  "auth/logout",
+  async (_, { rejectWithValue }) => {
+    try {
+      await apiFetch("/auth/logout", {
+        method: "POST",
+      });
+    } catch (err) {
+      return rejectWithValue((err as Error).message);
+    }
+  },
+);
 
 // FETCH CURRENT USER
 export const fetchCurrentUser = createAsyncThunk<
