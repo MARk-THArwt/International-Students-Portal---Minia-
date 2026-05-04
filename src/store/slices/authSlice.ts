@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import axiosInstance from "../../api/api";
+import axios from "axios";
 
 // ─── Types ─────────────────────────────────────────────────────────────────────
 
@@ -9,6 +11,11 @@ export interface User {
   email: string;
   role: string;
   avatar: string | null;
+  studentId: string;
+  passportNumber: string;
+  nationality: string;
+  phone: string;
+  gender: string;
 }
 
 export interface LoginCredentials {
@@ -23,79 +30,64 @@ export interface RegisterData {
   password: string;
 }
 
-export interface AuthLoadingState {
-  login: boolean;
-  register: boolean;
-  logout: boolean;
-  fetchUser: boolean;
-}
-
 export interface AuthState {
   user: User | null;
-  isAuthenticated: boolean;
-  loading: AuthLoadingState;
+  loading: boolean;
   error: string | null;
 }
 
-// ─── Config ────────────────────────────────────────────────────────────────────
-
-const API_URL =
-  "https://internationalstudentsportal-production-5e18.up.railway.app/api";
-
-// ─── Helper (with cookies) ─────────────────────────────────────────────────────
-
-async function apiFetch<T>(
-  endpoint: string,
-  options: RequestInit = {},
-): Promise<T> {
-  const response = await fetch(`${API_URL}${endpoint}`, {
-    headers: { "Content-Type": "application/json", ...options.headers },
-    credentials: "include", // 🔥 أهم سطر
-    ...options,
-  });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error((data as { message?: string }).message ?? "Request failed");
+// ─── Helper for Error ────────────────────────────────────────────────────────
+function extractErrorMessage(error: unknown): string {
+  if (axios.isAxiosError(error)) {
+    const responseData: any = error.response?.data;
+    if (responseData?.message && typeof responseData.message === "string") {
+      return responseData.message;
+    }
+    return error.message;
   }
-
-  return data as T;
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return "An unexpected error occurred";
 }
 
 // ─── Async Thunks ──────────────────────────────────────────────────────────────
 
 // LOGIN
 export const login = createAsyncThunk<
-  { user: User },
+  User,
   LoginCredentials,
   { rejectValue: string }
 >("auth/login", async (credentials, { rejectWithValue }) => {
   try {
-    const data = await apiFetch<{ user: User }>("/auth/login", {
-      method: "POST",
-      body: JSON.stringify(credentials),
-    });
-    return data;
-  } catch (err) {
-    return rejectWithValue((err as Error).message);
+    const response = await axiosInstance.post<{
+      status: string;
+      message: string;
+      user: User;
+    }>("/auth/login", credentials);
+    
+    // Persist user in localStorage
+    localStorage.setItem("user", JSON.stringify(response.data.user));
+    
+    // Return user object directly
+    return response.data.user;
+  } catch (err: unknown) {
+    return rejectWithValue(extractErrorMessage(err));
   }
 });
 
 // REGISTER
 export const register = createAsyncThunk<
-  { user: User },
+  User,
   RegisterData,
   { rejectValue: string }
 >("auth/register", async (userData, { rejectWithValue }) => {
   try {
-    const data = await apiFetch<{ user: User }>("/auth/register", {
-      method: "POST",
-      body: JSON.stringify(userData),
-    });
-    return data;
-  } catch (err) {
-    return rejectWithValue((err as Error).message);
+    const response = await axiosInstance.post<{ user: User }>("/auth/register", userData);
+    localStorage.setItem("user", JSON.stringify(response.data.user));
+    return response.data.user;
+  } catch (err: unknown) {
+    return rejectWithValue(extractErrorMessage(err));
   }
 });
 
@@ -104,39 +96,46 @@ export const logout = createAsyncThunk<void, void, { rejectValue: string }>(
   "auth/logout",
   async (_, { rejectWithValue }) => {
     try {
-      await apiFetch("/auth/logout", {
-        method: "POST",
-      });
-    } catch (err) {
-      return rejectWithValue((err as Error).message);
+      await axiosInstance.post("/auth/logout");
+      // Remove from localStorage on successful logout
+      localStorage.removeItem("user");
+    } catch (err: unknown) {
+      // Clear localStorage even if the request fails
+      localStorage.removeItem("user");
+      return rejectWithValue(extractErrorMessage(err));
     }
-  },
+  }
 );
 
 // FETCH CURRENT USER
 export const fetchCurrentUser = createAsyncThunk<
-  { user: User },
+  User,
   void,
   { rejectValue: string }
 >("auth/me", async (_, { rejectWithValue }) => {
   try {
-    return await apiFetch<{ user: User }>("/auth/me");
-  } catch (err) {
-    return rejectWithValue((err as Error).message);
+    const response = await axiosInstance.get<{ user: User }>("/auth/me");
+    localStorage.setItem("user", JSON.stringify(response.data.user));
+    return response.data.user;
+  } catch (err: unknown) {
+    return rejectWithValue(extractErrorMessage(err));
   }
 });
 
 // ─── Initial State ─────────────────────────────────────────────────────────────
 
+const getInitialUser = (): User | null => {
+  try {
+    const stored = localStorage.getItem("user");
+    return stored ? JSON.parse(stored) : null;
+  } catch (e) {
+    return null;
+  }
+};
+
 const initialState: AuthState = {
-  user: null,
-  isAuthenticated: false,
-  loading: {
-    login: false,
-    register: false,
-    logout: false,
-    fetchUser: false,
-  },
+  user: getInitialUser(),
+  loading: false,
   error: null,
 };
 
@@ -151,74 +150,68 @@ const authSlice = createSlice({
     },
     setUser(state, action: PayloadAction<User>) {
       state.user = action.payload;
-      state.isAuthenticated = true;
+      localStorage.setItem("user", JSON.stringify(action.payload));
     },
   },
   extraReducers: (builder) => {
     // LOGIN
     builder
       .addCase(login.pending, (state) => {
-        state.loading.login = true;
+        state.loading = true;
         state.error = null;
       })
       .addCase(login.fulfilled, (state, { payload }) => {
-        state.loading.login = false;
-        state.user = payload.user;
-        state.isAuthenticated = true;
+        state.loading = false;
+        state.user = payload; // payload is response.data.user
       })
       .addCase(login.rejected, (state, { payload }) => {
-        state.loading.login = false;
+        state.loading = false;
         state.error = payload ?? "Login failed";
       });
 
     // REGISTER
     builder
       .addCase(register.pending, (state) => {
-        state.loading.register = true;
+        state.loading = true;
         state.error = null;
       })
       .addCase(register.fulfilled, (state, { payload }) => {
-        state.loading.register = false;
-        state.user = payload.user;
-        state.isAuthenticated = true;
+        state.loading = false;
+        state.user = payload;
       })
       .addCase(register.rejected, (state, { payload }) => {
-        state.loading.register = false;
+        state.loading = false;
         state.error = payload ?? "Registration failed";
       });
 
     // LOGOUT
     builder
       .addCase(logout.pending, (state) => {
-        state.loading.logout = true;
+        state.loading = true;
       })
       .addCase(logout.fulfilled, (state) => {
-        state.loading.logout = false;
+        state.loading = false;
         state.user = null;
-        state.isAuthenticated = false;
         state.error = null;
       })
       .addCase(logout.rejected, (state) => {
-        state.loading.logout = false;
-        state.user = null;
-        state.isAuthenticated = false;
+        state.loading = false;
+        state.user = null; // Still clear user on logout rejection
       });
 
-    // FETCH USER
+    // FETCH CURRENT USER
     builder
       .addCase(fetchCurrentUser.pending, (state) => {
-        state.loading.fetchUser = true;
+        state.loading = true;
         state.error = null;
       })
       .addCase(fetchCurrentUser.fulfilled, (state, { payload }) => {
-        state.loading.fetchUser = false;
-        state.user = payload.user;
-        state.isAuthenticated = true;
+        state.loading = false;
+        state.user = payload;
       })
       .addCase(fetchCurrentUser.rejected, (state) => {
-        state.loading.fetchUser = false;
+        state.loading = false;
         state.user = null;
-        state.isAuthenticated = false;
       });
   },
 });
@@ -232,12 +225,11 @@ export const { clearError, setUser } = authSlice.actions;
 export type RootState = { auth: AuthState };
 
 export const selectUser = (state: RootState) => state.auth.user;
-export const selectIsAuthenticated = (state: RootState) =>
-  state.auth.isAuthenticated;
+// isAuthenticated is dynamically derived from presence of user
+export const selectIsAuthenticated = (state: RootState) => !!state.auth.user;
 export const selectAuthError = (state: RootState) => state.auth.error;
-export const selectAuthLoading =
-  (key: keyof AuthLoadingState) => (state: RootState) =>
-    state.auth.loading[key];
+// Changed to ignore key and return the unified boolean state
+export const selectAuthLoading = (_key?: string) => (state: RootState) => state.auth.loading;
 
 // ─── Reducer ───────────────────────────────────────────────────────────────────
 

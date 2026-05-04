@@ -22,6 +22,7 @@ export interface ServiceRequest {
 
 export interface CreateRequestPayload {
   serviceId: string;
+  documents: File[];
 }
 
 export interface ReviewRequestPayload {

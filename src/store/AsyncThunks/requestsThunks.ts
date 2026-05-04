@@ -70,11 +70,22 @@ export const createRequest = createAsyncThunk<
   ServiceRequest,
   CreateRequestPayload,
   { rejectValue: string }
->("requests/createRequest", async ({ serviceId }, { rejectWithValue }) => {
+>("requests/createRequest", async ({ serviceId, documents }, { rejectWithValue }) => {
   try {
-    const { data } = await api.post<ServiceRequest>("/requests/", {
-      serviceId,
-    });
+    const formData = new FormData();
+    formData.append("serviceId", serviceId);
+    
+    if (documents && documents.length > 0) {
+      documents.forEach((file) => {
+        formData.append("documents", file);
+      });
+    }
+
+    const { data } = await api.post<ServiceRequest>(
+      "/requests/",
+      formData,
+      { headers: { "Content-Type": "multipart/form-data" } }
+    );
     return data;
   } catch (error) {
     return rejectWithValue(extractErrorMessage(error));

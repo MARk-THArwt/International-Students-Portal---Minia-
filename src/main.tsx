@@ -15,7 +15,7 @@ import { AppLayout } from "./layout/AppLayout";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 import { EventsList } from "./pages/Events/EventsList";
-
+import StudentProfile  from "./pages/profile/profile";
 createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
     <BrowserRouter>
@@ -28,22 +28,23 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/Registration" element={<Registration />} />
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<DashboardSwitcher />} />
-          <Route 
-            path="/staff-dashboard" 
+          <Route
+            path="/staff-dashboard"
             element={
               <ProtectedStaffRoute>
                 <StaffDashboard />
               </ProtectedStaffRoute>
-            } 
+            }
           />
           <Route path="/events" element={<EventsList />} />
-          <Route 
-            path="/dashboard/admin" 
+          <Route path="/profile" element={<StudentProfile />} />
+          <Route
+            path="/dashboard/admin"
             element={
               <ProtectedAdminRoute>
                 <AdminDashboard />
               </ProtectedAdminRoute>
-            } 
+            }
           />
         </Route>
       </Routes>
