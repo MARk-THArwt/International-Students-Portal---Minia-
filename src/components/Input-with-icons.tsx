@@ -8,6 +8,8 @@ import { type ReactNode } from "react";
 
 export const InputWithIcons = ({
   data,
+  value,
+  readOnly,
 }: {
   data: {
     name: string;
@@ -16,6 +18,8 @@ export const InputWithIcons = ({
     iconStart?: ReactNode;
     iconEnd?: ReactNode;
   };
+  value?: string;
+  readOnly?: boolean;
 }) => {
   return (
     <Field className="w-full">
@@ -31,6 +35,9 @@ export const InputWithIcons = ({
         <InputGroupInput
           type={data.type}
           placeholder={data.placeholder || data.name}
+          value={value}
+          readOnly={readOnly}
+          className={readOnly ? "cursor-default focus:ring-0" : ""}
         />
 
         {data.iconEnd && (

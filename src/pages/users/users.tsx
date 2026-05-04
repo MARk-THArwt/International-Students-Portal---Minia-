@@ -127,7 +127,7 @@ export const UsersPage = () => {
     {
       key: "actions",
       label: "Actions",
-      render: (row) => <DeleteButton userId={row._id} />
+      render: (row) => row._id ? <DeleteButton userId={row._id} /> : null
     }
   ];
 

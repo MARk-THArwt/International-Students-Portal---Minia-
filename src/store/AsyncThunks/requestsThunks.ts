@@ -88,6 +88,7 @@ export const createRequest = createAsyncThunk<
     );
     return data;
   } catch (error) {
+    console.error("Create Request Error:", error);
     return rejectWithValue(extractErrorMessage(error));
   }
 });

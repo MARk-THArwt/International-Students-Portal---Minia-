@@ -8,6 +8,8 @@ import {
   User,
 } from "lucide-react";
 import { FaPassport } from "react-icons/fa";
+import { useAppSelector } from "@/store/hooks/hook";
+import { selectUser } from "@/store/slices/authSlice";
 
 const STEP1_INPUTS = [
   {
@@ -49,6 +51,28 @@ const STEP1_INPUTS = [
 ];
 
 export const STEP_1 = () => {
+  const user = useAppSelector(selectUser);
+
+  const getInputValue = (name: string) => {
+    if (!user) return "";
+    switch (name) {
+      case "Full Name (English)":
+        return user.name;
+      case "Nationality":
+        return user.nationality;
+      case "Passport Number":
+        return user.passportNumber;
+      case "Student ID":
+        return user.studentId;
+      case "University Email":
+        return user.email;
+      case "Phone Number":
+        return user.phone;
+      default:
+        return "";
+    }
+  };
+
   return (
     <div>
       <div className="mb-8">
@@ -69,7 +93,7 @@ export const STEP_1 = () => {
             <div className="w-32 h-32 overflow-hidden bg-gray-800 rounded-xl sm:w-40 sm:h-40">
               <img
                 alt="profile"
-                src="/src/assets/Image+Border+Shadow.jpg"
+                src={user?.avatar || "/src/assets/Image+Border+Shadow.jpg"}
                 className="object-cover w-full h-full"
               />
             </div>
@@ -77,7 +101,12 @@ export const STEP_1 = () => {
 
           <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2">
             {STEP1_INPUTS.map((input, index) => (
-              <InputWithIcons key={index} data={input} />
+              <InputWithIcons
+                key={index}
+                data={input}
+                value={getInputValue(input.name)}
+                readOnly
+              />
             ))}
           </div>
         </div>

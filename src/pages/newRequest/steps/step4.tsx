@@ -6,11 +6,13 @@ import {
   FileTextIcon,
   FolderIcon,
   ImageIcon,
+  Loader2,
   PencilIcon,
   User2Icon,
 } from "lucide-react";
 import { useState } from "react";
 import { FaFilePdf } from "react-icons/fa";
+import { useAppSelector } from "@/store/hooks/hook";
 
 const SectionCard = ({ title, icon, onEdit, children }) => (
   <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
@@ -53,45 +55,29 @@ const DocumentItem = ({ name, size, type }) => (
   </div>
 );
 
-export default function STEP_4() {
+export function STEP_4({ 
+  files = [], 
+  onBack, 
+  onNext, 
+  isSubmitting = false,
+  serviceName = "Service Request"
+}: { 
+  files?: File[], 
+  onBack: () => void, 
+  onNext: () => void,
+  isSubmitting?: boolean,
+  serviceName?: string
+}) {
   const [agreed, setAgreed] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-
-  if (submitted) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-10 flex flex-col items-center text-center max-w-sm w-full">
-          <div className="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mb-4 border border-emerald-100">
-            <Check className="text-emerald-500 size-10" />
-          </div>
-          <h2 className="text-xl font-bold text-gray-800 mb-2">
-            Application Submitted!
-          </h2>
-          <p className="text-sm text-gray-500 leading-relaxed">
-            Your Visa Extension Letter Request has been sent to the
-            International Affairs Office.
-          </p>
-          <button
-            onClick={() => {
-              setSubmitted(false);
-              setAgreed(false);
-            }}
-            className="mt-6 text-indigo-600 text-sm font-medium hover:underline"
-          >
-            ← Back to form
-          </button>
-        </div>
-      </div>
-    );
-  }
+  const { user } = useAppSelector((state) => state.auth);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
+    <div className="min-h-screen bg-gray-300/10 py-8 px-4">
       <div className="max-w-2xl mx-auto flex flex-col gap-4">
         {/* Header */}
         <div className="mb-1">
           <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
-            Review Application
+            Review {serviceName}
           </h1>
           <p className="text-sm text-gray-500 mt-1">
             Please review your information before submitting.
@@ -102,75 +88,38 @@ export default function STEP_4() {
         <SectionCard
           title="Personal Information"
           icon={<User2Icon className="size-5" />}
-          onEdit={() => {}}
+          onEdit={onBack}
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5">
-            <InfoField label="Full Name" value="Ahmed Al-Masri" />
-            <InfoField label="Student ID" value="20230015" />
-            <InfoField label="Nationality" value="Jordanian" />
-            <InfoField label="Passport Number" value="J12345678" />
-            <InfoField label="Faculty" value="Faculty of Medicine" />
-            <InfoField label="Academic Year" value="3rd Year" />
+            <InfoField label="Full Name" value={user?.name || "N/A"} />
+            <InfoField label="Student ID" value={user?.studentId || "N/A"} />
+            <InfoField label="Nationality" value={user?.nationality || "N/A"} />
+            <InfoField label="Passport Number" value={user?.passportNumber || "N/A"} />
+            <InfoField label="Phone" value={user?.phone || "N/A"} />
+            <InfoField label="Email" value={user?.email || "N/A"} />
           </div>
         </SectionCard>
 
-        <SectionCard
-          title="Service Details"
-          icon={<FileTextIcon className="size-5" />}
-          onEdit={() => {}}
-        >
-          <div className="flex flex-col gap-5">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5">
-              <InfoField
-                label="Request Type"
-                value="Visa Extension Letter Request"
-              />
-              <div className="flex flex-col gap-2">
-                <InfoField
-                  label="Target Department"
-                  value="International Affairs Office"
-                />
-              </div>
-            </div>
-            <div>
-              <span className="text-xs text-gray-400 font-medium block mb-1.5">
-                Priority Level
-              </span>
-              <span className="inline-flex items-center gap-1.5 bg-gray-100 text-gray-600 text-xs font-semibold px-3 py-1.5 rounded-full">
-                <span className="w-2 h-2 rounded-full bg-gray-400"></span>
-                Normal
-              </span>
-            </div>
-            <div>
-              <span className="text-xs text-gray-400 font-medium block mb-1.5">
-                Notes / Description
-              </span>
-              <p className="text-sm text-gray-700 leading-relaxed">
-                I need an official letter addressed to the Passport Office to
-                extend my student visa for the upcoming academic semester.
-              </p>
-            </div>
-          </div>
-        </SectionCard>
-
+        {/* Uploaded Documents */}
         <SectionCard
           title="Uploaded Documents"
           icon={<FolderIcon className="size-5 " />}
-          onEdit={() => {}}
+          onEdit={onBack}
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <DocumentItem
-              name="passport_scan_2023.pdf"
-              size="1.2 MB"
-              type="pdf"
-            />
-            <DocumentItem
-              name="personal_photo.jpg"
-              size="500 KB"
-              type="image"
-            />
-            <DocumentItem name="current_visa.pdf" size="840 KB" type="pdf" />
-          </div>
+          {files.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {files.map((file, idx) => (
+                <DocumentItem
+                  key={idx}
+                  name={file.name}
+                  size={`${(file.size / 1024 / 1024).toFixed(2)} MB`}
+                  type={file.name.endsWith(".pdf") ? "pdf" : "image"}
+                />
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm text-gray-500 italic text-center py-4">No documents uploaded</p>
+          )}
         </SectionCard>
 
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm px-5 sm:px-6 py-5">
@@ -201,20 +150,32 @@ export default function STEP_4() {
         </div>
 
         <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-3 pt-1 pb-4">
-          <button className="w-full sm:w-auto px-6 py-3 rounded-xl border border-gray-200 bg-white text-gray-700 text-sm font-semibold hover:bg-gray-50 transition-colors">
-            <ArrowLeft className="size-4 inline-block" /> Back
+          <button 
+            onClick={onBack}
+            className="w-full sm:w-auto px-6 py-3 rounded-xl border border-gray-200 bg-white text-gray-700 text-sm font-semibold hover:bg-gray-50 transition-colors"
+          >
+            <ArrowLeft className="size-4 inline-block mr-2" /> Back
           </button>
           <button
-            onClick={() => agreed && setSubmitted(true)}
-            disabled={!agreed}
+            onClick={onNext}
+            disabled={!agreed || isSubmitting}
             className={`w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-3 rounded-xl text-sm font-semibold transition-all duration-150 ${
-              agreed
+              agreed && !isSubmitting
                 ? "bg-indigo-600 text-white hover:bg-indigo-700 shadow-md active:scale-95"
                 : "bg-indigo-200 text-indigo-400 cursor-not-allowed"
             }`}
           >
-            Submit Application
-            <ArrowRight className="size-4" />
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Submitting...
+              </>
+            ) : (
+              <>
+                Submit Application
+                <ArrowRight className="size-4 ml-2" />
+              </>
+            )}
           </button>
         </div>
       </div>

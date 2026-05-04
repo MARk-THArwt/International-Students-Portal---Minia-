@@ -1,6 +1,5 @@
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Announcement } from "./pages/Announcement/announcement";
 import { Contact } from "./pages/contact/contact";
 import { Home } from "./pages/home/Home";
 import { Services } from "./pages/ourServices/services";
@@ -15,9 +14,12 @@ import { AppLayout } from "./layout/AppLayout";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 import { EventsList } from "./pages/Events/EventsList";
+import Announcement from "./pages/Announcement/announcements";
+import { NewRequest } from "./pages/newRequest/NewRequest";
 import StudentProfile  from "./pages/profile/profile";
 import { RegisterForm } from "./pages/register/RegisterForm";
 import { UsersPage } from "./pages/users/users";
+
 createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
     <BrowserRouter>
@@ -39,6 +41,7 @@ createRoot(document.getElementById("root")!).render(
             }
           />
           <Route path="/events" element={<EventsList />} />
+          <Route path="/newRequest" element={<NewRequest />} />
           <Route path="/profile" element={<StudentProfile />} />
           <Route path="/RegisterForm" element={<RegisterForm />} />
           <Route path="/dashboard/admin/users" element={<UsersPage />} />

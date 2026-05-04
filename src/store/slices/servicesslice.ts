@@ -101,7 +101,7 @@ const servicesSlice = createSlice({
 
         // Replace the stale item in-place; avoids a full re-fetch.
         const index = state.items.findIndex(
-          (svc) => svc.id === action.payload.id,
+          (svc) => svc._id === action.payload._id,
         );
         if (index !== -1) {
           state.items[index] = action.payload;
@@ -125,7 +125,7 @@ const servicesSlice = createSlice({
         state.activeServiceId = null;
 
         // Remove the deleted item without mutating the reference (Immer handles this).
-        state.items = state.items.filter((svc) => svc.id !== action.payload);
+        state.items = state.items.filter((svc) => svc._id !== action.payload);
         state.total = Math.max(0, state.total - 1);
       })
       .addCase(deleteService.rejected, (state, action) => {
@@ -159,7 +159,7 @@ export const selectAllServices = (state: RootState): Service[] =>
 export const selectServiceById =
   (id: string) =>
   (state: RootState): Service | undefined =>
-    state.services.items.find((svc) => svc.id === id);
+    state.services.items.find((svc) => svc._id === id);
 
 /** Returns the total count reported by the API. */
 export const selectServicesTotal = (state: RootState): number =>

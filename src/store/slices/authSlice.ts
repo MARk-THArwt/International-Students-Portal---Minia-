@@ -6,15 +6,15 @@ import axios from "axios";
 // ─── Types ─────────────────────────────────────────────────────────────────────
 
 export interface User {
-  _id: string;
+  _id?: string; 
   name: string;
   email: string;
   role: string;
   avatar: string | null;
-  studentId: string;
-  passportNumber: string;
-  nationality: string;
-  phone: string;
+  studentId?: string;
+  passportNumber?: string;
+  nationality?: string;
+  phone?: string;
   gender: string;
 }
 
