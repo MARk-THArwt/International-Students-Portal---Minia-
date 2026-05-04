@@ -5,10 +5,15 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface User {
   id: string;
+  _id?: string; // Some parts of the app use _id
   name: string;
   email: string;
   role: string;
   avatar: string | null;
+  studentId?: string;
+  passportNumber?: string;
+  nationality?: string;
+  phone?: string;
 }
 
 export interface LoginCredentials {

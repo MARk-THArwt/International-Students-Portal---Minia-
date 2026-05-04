@@ -14,14 +14,17 @@ export interface ApiItemResponse<T> {
 /** Payload accepted by updateService. */
 export interface UpdateServicePayload {
   id: string;
-  data: Partial<Omit<Service, "id" | "createdAt" | "updatedAt">>;
+  data: Partial<Omit<Service, "_id" | "createdAt" | "updatedAt">>;
 }
 export type LoadingStatus = "idle" | "loading" | "succeeded" | "failed";
 export interface Service {
-  id: string;
+  _id: string;
   name: string;
   description: string;
   category?: string;
+  price?: number;
+  image?: string | null;
+  requiredDocuments?: string[];
   isActive?: boolean;
   createdAt?: string;
   updatedAt?: string;

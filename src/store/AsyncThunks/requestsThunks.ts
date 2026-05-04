@@ -70,13 +70,38 @@ export const createRequest = createAsyncThunk<
   ServiceRequest,
   CreateRequestPayload,
   { rejectValue: string }
->("requests/createRequest", async ({ serviceId }, { rejectWithValue }) => {
+>("requests/createRequest", async ({ serviceId, documents }, { rejectWithValue }) => {
   try {
-    const { data } = await api.post<ServiceRequest>("/requests/", {
-      serviceId,
+    const formData = new FormData();
+    formData.append("serviceId", serviceId);
+    
+    // Append all documents under the same key "documents"
+    documents.forEach((file) => {
+      formData.append("documents", file);
     });
+
+    // ─── Debug Logs ──────────────────────────────────────────────────────────
+    console.log("--- Creating New Request ---");
+    console.log("Service ID:", serviceId);
+    console.log("Form Data Entries:");
+    formData.forEach((value, key) => {
+      if (value instanceof File) {
+        console.log(`  ${key}: File(${value.name}, ${value.size} bytes)`);
+      } else {
+        console.log(`  ${key}: ${value}`);
+      }
+    });
+
+    const { data } = await api.post<ServiceRequest>("/requests/", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    console.log("Response Data:", data);
+    console.log("----------------------------");
+
     return data;
   } catch (error) {
+    console.error("Create Request Error:", error);
     return rejectWithValue(extractErrorMessage(error));
   }
 });

@@ -5,14 +5,8 @@ import { useDropzone } from "react-dropzone";
 type DropZoneProps = {
   onFilesAdded: (files: File[]) => void;
 };
-const ACCEPTED_MIME_TYPES = {
-  "application/pdf": [".pdf"],
-  "image/jpeg": [".jpg", ".jpeg"],
-  "image/png": [".png"],
-  "image/svg+xml": [".svg"],
-};
 
-const MAX_FILE_SIZE_MB = 5;
+const MAX_FILE_SIZE_MB = 6;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
 export function DropZone({ onFilesAdded }: DropZoneProps) {
@@ -28,7 +22,6 @@ export function DropZone({ onFilesAdded }: DropZoneProps) {
     isDragReject,
   } = useDropzone({
     onDrop,
-    accept: ACCEPTED_MIME_TYPES,
     maxSize: MAX_FILE_SIZE_BYTES,
     multiple: true,
   });
@@ -78,7 +71,7 @@ export function DropZone({ onFilesAdded }: DropZoneProps) {
           )}
         </p>
         <p className="text-xs text-gray-400 mt-1">
-          PNG, JPG, PDF (max {MAX_FILE_SIZE_MB}MB)
+          Any file type accepted (max {MAX_FILE_SIZE_MB}MB)
         </p>
       </div>
     </div>

@@ -1,6 +1,5 @@
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Announcement } from "./pages/Announcement/announcement";
 import { Contact } from "./pages/contact/contact";
 import { Home } from "./pages/home/Home";
 import { Services } from "./pages/ourServices/services";
@@ -15,6 +14,8 @@ import { AppLayout } from "./layout/AppLayout";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 import { EventsList } from "./pages/Events/EventsList";
+import Announcement from "./pages/Announcement/announcements";
+import { NewRequest } from "./pages/newRequest/NewRequest";
 
 createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
@@ -28,22 +29,23 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/Registration" element={<Registration />} />
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<DashboardSwitcher />} />
-          <Route 
-            path="/staff-dashboard" 
+          <Route
+            path="/staff-dashboard"
             element={
               <ProtectedStaffRoute>
                 <StaffDashboard />
               </ProtectedStaffRoute>
-            } 
+            }
           />
           <Route path="/events" element={<EventsList />} />
-          <Route 
-            path="/dashboard/admin" 
+          <Route path="/newRequest" element={<NewRequest />} />
+          <Route
+            path="/dashboard/admin"
             element={
               <ProtectedAdminRoute>
                 <AdminDashboard />
               </ProtectedAdminRoute>
-            } 
+            }
           />
         </Route>
       </Routes>

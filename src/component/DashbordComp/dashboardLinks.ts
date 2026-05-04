@@ -1,16 +1,39 @@
 import {
-  IconLayoutDashboard,
-  IconFileText,
-  IconTools,
   IconCalendar,
   IconCreditCard,
+  IconFileText,
+  IconLayoutDashboard,
+  IconTools,
   IconUser,
 } from "@tabler/icons-react";
+
 export const dashboardLinks = {
   admin: [
-    { label: "Dashboard", path: "/dashboard/admin" },
-    { label: "Users", path: "/dashboard/admin/users" },
-    { label: "Reports", path: "/dashboard/admin/reports" },
+    {
+      id: "dashboard",
+      label: "Dashboard",
+      icon: IconLayoutDashboard,
+      route: "/dashboard/admin",
+    },
+    {
+      id: "users",
+      label: "Users",
+      icon: IconUser,
+      route: "/dashboard/admin/users",
+    },
+    {
+      id: "services",
+      label: "Services",
+      icon: IconTools,
+      route: "/services",
+      subLinks: [],
+    },
+    {
+      id: "reports",
+      label: "Reports",
+      icon: IconFileText,
+      route: "/dashboard/admin/reports",
+    },
   ],
   student: [
     {
@@ -25,7 +48,13 @@ export const dashboardLinks = {
       icon: IconFileText,
       route: "/requests",
     },
-    { id: "services", label: "Services", icon: IconTools, route: "/services" },
+    {
+      id: "services",
+      label: "Services",
+      icon: IconTools,
+      route: "/services",
+      subLinks: [],
+    },
     {
       id: "Events",
       label: "Events",
@@ -41,7 +70,24 @@ export const dashboardLinks = {
     { id: "profile", label: "Profile", icon: IconUser, route: "/profile" },
   ],
   staff: [
-    { label: "Dashboard", path: "/dashboard/staff" },
-    { label: "طلبات", path: "/dashboard/staff/requests" },
+    {
+      id: "dashboard",
+      label: "Dashboard",
+      icon: IconLayoutDashboard,
+      route: "/dashboard/staff",
+    },
+    {
+      id: "requests",
+      label: "Requests",
+      icon: IconFileText,
+      route: "/dashboard/staff/requests",
+    },
+    {
+      id: "services",
+      label: "Services",
+      icon: IconTools,
+      route: "/services",
+      subLinks: [],
+    },
   ],
 };
