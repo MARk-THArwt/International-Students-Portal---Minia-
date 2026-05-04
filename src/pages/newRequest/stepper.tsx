@@ -2,10 +2,10 @@ import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const STEPS = [
-  { id: 1, title: "Personal info", sub: "Name & nationality" },
-  { id: 2, title: "Upload documents", sub: "Passport & transcript" },
-  { id: 3, title: "Review", sub: "Check your details" },
-  { id: 4, title: "Confirmation", sub: "Get your reference" },
+  { id: 1, title: "Personal info", sub: "Verify your data" },
+  { id: 2, title: "Service details", sub: "Review service info" },
+  { id: 3, title: "Upload & Submit", sub: "Attach documents" },
+  { id: 4, title: "Confirmation", sub: "Request reference" },
 ];
 
 type StepStatus = "complete" | "active" | "pending";

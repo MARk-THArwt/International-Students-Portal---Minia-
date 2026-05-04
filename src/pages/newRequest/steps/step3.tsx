@@ -1,10 +1,11 @@
 import { DropZone } from "@/components/Dropzone";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { useAppSelector } from "@/store/hooks/hook";
+import { useAppDispatch, useAppSelector } from "@/store/hooks/hook";
 import { selectServiceById } from "@/store/slices/servicesslice";
+import { getServiceById } from "@/store/AsyncThunks/servicesThunks";
 import { CheckCircle2, Info, Trash2, X } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -142,8 +143,15 @@ export default function STEP_3({
   initialFiles?: File[];
 }) {
   const [searchParams] = useSearchParams();
+  const dispatch = useAppDispatch();
   const serviceId = searchParams.get("serviceId");
   const selectedService = useAppSelector(selectServiceById(serviceId || ""));
+
+  useEffect(() => {
+    if (serviceId && !selectedService) {
+      dispatch(getServiceById(serviceId));
+    }
+  }, [serviceId, selectedService, dispatch]);
 
   const [uploadFiles, setUploadFiles] = useState<UploadFile[]>(() =>
     initialFiles.map((f, i) => ({

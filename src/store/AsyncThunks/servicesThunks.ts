@@ -76,6 +76,24 @@ export const getServices = createAsyncThunk<
 });
 
 /**
+ * Fetches a single service by id.
+ */
+export const getServiceById = createAsyncThunk<
+  Service,
+  string,
+  { rejectValue: string }
+>("services/getById", async (id, { rejectWithValue }) => {
+  try {
+    const response = await axiosInstance.get<ApiItemResponse<Service>>(
+      `/services/${id}`,
+    );
+    return response.data.data;
+  } catch (error: unknown) {
+    return rejectWithValue(extractErrorMessage(error));
+  }
+});
+
+/**
  * Updates a specific service by id.
  * Sends only the changed fields (PATCH semantics).
  */

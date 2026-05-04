@@ -10,8 +10,10 @@ import STEP_3 from "./steps/step3";
 import { STEP_4 } from "./steps/step4";
 import { useAppDispatch, useAppSelector } from "@/store/hooks/hook";
 import { createRequest } from "@/store/AsyncThunks/requestsThunks";
+import { getServices, getServiceById } from "@/store/AsyncThunks/servicesThunks";
 import { selectServiceById } from "@/store/slices/servicesslice";
 import { toast } from "sonner";
+import { useEffect } from "react";
 
 export const NewRequest = () => {
   const [searchParams] = useSearchParams();
@@ -22,13 +24,20 @@ export const NewRequest = () => {
 
   const [currentStep, setCurrentStep] = useState(1);
   const [files, setFiles] = useState<File[]>([]);
+  const [requestId, setRequestId] = useState<string | null>(null);
   const { loading } = useAppSelector((state) => state.requests);
 
+  useEffect(() => {
+    if (serviceId && !selectedService) {
+      dispatch(getServiceById(serviceId));
+    }
+  }, [serviceId, selectedService, dispatch]);
+
   const handleNext = async () => {
-    if (currentStep < 4) {
+    if (currentStep < 3) {
       setCurrentStep((prev) => prev + 1);
-    } else {
-      // Final submission logic
+    } else if (currentStep === 3) {
+      // Final submission logic at Step 3
       if (!serviceId) {
         toast.error(
           "No service selected. Please go back and select a service.",
@@ -42,7 +51,8 @@ export const NewRequest = () => {
         );
         if (createRequest.fulfilled.match(resultAction)) {
           toast.success("Request submitted successfully!");
-          navigate("/requests");
+          setRequestId(resultAction.payload._id);
+          setCurrentStep(4);
         } else {
           toast.error(
             (resultAction.payload as string) || "Failed to submit request",
@@ -74,10 +84,7 @@ export const NewRequest = () => {
       case 4:
         return (
           <STEP_4
-            files={files}
-            onBack={handleBack}
-            onNext={handleNext}
-            isSubmitting={loading.create}
+            requestId={requestId}
             serviceName={selectedService?.name}
           />
         );
@@ -109,8 +116,17 @@ export const NewRequest = () => {
               onClick={handleNext}
               className="px-8 h-12 bg-blue-800 transition duration-300 hover:bg-blue-900 active:scale-95 text-[16px] font-semibold"
             >
-              {currentStep == 3 ? (
-                <>Submit Request</>
+              {currentStep === 3 ? (
+                <>
+                  {loading.create ? (
+                    <span className="flex items-center gap-2">
+                      <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      Submitting...
+                    </span>
+                  ) : (
+                    <>Submit Request</>
+                  )}
+                </>
               ) : (
                 <>
                   Next <ArrowRight className="ml-2 h-4 w-4" />

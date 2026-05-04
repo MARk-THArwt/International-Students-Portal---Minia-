@@ -8,6 +8,7 @@ import type {
 } from "../types/servicesType";
 import {
   getServices,
+  getServiceById,
   updateService,
   deleteService,
 } from "../AsyncThunks/servicesThunks";
@@ -85,6 +86,25 @@ const servicesSlice = createSlice({
         state.status.fetch = "failed";
         // `action.payload` is `string | undefined`; the ?? guard keeps us safe.
         state.error.fetch = action.payload ?? "Failed to fetch services";
+      })
+      // ── getServiceById ───────────────────────────────────────────────────────
+      .addCase(getServiceById.pending, (state) => {
+        state.status.fetch = "loading";
+        state.error.fetch = null;
+      })
+      .addCase(getServiceById.fulfilled, (state, action) => {
+        state.status.fetch = "succeeded";
+        // Update item in list if exists, else add it
+        const index = state.items.findIndex((svc) => svc._id === action.payload._id);
+        if (index !== -1) {
+          state.items[index] = action.payload;
+        } else {
+          state.items.push(action.payload);
+        }
+      })
+      .addCase(getServiceById.rejected, (state, action) => {
+        state.status.fetch = "failed";
+        state.error.fetch = action.payload ?? "Failed to fetch service details";
       });
 
     // ── updateService ────────────────────────────────────────────────────────

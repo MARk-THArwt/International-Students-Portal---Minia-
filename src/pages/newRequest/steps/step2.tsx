@@ -1,21 +1,20 @@
-import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import { useSearchParams } from "react-router-dom";
-import { useAppSelector } from "@/store/hooks/hook";
+import { getServiceById } from "@/store/AsyncThunks/servicesThunks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks/hook";
 import { selectServiceById } from "@/store/slices/servicesslice";
 import {
   IconAlertTriangle,
   IconCircleCheck,
-  IconFlame,
-  IconTag,
   IconFileDescription,
-  IconSend,
-  IconBuildingBank,
   IconFileText,
+  IconFlame,
+  IconSend,
+  IconTag,
 } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const URGENCY_CONFIG = {
   Normal: {
@@ -85,8 +84,15 @@ const SectionHeader = ({ step, title }: { step: string; title: string }) => (
 
 export const STEP_2 = () => {
   const [searchParams] = useSearchParams();
+  const dispatch = useAppDispatch();
   const serviceId = searchParams.get("serviceId");
   const selectedService = useAppSelector(selectServiceById(serviceId || ""));
+
+  useEffect(() => {
+    if (serviceId && !selectedService) {
+      dispatch(getServiceById(serviceId));
+    }
+  }, [serviceId, selectedService, dispatch]);
 
   const [urgency] = useState<UrgencyLevel>("Normal");
   const [subject, setSubject] = useState("");
