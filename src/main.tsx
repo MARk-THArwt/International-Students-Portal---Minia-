@@ -16,6 +16,8 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 import { EventsList } from "./pages/Events/EventsList";
 import StudentProfile  from "./pages/profile/profile";
+import { RegisterForm } from "./pages/register/RegisterForm";
+import { UsersPage } from "./pages/users/users";
 createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
     <BrowserRouter>
@@ -38,6 +40,8 @@ createRoot(document.getElementById("root")!).render(
           />
           <Route path="/events" element={<EventsList />} />
           <Route path="/profile" element={<StudentProfile />} />
+          <Route path="/RegisterForm" element={<RegisterForm />} />
+          <Route path="/dashboard/admin/users" element={<UsersPage />} />
           <Route
             path="/dashboard/admin"
             element={

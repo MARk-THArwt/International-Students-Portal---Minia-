@@ -13,7 +13,9 @@ interface ReusableTableProps<T> {
   isLoading?: boolean;
   title?: string;
   subtitle?: string;
+  filters?: React.ReactNode;
   actions?: React.ReactNode;
+  rowsPerPage?: number;
 }
 
 export function ReusableTable<T extends Record<string, any>>({
@@ -22,45 +24,29 @@ export function ReusableTable<T extends Record<string, any>>({
   isLoading,
   title,
   subtitle,
+  filters,
   actions,
+  rowsPerPage = 5,
 }: ReusableTableProps<T>) {
   const [page, setPage] = useState(1);
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
 
-  const rowsPerPage = 5;
-
-  // ✅ Filter + Sort
-  const processedData = useMemo(() => {
-    let filtered = [...data];
-
-    // فلتر status
-    if (statusFilter !== "all") {
-      filtered = filtered.filter((item) => item.status === statusFilter);
-    }
-
-    // ترتيب حسب createdAt
-    filtered.sort((a, b) => {
-      const dateA = new Date(a.createdAt).getTime();
-      const dateB = new Date(b.createdAt).getTime();
-
-      return sortOrder === "newest" ? dateB - dateA : dateA - dateB;
-    });
-
-    return filtered;
-  }, [data, statusFilter, sortOrder]);
-
-  const totalPages = Math.ceil(processedData.length / rowsPerPage);
+  // Pagination calculation
+  const totalPages = Math.ceil(data.length / rowsPerPage);
 
   const visibleData = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
-    return processedData.slice(start, start + rowsPerPage);
-  }, [processedData, page]);
+    return data.slice(start, start + rowsPerPage);
+  }, [data, page, rowsPerPage]);
+
+  // Reset page to 1 if data changes (e.g. after external filtering)
+  React.useEffect(() => {
+    setPage(1);
+  }, [data.length]);
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-      {/* Header */}
-      {(title || subtitle || actions) && (
+      {/* Header Section */}
+      {(title || subtitle || filters || actions) && (
         <div className="p-6 border-b border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             {title && (
@@ -72,40 +58,16 @@ export function ReusableTable<T extends Record<string, any>>({
           </div>
 
           <div className="flex items-center gap-3 flex-wrap">
-            {/* فلتر status */}
-            <select
-              value={statusFilter}
-              onChange={(e) => {
-                setStatusFilter(e.target.value);
-                setPage(1);
-              }}
-              className="border rounded-md px-3 py-1 text-sm"
-            >
-              <option value="all">All Status</option>
-              <option value="pending">Pending</option>
-              <option value="approved">Approved</option>
-              <option value="rejected">Rejected</option>
-            </select>
-
-            {/* ترتيب */}
-            <select
-              value={sortOrder}
-              onChange={(e) => {
-                setSortOrder(e.target.value as any);
-                setPage(1);
-              }}
-              className="border rounded-md px-3 py-1 text-sm"
-            >
-              <option value="newest">Newest</option>
-              <option value="oldest">Oldest</option>
-            </select>
-
+            {/* Custom Filters (Passed from parent) */}
+            {filters}
+            
+            {/* Action Buttons */}
             {actions}
           </div>
         </div>
       )}
 
-      {/* Table */}
+      {/* Table Content */}
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
@@ -113,7 +75,7 @@ export function ReusableTable<T extends Record<string, any>>({
               {columns.map((col) => (
                 <th
                   key={col.key}
-                  className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase"
+                  className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider"
                 >
                   {col.label}
                 </th>
@@ -121,18 +83,19 @@ export function ReusableTable<T extends Record<string, any>>({
             </tr>
           </thead>
 
-          <tbody>
+          <tbody className="divide-y divide-gray-50">
             {isLoading ? (
               <tr>
                 <td colSpan={columns.length} className="px-6 py-12 text-center">
-                  Loading...
+                  <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                  <p className="mt-2 text-sm text-gray-500 font-medium">Loading data...</p>
                 </td>
               </tr>
-            ) : visibleData.length === 0 ? (
+            ) : data.length === 0 ? (
               <tr>
                 <td
                   colSpan={columns.length}
-                  className="px-6 py-12 text-center text-gray-500"
+                  className="px-6 py-12 text-center text-gray-500 italic"
                 >
                   No records found.
                 </td>
@@ -141,10 +104,10 @@ export function ReusableTable<T extends Record<string, any>>({
               visibleData.map((row, rowIndex) => (
                 <tr
                   key={row.id || row._id || rowIndex}
-                  className="hover:bg-gray-50"
+                  className="hover:bg-gray-50/50 transition-colors"
                 >
                   {columns.map((col) => (
-                    <td key={col.key} className="px-6 py-4">
+                    <td key={col.key} className="px-6 py-4 text-sm text-gray-700">
                       {col.render ? col.render(row) : row[col.key]}
                     </td>
                   ))}
@@ -155,27 +118,40 @@ export function ReusableTable<T extends Record<string, any>>({
         </table>
       </div>
 
-      {/* Pagination */}
-      {!isLoading && processedData.length > 0 && (
-        <div className="px-6 py-4 border-t flex justify-between">
+      {/* Pagination Footer */}
+      {!isLoading && data.length > 0 && (
+        <div className="px-6 py-4 border-t border-gray-50 flex items-center justify-between bg-gray-50/30">
           <p className="text-sm text-gray-500">
-            Showing {(page - 1) * rowsPerPage + 1} to{" "}
-            {Math.min(page * rowsPerPage, processedData.length)} of{" "}
-            {processedData.length}
+            Showing <span className="font-medium">{(page - 1) * rowsPerPage + 1}</span> to{" "}
+            <span className="font-medium">{Math.min(page * rowsPerPage, data.length)}</span> of{" "}
+            <span className="font-medium">{data.length}</span> results
           </p>
 
-          <div className="flex gap-2">
+          <div className="flex items-center gap-2">
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
+              className="p-1.5 rounded-lg border border-gray-200 text-gray-600 disabled:opacity-30 hover:bg-white hover:shadow-sm transition-all"
             >
-              <ChevronLeft />
+              <ChevronLeft className="w-5 h-5" />
             </button>
+            
+            <div className="flex items-center gap-1">
+               <span className="text-sm font-semibold text-gray-700 px-2">
+                 {page}
+               </span>
+               <span className="text-sm text-gray-400">/</span>
+               <span className="text-sm text-gray-400 px-2">
+                 {totalPages}
+               </span>
+            </div>
+
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page === totalPages}
+              className="p-1.5 rounded-lg border border-gray-200 text-gray-600 disabled:opacity-30 hover:bg-white hover:shadow-sm transition-all"
             >
-              <ChevronRight />
+              <ChevronRight className="w-5 h-5" />
             </button>
           </div>
         </div>

@@ -2,6 +2,7 @@ import { useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Topbar } from "../../component/DashbordComp/Topbar";
 import { Card } from "../../component/DashbordComp/Card";
+import { CancelButton } from "../../component/DashbordComp/cancelBottom";
 import { ReusableTable, type ColumnConfig } from "../../component/DashbordComp/table";
 import { useAppDispatch, useAppSelector } from "../../store/hooks/hook";
 
@@ -82,6 +83,13 @@ console.log(user);
           );
         },
       },
+      {
+  key: "actions",
+  label: "Actions",
+  render: (row) => (
+    <CancelButton requestId={row._id} status={row.status} />
+  ),
+}
     ],
     []
   );

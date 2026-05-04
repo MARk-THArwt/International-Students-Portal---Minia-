@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import MainNav from "../../layout/mainNavbar/navbar";
 import Footer from "../../layout/mainFooter/footer";
 import ServiceCard from "../../component/common/card/ServiceCard";
-import AdmissionImg from "@/assets/admision.png";
+import AdmissionImg from "../../assets/admision.png";
 import AdmissionIcon from "@/assets/icons-svg/Admission-Office.svg?react";
 import { useAppDispatch, useAppSelector } from "./../../store/hooks/hook";
 import { getServices } from "../../store/AsyncThunks/servicesThunks";
