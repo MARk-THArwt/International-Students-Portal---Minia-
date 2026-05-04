@@ -177,27 +177,11 @@ export function StaffDashboard() {
     []
   );
 
-  // Fallback UI if not logged in
-  if (!user) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-[#F4F7FB]">
-        <div className="text-center p-8 bg-white rounded-2xl shadow-sm border border-gray-100 max-w-sm w-full">
-          <h2 className="text-xl font-bold text-gray-800">Access Denied</h2>
-          <p className="text-gray-500 mt-2 text-sm">Please log in to access the Staff Dashboard.</p>
-          <Link
-            to="/Login"
-            className="mt-6 inline-block w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
-          >
-            Go to Login
-          </Link>
-        </div>
-      </div>
-    );
-  }
+
 
   return (
-    <div className="flex min-h-screen bg-[#F4F7FB]">
-      <main className="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto">
+    <div className="flex flex-col min-h-screen bg-[#F4F7FB] w-full">
+      <main className="flex-1 w-full min-w-0 p-4 sm:p-6 lg:p-8">
         <Topbar title="Staff Overview" showSearch={true} />
 
         {/* Stats Grid */}
@@ -212,8 +196,12 @@ export function StaffDashboard() {
                 ↑ 12%
               </span>
             </div>
-            <p className="text-sm font-medium text-gray-500 mb-1">Pending Requests</p>
-            <h3 className="text-2xl font-bold text-gray-900">{stats.pending}</h3>
+            <p className="text-sm font-medium text-gray-500 mb-1">
+              Pending Requests
+            </p>
+            <h3 className="text-2xl font-bold text-gray-900">
+              {stats.pending}
+            </h3>
           </div>
 
           {/* Card 2 */}
@@ -226,8 +214,12 @@ export function StaffDashboard() {
                 ↑ 8%
               </span>
             </div>
-            <p className="text-sm font-medium text-gray-500 mb-1">Approved Today</p>
-            <h3 className="text-2xl font-bold text-gray-900">{stats.approvedToday}</h3>
+            <p className="text-sm font-medium text-gray-500 mb-1">
+              Approved Today
+            </p>
+            <h3 className="text-2xl font-bold text-gray-900">
+              {stats.approvedToday}
+            </h3>
           </div>
 
           {/* Card 3 */}
@@ -240,8 +232,12 @@ export function StaffDashboard() {
                 ↓ 2%
               </span>
             </div>
-            <p className="text-sm font-medium text-gray-500 mb-1">Rejected Today</p>
-            <h3 className="text-2xl font-bold text-gray-900">{stats.rejectedToday}</h3>
+            <p className="text-sm font-medium text-gray-500 mb-1">
+              Rejected Today
+            </p>
+            <h3 className="text-2xl font-bold text-gray-900">
+              {stats.rejectedToday}
+            </h3>
           </div>
 
           {/* Card 4 */}
@@ -254,8 +250,12 @@ export function StaffDashboard() {
                 ↓ 5%
               </span>
             </div>
-            <p className="text-sm font-medium text-gray-500 mb-1">Avg Processing Time</p>
-            <h3 className="text-2xl font-bold text-gray-900">{stats.avgProcessingTime}</h3>
+            <p className="text-sm font-medium text-gray-500 mb-1">
+              Avg Processing Time
+            </p>
+            <h3 className="text-2xl font-bold text-gray-900">
+              {stats.avgProcessingTime}
+            </h3>
           </div>
         </div>
 
@@ -267,16 +267,16 @@ export function StaffDashboard() {
           data={DUMMY_APPLICATIONS}
           isLoading={false}
           actions={
-            <>
-              <button className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors shadow-sm">
+            <div className="flex items-center gap-2">
+              <button className="flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors shadow-sm">
                 <Filter className="w-4 h-4" />
-                Filters
+                <span className="hidden sm:inline">Filters</span>
               </button>
-              <button className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 transition-colors shadow-sm">
+              <button className="flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 transition-colors shadow-sm">
                 <Download className="w-4 h-4" />
-                Export
+                <span className="hidden sm:inline">Export</span>
               </button>
-            </>
+            </div>
           }
         />
       </main>

@@ -30,7 +30,7 @@ export function StudentDashboard() {
   const requests = useAppSelector(selectRequests);
   const isLoading = useAppSelector(selectFetchLoading);
   const user = useAppSelector(selectUser);
-
+console.log(user);
   useEffect(() => {
     if (user) {
       dispatch(getMyRequests({ page: 1, limit: 8 }));

@@ -14,9 +14,13 @@ import { AppLayout } from "./layout/AppLayout";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 import { EventsList } from "./pages/Events/EventsList";
+<<<<<<< HEAD
 import Announcement from "./pages/Announcement/announcements";
 import { NewRequest } from "./pages/newRequest/NewRequest";
 
+=======
+import StudentProfile  from "./pages/profile/profile";
+>>>>>>> 259bbe9a6d7e5aa39d4f504b802e6bbc99efd11e
 createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
     <BrowserRouter>
@@ -38,7 +42,11 @@ createRoot(document.getElementById("root")!).render(
             }
           />
           <Route path="/events" element={<EventsList />} />
+<<<<<<< HEAD
           <Route path="/newRequest" element={<NewRequest />} />
+=======
+          <Route path="/profile" element={<StudentProfile />} />
+>>>>>>> 259bbe9a6d7e5aa39d4f504b802e6bbc99efd11e
           <Route
             path="/dashboard/admin"
             element={
