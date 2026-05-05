@@ -72,33 +72,62 @@ export const RegisterForm = () => {
       return;
     }
 
-    const data = new FormData();
-    data.append("name", formData.name);
-    data.append("email", formData.email);
-    data.append("password", formData.password);
-    if (avatar) data.append("avatar", avatar);
+    // Role-specific Validation
+    if (role === "student") {
+      if (!formData.studentId || !formData.passportNumber || !formData.nationality || !formData.phone) {
+        setFormError("Please fill in all student details.");
+        return;
+      }
+    } else if (role === "staff") {
+      if (!formData.employeeId || !formData.staffRole || !formData.department) {
+        setFormError("Please fill in all staff details.");
+        return;
+      }
+    } else if (role === "admin") {
+      if (!formData.employeeId) {
+        setFormError("Please provide an Employee ID.");
+        return;
+      }
+    }
 
     let result;
 
     if (role === "student") {
-      data.append("studentId", formData.studentId);
-      data.append("passportNumber", formData.passportNumber);
-      data.append("nationality", formData.nationality);
-      data.append("phone", formData.phone);
-      data.append("gender", formData.gender);
-      result = await dispatch(registerStudent(data as any));
+      result = await dispatch(registerStudent({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        studentId: formData.studentId,
+        passportNumber: formData.passportNumber,
+        nationality: formData.nationality,
+        phone: formData.phone,
+        gender: formData.gender,
+        avatar: avatar || undefined
+      }));
     } else if (role === "staff") {
-      data.append("employeeId", formData.employeeId);
-      data.append("role", formData.staffRole);
-      data.append("department", formData.department);
-      result = await dispatch(registerStaff(data as any));
+      result = await dispatch(registerStaff({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        employeeId: formData.employeeId,
+        role: formData.staffRole,
+        department: formData.department,
+        gender: formData.gender,
+        avatar: avatar || undefined
+      }));
     } else {
-      data.append("employeeId", formData.employeeId);
-      data.append("role", "admin");
-      result = await dispatch(registerAdmin(data as any));
+      result = await dispatch(registerAdmin({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        employeeId: formData.employeeId,
+        role: "admin",
+        gender: formData.gender,
+        avatar: avatar || undefined
+      }));
     }
 
-    if (result.meta.requestStatus === "fulfilled") {
+    if (result && result.meta.requestStatus === "fulfilled") {
       navigate("/dashboard");
     }
   };
@@ -185,25 +214,27 @@ export const RegisterForm = () => {
                 icon={<Phone />} label="Phone Number" name="phone" 
                 value={formData.phone} onChange={handleInputChange} required 
               />
-              <div className="flex flex-col space-y-1.5">
-                <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Gender</label>
-                <div className="relative">
-                  <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                    <Users className="w-5 h-5" />
-                  </div>
-                  <select
-                    name="gender"
-                    value={formData.gender}
-                    onChange={handleInputChange}
-                    className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 outline-none transition text-sm"
-                  >
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                  </select>
-                </div>
-              </div>
             </>
           )}
+
+          {/* Common Gender Selection (Hidden from student block to be for everyone) */}
+          <div className="flex flex-col space-y-1.5">
+            <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Gender</label>
+            <div className="relative">
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                <Users className="w-5 h-5" />
+              </div>
+              <select
+                name="gender"
+                value={formData.gender}
+                onChange={handleInputChange}
+                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 outline-none transition text-sm"
+              >
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
+          </div>
 
           {/* Staff & Admin Specific Fields */}
           {(role === "staff" || role === "admin") && (

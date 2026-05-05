@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Contact } from "./pages/contact/contact";
 import { Home } from "./pages/home/Home";
 import { Services } from "./pages/ourServices/services";
-import { Registration } from "./pages/registration/registration";
 import { DashboardSwitcher } from "./pages/Dashbord/DashboardSwitcher";
 import { StaffDashboard } from "./pages/Dashbord/StaffDashboard";
 import { ProtectedStaffRoute } from "./pages/Dashbord/ProtectedStaffRoute";
@@ -19,17 +18,22 @@ import { NewRequest } from "./pages/newRequest/NewRequest";
 import StudentProfile  from "./pages/profile/profile";
 import { RegisterForm } from "./pages/register/RegisterForm";
 import { UsersPage } from "./pages/users/users";
+import { ServicesManagement } from "./pages/Services/ServicesManagement";
+import RequestDetailsPage from "./pages/Dashbord/RequestDetailsPage";
+
+import { Toaster } from "@/components/ui/sonner";
 
 createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
+    <Toaster richColors />
     <BrowserRouter>
       <Routes>
+
         <Route path="/" element={<Home />} />
         <Route path="/Contact" element={<Contact />} />
         <Route path="/Announcement" element={<Announcement />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Services" element={<Services />} />
-        <Route path="/Registration" element={<Registration />} />
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<DashboardSwitcher />} />
           <Route
@@ -44,7 +48,7 @@ createRoot(document.getElementById("root")!).render(
           <Route path="/newRequest" element={<NewRequest />} />
           <Route path="/profile" element={<StudentProfile />} />
           <Route path="/RegisterForm" element={<RegisterForm />} />
-          <Route path="/dashboard/admin/users" element={<UsersPage />} />
+          <Route path="/users" element={<UsersPage />} />
           <Route
             path="/dashboard/admin"
             element={
@@ -53,8 +57,25 @@ createRoot(document.getElementById("root")!).render(
               </ProtectedAdminRoute>
             }
           />
+          <Route
+            path="/services-management"
+            element={
+              <ProtectedAdminRoute>
+                <ServicesManagement />
+              </ProtectedAdminRoute>
+            }
+          />
+          <Route
+            path="/dashboard/requests/:requestId"
+            element={
+              <ProtectedStaffRoute>
+                <RequestDetailsPage />
+              </ProtectedStaffRoute>
+            }
+          />
         </Route>
       </Routes>
     </BrowserRouter>
   </Provider>,
 );
+

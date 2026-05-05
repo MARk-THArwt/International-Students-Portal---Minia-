@@ -49,6 +49,7 @@ export interface StaffRegisterData {
   employeeId: string;
   role: string;
   department: string;
+  gender: string;
   avatar?: File;
 }
 
@@ -58,6 +59,7 @@ export interface AdminRegisterData {
   password?: string;
   employeeId: string;
   role?: string;
+  gender: string;
   avatar?: File;
 }
 
@@ -192,6 +194,7 @@ export const registerStaff = createAsyncThunk<
     formData.append("employeeId", data.employeeId);
     formData.append("role", data.role);
     formData.append("department", data.department);
+    formData.append("gender", data.gender);
     if (data.avatar) {
       formData.append("avatar", data.avatar);
     }
@@ -221,6 +224,7 @@ export const registerAdmin = createAsyncThunk<
     if (data.password) formData.append("password", data.password);
     formData.append("employeeId", data.employeeId);
     formData.append("role", data.role || "admin");
+    formData.append("gender", data.gender);
     if (data.avatar) {
       formData.append("avatar", data.avatar);
     }

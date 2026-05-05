@@ -7,7 +7,8 @@ import type {
   LoadingStatus,
 } from "../types/servicesType";
 import {
-  getServices,
+  getAllServices,
+  createService,
   getServiceById,
   updateService,
   deleteService,
@@ -18,19 +19,10 @@ import {
 // ─────────────────────────────────────────────
 
 const initialState: ServicesState = {
-  items: [],
-  total: 0,
-  status: {
-    fetch: "idle",
-    update: "idle",
-    delete: "idle",
-  },
-  error: {
-    fetch: null,
-    update: null,
-    delete: null,
-  },
-  activeServiceId: null,
+  services: [],
+  loading: false,
+  status: "idle",
+  error: null,
 };
 
 // ─────────────────────────────────────────────
@@ -44,114 +36,75 @@ const servicesSlice = createSlice({
   // ── Synchronous reducers ─────────────────────────────────────────────────
   reducers: {
     /**
-     * Manually clear all errors (e.g. when dismissing an error toast).
+     * Manually clear all errors.
      */
-    clearErrors(state) {
-      state.error.fetch = null;
-      state.error.update = null;
-      state.error.delete = null;
-    },
-
-    /**
-     * Set the currently "active" service (e.g. item selected for editing).
-     */
-    setActiveServiceId(state, action: PayloadAction<string | null>) {
-      state.activeServiceId = action.payload;
-    },
-
-    /**
-     * Reset all statuses back to idle (useful between route navigations).
-     */
-    resetStatus(state) {
-      state.status.fetch = "idle";
-      state.status.update = "idle";
-      state.status.delete = "idle";
+    clearError(state) {
+      state.error = null;
     },
   },
 
   // ── Async thunk lifecycle handlers ───────────────────────────────────────
   extraReducers: (builder) => {
-    // ── getServices ──────────────────────────────────────────────────────────
+    // ── getAllServices ──────────────────────────────────────────────────────────
     builder
-      .addCase(getServices.pending, (state) => {
-        state.status.fetch = "loading";
-        state.error.fetch = null;
+      .addCase(getAllServices.pending, (state) => {
+        state.loading = true;
+        state.status = "loading";
+        state.error = null;
       })
-      .addCase(getServices.fulfilled, (state, action) => {
-        state.status.fetch = "succeeded";
-        state.items = action.payload.data;
-        state.total = action.payload.total;
+      .addCase(getAllServices.fulfilled, (state, action) => {
+        state.loading = false;
+        state.status = "succeeded";
+        state.services = action.payload.data;
       })
-      .addCase(getServices.rejected, (state, action) => {
-        state.status.fetch = "failed";
-        // `action.payload` is `string | undefined`; the ?? guard keeps us safe.
-        state.error.fetch = action.payload ?? "Failed to fetch services";
+      .addCase(getAllServices.rejected, (state, action) => {
+        state.loading = false;
+        state.status = "failed";
+        state.error = action.payload ?? "Failed to fetch services";
       })
-      // ── getServiceById ───────────────────────────────────────────────────────
-      .addCase(getServiceById.pending, (state) => {
-        state.status.fetch = "loading";
-        state.error.fetch = null;
+      // ── createService ────────────────────────────────────────────────────────
+      .addCase(createService.pending, (state) => {
+        state.loading = true;
+        state.error = null;
       })
-      .addCase(getServiceById.fulfilled, (state, action) => {
-        state.status.fetch = "succeeded";
-        // Update item in list if exists, else add it
-        const index = state.items.findIndex((svc) => svc._id === action.payload._id);
-        if (index !== -1) {
-          state.items[index] = action.payload;
-        } else {
-          state.items.push(action.payload);
-        }
+      .addCase(createService.fulfilled, (state, action) => {
+        state.loading = false;
+        state.services.push(action.payload);
       })
-      .addCase(getServiceById.rejected, (state, action) => {
-        state.status.fetch = "failed";
-        state.error.fetch = action.payload ?? "Failed to fetch service details";
-      });
-
-    // ── updateService ────────────────────────────────────────────────────────
-    builder
-      .addCase(updateService.pending, (state, action) => {
-        state.status.update = "loading";
-        state.error.update = null;
-        // Track which service is being mutated for targeted loading spinners.
-        state.activeServiceId = action.meta.arg.id;
+      .addCase(createService.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload ?? "Failed to create service";
+      })
+      // ── updateService ────────────────────────────────────────────────────────
+      .addCase(updateService.pending, (state) => {
+        state.loading = true;
+        state.error = null;
       })
       .addCase(updateService.fulfilled, (state, action) => {
-        state.status.update = "succeeded";
-        state.activeServiceId = null;
-
-        // Replace the stale item in-place; avoids a full re-fetch.
-        const index = state.items.findIndex(
+        state.loading = false;
+        const index = state.services.findIndex(
           (svc) => svc._id === action.payload._id,
         );
         if (index !== -1) {
-          state.items[index] = action.payload;
+          state.services[index] = action.payload;
         }
       })
       .addCase(updateService.rejected, (state, action) => {
-        state.status.update = "failed";
-        state.activeServiceId = null;
-        state.error.update = action.payload ?? "Failed to update service";
-      });
-
-    // ── deleteService ────────────────────────────────────────────────────────
-    builder
-      .addCase(deleteService.pending, (state, action) => {
-        state.status.delete = "loading";
-        state.error.delete = null;
-        state.activeServiceId = action.meta.arg; // arg is the service id string
+        state.loading = false;
+        state.error = action.payload ?? "Failed to update service";
+      })
+      // ── deleteService ────────────────────────────────────────────────────────
+      .addCase(deleteService.pending, (state) => {
+        state.loading = true;
+        state.error = null;
       })
       .addCase(deleteService.fulfilled, (state, action) => {
-        state.status.delete = "succeeded";
-        state.activeServiceId = null;
-
-        // Remove the deleted item without mutating the reference (Immer handles this).
-        state.items = state.items.filter((svc) => svc._id !== action.payload);
-        state.total = Math.max(0, state.total - 1);
+        state.loading = false;
+        state.services = state.services.filter((svc) => svc._id !== action.payload);
       })
       .addCase(deleteService.rejected, (state, action) => {
-        state.status.delete = "failed";
-        state.activeServiceId = null;
-        state.error.delete = action.payload ?? "Failed to delete service";
+        state.loading = false;
+        state.error = action.payload ?? "Failed to delete service";
       });
   },
 });
@@ -160,64 +113,24 @@ const servicesSlice = createSlice({
 // 9.  Exports — actions, reducer, selectors
 // ─────────────────────────────────────────────
 
-// Synchronous action creators generated by createSlice
-export const { clearErrors, setActiveServiceId, resetStatus } =
-  servicesSlice.actions;
+export const { clearError } = servicesSlice.actions;
 
-// Default export: the reducer (plugged into the store)
 export default servicesSlice.reducer;
 
 // ── Selectors ────────────────────────────────────────────────────────────────
-// Keeping selectors co-located for small slices; extract to a separate file
-// (servicesSelectors.ts) as the number of selectors grows.
 
-/** Returns the full array of services. */
 export const selectAllServices = (state: RootState): Service[] =>
-  state.services.items;
+  state.services.services || [];
 
-/** Returns a single service by id, or undefined if not found. */
-export const selectServiceById =
-  (id: string) =>
-  (state: RootState): Service | undefined =>
-    state.services.items.find((svc) => svc._id === id);
+export const selectServicesLoading = (state: RootState): boolean =>
+  state.services.loading;
 
-/** Returns the total count reported by the API. */
-export const selectServicesTotal = (state: RootState): number =>
-  state.services.total;
+export const selectServicesStatus = (state: RootState): LoadingStatus =>
+  state.services.status;
 
-/** Returns the fetch loading status. */
-export const selectFetchStatus = (state: RootState): LoadingStatus =>
-  state.services.status.fetch;
+export const selectServicesError = (state: RootState): string | null =>
+  state.services.error;
 
-/** Returns the update loading status. */
-export const selectUpdateStatus = (state: RootState): LoadingStatus =>
-  state.services.status.update;
+export const selectServiceById = (id: string) => (state: RootState) =>
+  state.services.services.find((svc) => svc._id === id);
 
-/** Returns the delete loading status. */
-export const selectDeleteStatus = (state: RootState): LoadingStatus =>
-  state.services.status.delete;
-
-/** Returns the fetch error string, or null. */
-export const selectFetchError = (state: RootState): string | null =>
-  state.services.error.fetch;
-
-/** Returns the update error string, or null. */
-export const selectUpdateError = (state: RootState): string | null =>
-  state.services.error.update;
-
-/** Returns the delete error string, or null. */
-export const selectDeleteError = (state: RootState): string | null =>
-  state.services.error.delete;
-
-/** Returns the id of the service currently being mutated. */
-export const selectActiveServiceId = (state: RootState): string | null =>
-  state.services.activeServiceId;
-
-/**
- * Derived selector: true while ANY operation is in-flight.
- * Useful for global loading overlays.
- */
-export const selectIsAnyServiceLoading = (state: RootState): boolean =>
-  state.services.status.fetch === "loading" ||
-  state.services.status.update === "loading" ||
-  state.services.status.delete === "loading";

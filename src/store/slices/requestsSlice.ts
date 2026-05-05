@@ -6,6 +6,8 @@ import {
   reviewRequest,
   createRequest,
   uploadFiles,
+  getAllRequests,
+  getRequestDetails,
 } from "../AsyncThunks/requestsThunks";
 
 // ─── Initial State ────────────────────────────────────────────────────────────
@@ -18,7 +20,10 @@ const initialState: RequestsState = {
     cancel: false,
     review: false,
     upload: false,
+    fetchAll: false,
+    fetchDetails: false,
   },
+  requestDetails: null,
   error: null,
   page: 1,
   limit: 8,
@@ -124,6 +129,39 @@ const requestsSlice = createSlice({
       .addCase(uploadFiles.rejected, (state, { payload }) => {
         state.loading.upload = false;
         state.error = payload ?? "Failed to upload files.";
+      });
+
+    // ── getAllRequests ────────────────────────────────────────────────────────
+    builder
+      .addCase(getAllRequests.pending, (state) => {
+        state.loading.fetchAll = true;
+        state.error = null;
+      })
+      .addCase(getAllRequests.fulfilled, (state, { payload }) => {
+        state.loading.fetchAll = false;
+        state.requests = payload.data;
+        state.totalItems = payload.results;
+        state.totalPages = payload.totalPages;
+        state.page = payload.page;
+      })
+      .addCase(getAllRequests.rejected, (state, { payload }) => {
+        state.loading.fetchAll = false;
+        state.error = payload ?? "Failed to fetch all requests.";
+      });
+
+    // ── getRequestDetails ─────────────────────────────────────────────────────
+    builder
+      .addCase(getRequestDetails.pending, (state) => {
+        state.loading.fetchDetails = true;
+        state.error = null;
+      })
+      .addCase(getRequestDetails.fulfilled, (state, { payload }) => {
+        state.loading.fetchDetails = false;
+        state.requestDetails = payload;
+      })
+      .addCase(getRequestDetails.rejected, (state, { payload }) => {
+        state.loading.fetchDetails = false;
+        state.error = payload ?? "Failed to fetch request details.";
       });
   },
 });

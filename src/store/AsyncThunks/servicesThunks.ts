@@ -61,7 +61,7 @@ function extractErrorMessage(error: unknown): string {
   // ── Completely unknown thrown value ────────────────────────────────────────
   return "An unexpected error occurred";
 }
-export const getServices = createAsyncThunk<
+export const getAllServices = createAsyncThunk<
   ApiListResponse<Service>, // fulfilled payload type
   void, // argument type (none needed)
   { rejectValue: string } // thunk config
@@ -70,6 +70,30 @@ export const getServices = createAsyncThunk<
     const response =
       await axiosInstance.get<ApiListResponse<Service>>(`/services`);
     return response.data;
+  } catch (error: unknown) {
+    return rejectWithValue(extractErrorMessage(error));
+  }
+});
+
+/**
+ * Creates a new service.
+ */
+export const createService = createAsyncThunk<
+  Service,
+  FormData,
+  { rejectValue: string }
+>("services/create", async (formData, { rejectWithValue }) => {
+  try {
+    const response = await axiosInstance.post<ApiItemResponse<Service>>(
+      `/services`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return response.data.data;
   } catch (error: unknown) {
     return rejectWithValue(extractErrorMessage(error));
   }
@@ -103,9 +127,13 @@ export const updateService = createAsyncThunk<
   { rejectValue: string }
 >("services/update", async ({ id, data }, { rejectWithValue }) => {
   try {
+    const config = data instanceof FormData 
+      ? { headers: { "Content-Type": "multipart/form-data" } }
+      : {};
     const response = await axiosInstance.patch<ApiItemResponse<Service>>(
       `/services/${id}`,
       data,
+      config
     );
     return response.data.data;
   } catch (error: unknown) {
@@ -130,3 +158,4 @@ export const deleteService = createAsyncThunk<
     return rejectWithValue(extractErrorMessage(error));
   }
 });
+

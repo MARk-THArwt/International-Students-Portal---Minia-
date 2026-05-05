@@ -10,7 +10,7 @@ import STEP_3 from "./steps/step3";
 import { STEP_4 } from "./steps/step4";
 import { useAppDispatch, useAppSelector } from "@/store/hooks/hook";
 import { createRequest } from "@/store/AsyncThunks/requestsThunks";
-import { getServices, getServiceById } from "@/store/AsyncThunks/servicesThunks";
+import { getAllServices, getServiceById } from "@/store/AsyncThunks/servicesThunks";
 import { selectServiceById } from "@/store/slices/servicesslice";
 import { toast } from "sonner";
 import { useEffect } from "react";

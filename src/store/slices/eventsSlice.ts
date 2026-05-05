@@ -85,14 +85,23 @@ export const updateEvent = createAsyncThunk<
   Event,
   UpdateEventPayload,
   { rejectValue: string }
->("events/updateEvent", async ({ eventId, data: updateData }, { rejectWithValue }) => {
-  try {
-    const { data } = await api.post<{ data: Event } | Event>(`/events/${eventId}`, updateData);
-    return "data" in data && data.data && typeof data.data === "object" ? data.data : (data as Event);
-  } catch (error) {
-    return rejectWithValue(extractErrorMessage(error));
+>(
+  "events/updateEvent",
+  async ({ eventId, data: updateData }, { rejectWithValue }) => {
+    try {
+      const { data } = await api.patch<{ data: Event } | Event>(
+        `/events/${eventId}`,
+        updateData
+      );
+
+      return "data" in data && typeof data.data === "object"
+        ? data.data
+        : (data as Event);
+    } catch (error) {
+      return rejectWithValue(extractErrorMessage(error));
+    }
   }
-});
+);
 
 export const deleteEvent = createAsyncThunk<
   string, // Return eventId to remove it from state

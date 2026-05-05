@@ -1,4 +1,3 @@
-import { Toaster } from "sonner";
 import { TooltipProvider } from "../components/ui/tooltip";
 import { AppSidebar } from "../components/sidebar/app-sidebar";
 import {
@@ -11,7 +10,6 @@ export const AppLayout = () => {
   return (
     <TooltipProvider>
       <SidebarProvider>
-        <Toaster richColors />
 
         <AppSidebar />
 

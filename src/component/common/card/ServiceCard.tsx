@@ -15,7 +15,7 @@ export function CardImage({
   children: ReactNode;
 }) {
   return (
-    <div className="flex flex-col gap-2 rounded-t-2xl border-1 border-[rgba(231,231,243,1)] max-w-sm">
+    <div className="flex flex-col gap-2 rounded-t-2xl border-1 border-[rgba(231,231,243,1)] max-w-sm min-w-xs">
       <div className="relative w-full ">
         <img
           src={data.imgServ}

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
+import { Link } from "react-router-dom";
 import { 
   Trash2, 
   Search, 
@@ -183,6 +184,13 @@ export const UsersPage = () => {
           <h1 className="text-2xl font-bold text-gray-900">User Management</h1>
           <p className="text-gray-500">Monitor and manage all platform accounts</p>
         </div>
+        <Link 
+          to="/RegisterForm"
+          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-all shadow-lg shadow-blue-100 hover:scale-[1.02] active:scale-[0.98]"
+        >
+          <UserPlus className="w-4 h-4" />
+          Add New User
+        </Link>
       </div>
 
       <ReusableTable

@@ -160,7 +160,7 @@ export function EventsList() {
                     <h3 className="font-bold text-gray-900">{event.title}</h3>
                     <p className="text-sm text-gray-500">{event.description}</p>
                     <div className="flex gap-3 mt-2 text-xs font-medium text-blue-600 bg-blue-50 w-fit px-3 py-1 rounded-full">
-                      <span>📍 {event.location}</span>
+                      <span>📍location : {event.location}</span>
                       <span>
                         📅 {new Date(event.date).toLocaleDateString()}
                       </span>

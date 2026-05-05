@@ -25,10 +25,11 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks/hook";
 import { logout, selectUser } from "@/store/slices/authSlice";
 import { dashboardLinks } from "./../../component/DashbordComp/dashboardLinks";
 import { useEffect, useState } from "react";
-import { getServices } from "@/store/AsyncThunks/servicesThunks";
+import { getAllServices } from "@/store/AsyncThunks/servicesThunks";
 import {
   selectAllServices,
-  selectFetchStatus,
+  selectServicesLoading,
+  selectServicesStatus,
 } from "@/store/slices/servicesslice";
 
 export function AppSidebar() {
@@ -47,12 +48,13 @@ export function AppSidebar() {
   const role = (user?.role as keyof typeof dashboardLinks) || "student";
   const menuItems = dashboardLinks[role] || dashboardLinks.student;
   const services = useAppSelector(selectAllServices);
-  const servicesStatus = useAppSelector(selectFetchStatus);
+  const servicesStatus = useAppSelector(selectServicesStatus);
+  const servicesLoading = useAppSelector(selectServicesLoading);
   const [openMenus, setOpenMenus] = useState<string[]>([]);
 
   useEffect(() => {
     if (servicesStatus === "idle") {
-      dispatch(getServices());
+      dispatch(getAllServices());
     }
   }, [servicesStatus, dispatch]);
 
@@ -145,7 +147,7 @@ export function AppSidebar() {
 
                         {isMenuOpen && (
                           <SidebarMenuSub className="mt-1 ml-4 border-l border-white/10">
-                            {servicesStatus === "loading" ? (
+                            {servicesLoading ? (
                               <SidebarMenuSubItem>
                                 <div className="px-4 py-2 text-xs text-white/40 animate-pulse">
                                   Loading services...

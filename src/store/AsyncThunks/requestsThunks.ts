@@ -8,6 +8,7 @@ import type {
   ReviewRequestPayload,
   UploadFilesPayload,
   PaginatedRequestsResponse,
+  GetAllRequestsParams,
 } from "../types/requestsTypes";
 
 // ─── 1. Get My Requests ───────────────────────────────────────────────────────
@@ -52,11 +53,11 @@ export const reviewRequest = createAsyncThunk<
   { rejectValue: string }
 >(
   "requests/reviewRequest",
-  async ({ requestId, status, notes }, { rejectWithValue }) => {
+  async ({ requestId, status, reviewNotes }, { rejectWithValue }) => {
     try {
       const { data } = await api.put<ServiceRequest>(
         `/requests/${requestId}/review`,
-        { status, notes },
+        { status, reviewNotes },
       );
       return data;
     } catch (error) {
@@ -109,6 +110,41 @@ export const uploadFiles = createAsyncThunk<
       { headers: { "Content-Type": "multipart/form-data" } },
     );
     return data;
+  } catch (error) {
+    return rejectWithValue(extractErrorMessage(error));
+  }
+});
+
+// ─── 6. Get All Requests (Admin / Staff only) ────────────────────────────────
+export const getAllRequests = createAsyncThunk<
+  PaginatedRequestsResponse,
+  GetAllRequestsParams,
+  { rejectValue: string }
+>(
+  "requests/getAllRequests",
+  async ({ page = 1, limit = 8 }, { rejectWithValue }) => {
+    try {
+      const { data } = await api.get<PaginatedRequestsResponse>("/requests/all", {
+        params: { page, limit },
+      });
+      return data;
+    } catch (error) {
+      return rejectWithValue(extractErrorMessage(error));
+    }
+  },
+);
+
+// ─── 7. Get Request Details ──────────────────────────────────────────────────
+export const getRequestDetails = createAsyncThunk<
+  ServiceRequest,
+  string,
+  { rejectValue: string }
+>("requests/getRequestDetails", async (requestId, { rejectWithValue }) => {
+  try {
+    const { data } = await api.get<{ status: string; data: ServiceRequest }>(
+      `/requests/${requestId}`,
+    );
+    return data.data;
   } catch (error) {
     return rejectWithValue(extractErrorMessage(error));
   }

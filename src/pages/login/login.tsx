@@ -1,6 +1,7 @@
 import logo from "@/assets/Minya University Logo.jpg";
 import { Button } from "@/components/ui/button";
 import { Field, FieldLabel } from "@/components/ui/field";
+import { Link } from "react-router-dom";
 import {
   InputGroup,
   InputGroupAddon,
@@ -60,7 +61,9 @@ export const Login = () => {
       {/* LEFT SIDE */}
       <div className="hidden lg:block bg-linear-to-br from-[#0F172A] via-[#0F0FBD] to-black/80 h-full relative">
         <div className="size-28 flex bg-blue-950 ring-1 ring-purple-900 justify-center items-center absolute rounded-full m-16 backdrop-blur-3xl ">
-          <img src={logo} alt="logo" className="size-24 rounded-full" />
+          <Link to="/" >
+            <img src={logo} alt="logo" className="size-24 rounded-full" />
+          </Link>
         </div>
 
         <div className="h-[calc(100dvh-64px-64px-114px)] mt-60.5 flex justify-between items-start flex-col px-16">

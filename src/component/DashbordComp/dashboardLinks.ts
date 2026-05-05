@@ -18,14 +18,7 @@ export const dashboardLinks = {
       id: "users",
       label: "Users",
       icon: IconUser,
-      route: "/dashboard/admin/users",
-    },
-    {
-      id: "services",
-      label: "Services",
-      icon: IconTools,
-      route: "/services",
-      subLinks: [],
+      route: "/users",
     },
     {
       id: "reports",
@@ -33,7 +26,20 @@ export const dashboardLinks = {
       icon: IconFileText,
       route: "/dashboard/admin/reports",
     },
+    {
+      id: "Events",
+      label: "Events",
+      icon: IconCalendar,
+      route: "/events",
+    },
+    {
+      id: "services-management",
+      label: "Services Management",
+      icon: IconTools,
+      route: "/services-management",
+    },
   ],
+
   student: [
     {
       id: "dashboard",
@@ -75,13 +81,6 @@ export const dashboardLinks = {
       label: "Requests",
       icon: IconFileText,
       route: "/dashboard/staff/requests",
-    },
-    {
-      id: "services",
-      label: "Services",
-      icon: IconTools,
-      route: "/services",
-      subLinks: [],
     },
   ],
 };
