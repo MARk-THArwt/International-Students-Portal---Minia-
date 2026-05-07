@@ -1,12 +1,6 @@
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const STEPS = [
-  { id: 1, title: "Personal info", sub: "Verify your data" },
-  { id: 2, title: "Service details", sub: "Review service info" },
-  { id: 3, title: "Upload & Submit", sub: "Attach documents" },
-  { id: 4, title: "Confirmation", sub: "Request reference" },
-];
+import { useTranslation } from "react-i18next";
 
 type StepStatus = "complete" | "active" | "pending";
 
@@ -43,7 +37,7 @@ function StepItem({
   status,
   showConnector,
 }: {
-  step: (typeof STEPS)[0];
+  step: { id: number; title: string; sub: string };
   status: StepStatus;
   showConnector: boolean;
 }) {
@@ -69,6 +63,13 @@ function StepItem({
 }
 
 export function Stepper({ activeStep }: { activeStep: number }) {
+  const { t } = useTranslation();
+  const STEPS = [
+    { id: 1, title: t("newRequest.steps.step1.title"), sub: t("newRequest.steps.step1.sub") },
+    { id: 2, title: t("newRequest.steps.step2.title"), sub: t("newRequest.steps.step2.sub") },
+    { id: 3, title: t("newRequest.steps.step3.title"), sub: t("newRequest.steps.step3.sub") },
+    { id: 4, title: t("newRequest.steps.step4.title"), sub: t("newRequest.steps.step4.sub") },
+  ];
   const total = STEPS.length;
 
   // Desktop: show all steps
@@ -134,8 +135,8 @@ export function Stepper({ activeStep }: { activeStep: number }) {
 
       {/* Step counter */}
       <div className="text-center mt-12 text-sm text-gray-500">
-        Step <span className="font-semibold text-indigo-700">{activeStep}</span>{" "}
-        of {total}
+        {t("newRequest.step")} <span className="font-semibold text-indigo-700">{activeStep}</span>{" "}
+        {t("newRequest.of")} {total}
       </div>
     </div>
   );

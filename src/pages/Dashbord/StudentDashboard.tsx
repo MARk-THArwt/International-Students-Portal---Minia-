@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Topbar } from "../../component/DashbordComp/Topbar";
 import { Card } from "../../component/DashbordComp/Card";
 import { CancelButton } from "../../component/DashbordComp/cancelBottom";
+import { CreateRequestDropdown } from "../../component/DashbordComp/CreateRequestDropdown";
 import {
   ReusableTable,
   type ColumnConfig,
@@ -16,16 +17,14 @@ import {
 import { selectUser } from "../../store/slices/authSlice";
 import { getMyRequests } from "../../store/AsyncThunks/requestsThunks";
 import { Button } from "@/components/ui/button";
+import type { 
+  ServiceRequest, 
+} from "../../store/types/requestsTypes";
 
-// Local types for requests
-interface ServiceRequest {
-  _id: string;
-  service: { name: string };
-  status: string;
-  createdAt: string;
-}
+import { useTranslation } from "react-i18next";
 
 export function StudentDashboard() {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
   const requests = useAppSelector(selectRequests);
@@ -54,11 +53,11 @@ export function StudentDashboard() {
     () => [
       {
         key: "request",
-        label: "REQUEST / ACTION",
+        label: t("table.serviceName"),
         render: (row) => (
           <div>
             <p className="font-semibold text-gray-900">
-              {row.service?.name || "Unknown Service"}
+              {row.service?.name || t("serviceUnavailable")}
             </p>
             <p className="text-xs text-gray-500 mt-0.5">ID: {row._id}</p>
           </div>
@@ -66,47 +65,54 @@ export function StudentDashboard() {
       },
       {
         key: "category",
-        label: "CATEGORY",
+        label: t("dashboardPage.category"),
         render: (row) => (
           <span className="text-gray-700">
-            {row.service?.name || "General"}
+            {row.service?.name || t("serviceUnavailable")}
           </span>
         ),
       },
       {
         key: "date",
-        label: "DATE",
+        label: t("table.createdAt"),
         render: (row) => (
           <span className="text-gray-600">
-            {new Date(row.createdAt).toLocaleDateString()}
+            {new Date(row.createdAt).toLocaleDateString(document.documentElement.lang === "ar" ? "ar-EG" : "en-US")}
           </span>
         ),
       },
       {
         key: "status",
-        label: "STATUS",
+        label: t("table.status"),
         render: (row) => {
-          const isPending =
-            row.status === "Pending" || row.status === "In Review";
-          const isSuccess =
-            row.status === "Approved" || row.status === "Success";
+          const isPending = row.status === "Pending";
+          const isApproved = row.status === "Approved";
+          const isRejected = row.status === "Rejected";
+          
           const colorClass = isPending
             ? "bg-yellow-100 text-yellow-800"
-            : isSuccess
+            : isApproved
               ? "bg-green-100 text-green-800"
-              : "bg-red-100 text-red-800";
+              : isRejected
+                ? "bg-red-100 text-red-800"
+                : "bg-gray-100 text-gray-800";
+                
+          // Camel case for translation key: Pending -> pending
+          const statusKey = row.status.charAt(0).toLowerCase() + row.status.slice(1).replace(" ", "");
+          const translatedStatus = t(`status.${statusKey}`, { defaultValue: row.status });
+
           return (
             <span
               className={`px-2.5 py-1 text-xs font-medium rounded-full ${colorClass}`}
             >
-              {row.status}
+              {translatedStatus}
             </span>
           );
         },
       },
       {
         key: "actions",
-        label: "Actions",
+        label: t("table.actions"),
         render: (row) => (
           <CancelButton requestId={row._id} status={row.status} />
         ),
@@ -119,33 +125,32 @@ export function StudentDashboard() {
     <div className="flex min-h-screen bg-[#F4F7FB]">
       <main className="flex-1 p-4 md:p-6 overflow-y-auto">
         <Topbar
-          title="Student Dashboard"
+          title={t("dashboard")}
           showSearch={false}
-          subtitle={`Welcome back, ${user?.name}! Here are your recent requests.`}
         />
 
         {/* Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
           <Card
-            title="ACTIVE REQUESTS"
+            title={t("dashboardPage.activeRequests")}
             value={isLoading ? "..." : stats.total.toString()}
           >
             <div className="flex gap-2 mt-2 flex-wrap">
               <span className="bg-yellow-100 text-yellow-700 px-2 rounded-full text-xs">
-                {stats.pending} Pending
+                {stats.pending} {t("status.pending")}
               </span>
               <span className="bg-blue-100 text-blue-700 px-2 rounded-full text-xs">
-                {stats.inReview} In Review
+                {stats.inReview} {t("status.inProgress")}
               </span>
             </div>
           </Card>
 
-          <Card title="OUTSTANDING FEES" value="$4,500">
-            <p className="text-xs text-gray-500">Due Oct 15, 2026</p>
-            <button className="text-blue-600 text-sm mt-2">PAY NOW →</button>
+          <Card title={t("dashboardPage.outstandingFees")} value="$4,500">
+            <p className="text-xs text-gray-500">{t("dashboardPage.due")} Oct 15, 2026</p>
+            <button className="text-blue-600 text-sm mt-2">{t("dashboardPage.payNow")} →</button>
           </Card>
 
-          <Card title="PROFILE STATUS" value="85%">
+          <Card title={t("dashboardPage.profileStatus")} value="85%">
             <div className="w-full bg-gray-200 h-2 rounded-full mt-2">
               <div className="bg-blue-600 h-2 rounded-full w-[85%]" />
             </div>
@@ -154,11 +159,11 @@ export function StudentDashboard() {
           {/* Gradient */}
           <div className="p-4 rounded-xl text-white bg-gradient-to-r from-blue-900 to-blue-600 shadow-sm flex flex-col justify-center">
             <p className="text-sm font-medium text-blue-100">
-              Tuition Balance Due
+              {t("dashboardPage.tuitionBalance")}
             </p>
             <h2 className="text-3xl font-bold mt-1">$1,200.00</h2>
             <button className="bg-white hover:bg-gray-50 text-blue-700 w-full mt-4 py-2 rounded-lg font-bold transition-colors">
-              Pay Now
+              {t("dashboardPage.payNow")}
             </button>
           </div>
         </div>
@@ -168,16 +173,8 @@ export function StudentDashboard() {
           {/* Table */}
           <div className="lg:col-span-2">
             <ReusableTable
-              title="Recent Activity"
-              actions={
-                <Button
-                  asChild
-                  variant={"default"}
-                  className="will-change-transform bg-[#0A1931] hover:bg-[#0A1931]/90! active:scale-97 text-center"
-                >
-                  <Link to="/newRequest">Create Request</Link>
-                </Button>
-              }
+              title={t("recentActivity")}
+              actions={<CreateRequestDropdown />}
               columns={tableColumns}
               data={Array.isArray(requests) ? requests : []}
               isLoading={isLoading}
@@ -187,12 +184,12 @@ export function StudentDashboard() {
           {/* Map */}
           <div className="relative h-[160px] rounded-xl overflow-hidden shadow-sm border border-gray-100 bg-[url('https://maps.gstatic.com/tactile/basepage/pegman_sherlock.png')] bg-cover bg-center group">
             <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
-            <div className="absolute bottom-3 left-3 text-white">
+            <div className="absolute bottom-3 start-3 text-white">
               <p className="font-bold drop-shadow-md">
-                International Student Office
+                {t("dashboardPage.intlStudentOffice")}
               </p>
               <p className="text-xs font-medium drop-shadow-md mt-0.5">
-                Building C, Room 204
+                {t("dashboardPage.buildingRoom")}
               </p>
             </div>
           </div>

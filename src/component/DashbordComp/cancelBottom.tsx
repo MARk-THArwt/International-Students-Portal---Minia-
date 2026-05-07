@@ -1,11 +1,13 @@
 import { useAppDispatch } from "../../store/hooks/hook";
 import { cancelRequest } from "../../store/AsyncThunks/requestsThunks";
+import { useTranslation } from "react-i18next";
 
 export const CancelButton = ({ requestId, status }: { requestId: string; status: string }) => {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
   const handleCancel = () => {
-    if (window.confirm("Are you sure you want to cancel this request?")) {
+    if (window.confirm(t("dashboardPage.cancelRequestConfirm"))) {
       // cancelRequest expects an object { requestId: string }
       dispatch(cancelRequest({ requestId }));
     }
@@ -26,7 +28,7 @@ export const CancelButton = ({ requestId, status }: { requestId: string; status:
         transition
       "
     >
-      Cancel
+      {t("dashboardPage.cancel")}
     </button>
   );
 };

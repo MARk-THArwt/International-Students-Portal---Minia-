@@ -1,12 +1,31 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Clock, CheckCircle2, XCircle, Timer, Filter, Download, MoreVertical, Loader2, AlertCircle, Eye, Check, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import {
+  Clock,
+  CheckCircle2,
+  XCircle,
+  Timer,
+  Filter,
+  Download,
+  Loader2,
+  AlertCircle,
+  Eye,
+  X,
+} from "lucide-react";
 import { Topbar } from "../../component/DashbordComp/Topbar";
-import { ReusableTable, type ColumnConfig } from "../../component/DashbordComp/table";
+import {
+  ReusableTable,
+  type ColumnConfig,
+} from "../../component/DashbordComp/table";
 import { useAppSelector, useAppDispatch } from "../../store/hooks/hook";
-import { selectUser } from "../../store/slices/authSlice";
-import { getAllRequests, reviewRequest } from "../../store/AsyncThunks/requestsThunks";
-import type { ServiceRequest, RequestStatus } from "../../store/types/requestsTypes";
+import {
+  getAllRequests,
+  reviewRequest,
+} from "../../store/AsyncThunks/requestsThunks";
+import type {
+  ServiceRequest,
+  RequestStatus,
+} from "../../store/types/requestsTypes";
 import { exportToExcel } from "../../util/exportToExcel";
 
 // ================== DASHBOARD COMPONENT ==================
@@ -14,15 +33,18 @@ import { exportToExcel } from "../../util/exportToExcel";
 export function StaffDashboard() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const user = useAppSelector(selectUser);
-  const { requests, loading, error } = useAppSelector((state) => state.requests);
-  
+  const { requests, loading, error } = useAppSelector(
+    (state) => state.requests,
+  );
+
   // Review Form State
-  const [selectedRequest, setSelectedRequest] = useState<ServiceRequest | null>(null);
+  const [selectedRequest, setSelectedRequest] = useState<ServiceRequest | null>(
+    null,
+  );
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [reviewStatus, setReviewStatus] = useState<RequestStatus>("Pending");
   const [reviewNotes, setReviewNotes] = useState("");
-  
+
   // Table Filtering State
   const [statusFilter, setStatusFilter] = useState<string>("All");
 
@@ -47,12 +69,14 @@ export function StaffDashboard() {
     if (!selectedRequest) return;
 
     try {
-      await dispatch(reviewRequest({
-        requestId: selectedRequest._id,
-        status: reviewStatus as any,
-        reviewNotes: reviewNotes
-      })).unwrap();
-      
+      await dispatch(
+        reviewRequest({
+          requestId: selectedRequest._id,
+          status: reviewStatus as any,
+          reviewNotes: reviewNotes,
+        }),
+      ).unwrap();
+
       handleCloseReview();
       // Optionally show success message here
     } catch (err) {
@@ -63,15 +87,21 @@ export function StaffDashboard() {
   const handleExport = () => {
     const exportData = filteredRequests.map((req) => ({
       "Student Name": req.student?.name || "N/A",
-      "Email": req.student?.email || "N/A",
-      "Service Name": req.service?.name || "N/A",
-      "Category": req.category || req.service?.category || "N/A",
-      "Status": req.status,
+      Email: req.student?.email || "N/A",
+      "Service Name": req.service?.name || "Service unavailable",
+      Category: req.category || req.service?.category || "N/A",
+      Status: req.status,
       "Documents Count": req.requiredDocuments?.length || 0,
-      "Created At": req.createdAt ? new Date(req.createdAt).toLocaleDateString() : "N/A",
+      "Created At": req.createdAt
+        ? new Date(req.createdAt).toLocaleDateString()
+        : "N/A",
     }));
 
-    exportToExcel(exportData, `Requests_Export_${new Date().toISOString().split('T')[0]}`, "Requests");
+    exportToExcel(
+      exportData,
+      `Requests_Export_${new Date().toISOString().split("T")[0]}`,
+      "Requests",
+    );
   };
 
   // Derive filtered requests
@@ -102,8 +132,12 @@ export function StaffDashboard() {
               {row.student?.name?.charAt(0) || "?"}
             </div>
             <div>
-              <p className="text-sm font-semibold text-gray-900">{row.student?.name || "Unknown"}</p>
-              <p className="text-xs text-gray-500">{row.student?.email || "N/A"}</p>
+              <p className="text-sm font-semibold text-gray-900">
+                {row.student?.name || "Unknown"}
+              </p>
+              <p className="text-xs text-gray-500">
+                {row.student?.email || "N/A"}
+              </p>
             </div>
           </div>
         ),
@@ -111,7 +145,11 @@ export function StaffDashboard() {
       {
         key: "service",
         label: "Service Name",
-        render: (row) => <span className="text-sm text-gray-700">{row.service?.name || "N/A"}</span>,
+        render: (row) => (
+          <span className="text-sm text-gray-700">
+            {row.service?.name || "Service unavailable"}
+          </span>
+        ),
       },
       {
         key: "category",
@@ -145,7 +183,11 @@ export function StaffDashboard() {
         key: "documents",
         label: "Documents Count",
         render: (row) => (
-          <span className="text-sm text-gray-600">{row.requiredDocuments?.length || 0}</span>
+          <span className="text-sm text-gray-600">
+            {row.requiredDocuments?.length > 0
+              ? row.requiredDocuments.length
+              : "No required documents"}
+          </span>
         ),
       },
       {
@@ -153,11 +195,13 @@ export function StaffDashboard() {
         label: "Created At",
         render: (row) => (
           <span className="text-sm text-gray-600">
-            {row.createdAt ? new Date(row.createdAt).toLocaleDateString("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-            }) : "N/A"}
+            {row.createdAt
+              ? new Date(row.createdAt).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })
+              : "N/A"}
           </span>
         ),
       },
@@ -166,7 +210,7 @@ export function StaffDashboard() {
         label: "Actions",
         render: (row) => (
           <div className="flex items-center gap-2">
-            <button 
+            <button
               onClick={() => navigate(`/dashboard/requests/${row._id}`)}
               title="View Details"
               className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
@@ -174,22 +218,19 @@ export function StaffDashboard() {
               <Eye className="w-4 h-4" />
             </button>
             {row.status !== "Approved" && row.status !== "Cancelled" && (
-              <button 
+              <button
                 onClick={() => handleOpenReview(row)}
                 className="px-3 py-1 bg-blue-600 text-white hover:bg-blue-700 rounded-md text-xs font-semibold transition-colors"
               >
                 Review
               </button>
             )}
-            
           </div>
         ),
       },
     ],
-    []
+    [],
   );
-
-
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F4F7FB] w-full">
@@ -280,9 +321,11 @@ export function StaffDashboard() {
         ) : error ? (
           <div className="flex flex-col items-center justify-center py-20 bg-white rounded-xl shadow-sm border border-red-100">
             <AlertCircle className="w-10 h-10 text-red-500 mb-4" />
-            <p className="text-red-600 font-semibold mb-2">Error loading requests</p>
+            <p className="text-red-600 font-semibold mb-2">
+              Error loading requests
+            </p>
             <p className="text-gray-500 text-sm">{error}</p>
-            <button 
+            <button
               onClick={() => dispatch(getAllRequests({ page: 1, limit: 10 }))}
               className="mt-4 px-4 py-2 bg-red-50 text-red-600 rounded-lg text-sm font-semibold hover:bg-red-100 transition-colors"
             >
@@ -294,8 +337,12 @@ export function StaffDashboard() {
             <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
               <Clock className="w-8 h-8 text-gray-400" />
             </div>
-            <h3 className="text-lg font-bold text-gray-900 mb-1">No Requests Found</h3>
-            <p className="text-gray-500 text-sm">There are no student requests waiting in the queue.</p>
+            <h3 className="text-lg font-bold text-gray-900 mb-1">
+              No Requests Found
+            </h3>
+            <p className="text-gray-500 text-sm">
+              There are no student requests waiting in the queue.
+            </p>
           </div>
         ) : (
           <ReusableTable
@@ -320,7 +367,7 @@ export function StaffDashboard() {
                   </select>
                   <Filter className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                 </div>
-                <button 
+                <button
                   onClick={handleExport}
                   className="flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
                 >
@@ -338,12 +385,17 @@ export function StaffDashboard() {
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 duration-200">
               <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900">Review Request</h3>
+                  <h3 className="text-xl font-bold text-gray-900">
+                    Review Request
+                  </h3>
                   <p className="text-sm text-gray-500 mt-1">
-                    Updating status for <span className="font-semibold text-blue-600">{selectedRequest.student?.name}</span>
+                    Updating status for{" "}
+                    <span className="font-semibold text-blue-600">
+                      {selectedRequest.student?.name}
+                    </span>
                   </p>
                 </div>
-                <button 
+                <button
                   onClick={handleCloseReview}
                   className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
                 >
@@ -354,32 +406,44 @@ export function StaffDashboard() {
               <form onSubmit={handleSubmitReview} className="p-6 space-y-6">
                 {/* Status Selection */}
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold text-gray-700">Set Status</label>
+                  <label className="text-sm font-semibold text-gray-700">
+                    Set Status
+                  </label>
                   <div className="grid grid-cols-2 gap-3">
-                    {(["Approved", "Rejected"] as RequestStatus[]).map((status) => (
-                      <button
-                        key={status}
-                        type="button"
-                        onClick={() => setReviewStatus(status)}
-                        className={`flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-2 text-sm font-bold transition-all ${
-                          reviewStatus === status
-                            ? status === "Approved" ? "border-green-500 bg-green-50 text-green-700"
-                            : status === "Rejected" ? "border-red-500 bg-red-50 text-red-700"
-                            : "border-gray-100 bg-white text-gray-500 hover:border-gray-200 hover:bg-gray-50"
-                            : "border-gray-100 bg-white text-gray-500 hover:border-gray-200 hover:bg-gray-50"
-                        }`}
-                      >
-                        {status === "Approved" && <CheckCircle2 className="w-4 h-4" />}
-                        {status === "Rejected" && <XCircle className="w-4 h-4" />}
-                        {status}
-                      </button>
-                    ))}
+                    {(["Approved", "Rejected"] as RequestStatus[]).map(
+                      (status) => (
+                        <button
+                          key={status}
+                          type="button"
+                          onClick={() => setReviewStatus(status)}
+                          className={`flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-2 text-sm font-bold transition-all ${
+                            reviewStatus === status
+                              ? status === "Approved"
+                                ? "border-green-500 bg-green-50 text-green-700"
+                                : status === "Rejected"
+                                  ? "border-red-500 bg-red-50 text-red-700"
+                                  : "border-gray-100 bg-white text-gray-500 hover:border-gray-200 hover:bg-gray-50"
+                              : "border-gray-100 bg-white text-gray-500 hover:border-gray-200 hover:bg-gray-50"
+                          }`}
+                        >
+                          {status === "Approved" && (
+                            <CheckCircle2 className="w-4 h-4" />
+                          )}
+                          {status === "Rejected" && (
+                            <XCircle className="w-4 h-4" />
+                          )}
+                          {status}
+                        </button>
+                      ),
+                    )}
                   </div>
                 </div>
 
                 {/* Notes Input */}
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold text-gray-700">Review Notes</label>
+                  <label className="text-sm font-semibold text-gray-700">
+                    Review Notes
+                  </label>
                   <textarea
                     value={reviewNotes}
                     onChange={(e) => setReviewNotes(e.target.value)}

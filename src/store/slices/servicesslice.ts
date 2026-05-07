@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store"; // adjust path to your store
 import type {
   Service,
@@ -9,7 +8,6 @@ import type {
 import {
   getAllServices,
   createService,
-  getServiceById,
   updateService,
   deleteService,
 } from "../AsyncThunks/servicesThunks";

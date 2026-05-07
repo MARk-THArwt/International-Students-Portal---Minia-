@@ -10,82 +10,75 @@ import {
 import { FaPassport } from "react-icons/fa";
 import { useAppSelector } from "@/store/hooks/hook";
 import { selectUser } from "@/store/slices/authSlice";
-
-const STEP1_INPUTS = [
-  {
-    name: "Full Name (English)",
-    type: "text",
-    iconStart: <User className="text-muted-foreground" />,
-    iconEnd: <LockKeyholeIcon className="text-muted-foreground" />,
-  },
-  {
-    name: "Nationality",
-    type: "text",
-    iconStart: <Flag />,
-    iconEnd: <LockKeyholeIcon />,
-  },
-  {
-    name: "Passport Number",
-    type: "text",
-    iconStart: <FaPassport className="size-4" />,
-    iconEnd: <LockKeyholeIcon />,
-  },
-  {
-    name: "Student ID",
-    type: "text",
-    iconStart: <IdCardLanyardIcon />,
-    iconEnd: <LockKeyholeIcon />,
-  },
-  {
-    name: "University Email",
-    type: "text",
-    iconStart: <Mail />,
-    iconEnd: <LockKeyholeIcon />,
-  },
-  {
-    name: "Phone Number",
-    type: "text",
-    iconStart: <Phone />,
-    iconEnd: <LockKeyholeIcon />,
-  },
-];
+import { useTranslation } from "react-i18next";
 
 export const STEP_1 = () => {
+  const { t } = useTranslation();
   const user = useAppSelector(selectUser);
+
+  const STEP1_INPUTS = [
+    {
+      name: t("newRequest.steps.step1.fullName"),
+      type: "text",
+      iconStart: <User className="text-muted-foreground" />,
+      iconEnd: <LockKeyholeIcon className="text-muted-foreground" />,
+    },
+    {
+      name: t("newRequest.steps.step1.nationality"),
+      type: "text",
+      iconStart: <Flag />,
+      iconEnd: <LockKeyholeIcon />,
+    },
+    {
+      name: t("newRequest.steps.step1.passportNumber"),
+      type: "text",
+      iconStart: <FaPassport className="size-4" />,
+      iconEnd: <LockKeyholeIcon />,
+    },
+    {
+      name: t("newRequest.steps.step1.studentId"),
+      type: "text",
+      iconStart: <IdCardLanyardIcon />,
+      iconEnd: <LockKeyholeIcon />,
+    },
+    {
+      name: t("newRequest.steps.step1.universityEmail"),
+      type: "text",
+      iconStart: <Mail />,
+      iconEnd: <LockKeyholeIcon />,
+    },
+    {
+      name: t("newRequest.steps.step1.phone"),
+      type: "text",
+      iconStart: <Phone />,
+      iconEnd: <LockKeyholeIcon />,
+    },
+  ];
 
   const getInputValue = (name: string) => {
     if (!user) return "";
-    switch (name) {
-      case "Full Name (English)":
-        return user.name;
-      case "Nationality":
-        return user.nationality;
-      case "Passport Number":
-        return user.passportNumber;
-      case "Student ID":
-        return user.studentId;
-      case "University Email":
-        return user.email;
-      case "Phone Number":
-        return user.phone;
-      default:
-        return "";
-    }
+    if (name === t("newRequest.steps.step1.fullName")) return user.name;
+    if (name === t("newRequest.steps.step1.nationality")) return user.nationality;
+    if (name === t("newRequest.steps.step1.passportNumber")) return user.passportNumber;
+    if (name === t("newRequest.steps.step1.studentId")) return user.studentId;
+    if (name === t("newRequest.steps.step1.universityEmail")) return user.email;
+    if (name === t("newRequest.steps.step1.phone")) return user.phone;
+    return "";
   };
 
   return (
     <div>
       <div className="mb-8">
-        <h3 className="text-2xl font-bold">Confirm your Identity</h3>
+        <h3 className="text-2xl font-bold">{t("newRequest.steps.step1.confirmIdentity")}</h3>
         <p className="text-zinc-600">
-          Please verify your personal information before proceeding.
+          {t("newRequest.steps.step1.verifyPersonalInfo")}
         </p>
       </div>
 
       <div className="w-full max-w-5xl p-6 mx-auto border shadow-md bg-card border-zinc-300 rounded-2xl sm:p-8">
         <div className="flex items-center gap-2 mb-6">
           <IdCardLanyardIcon className="text-blue-700" />
-          <p className="text-lg font-semibold">Student Profile Data</p>
+          <p className="text-lg font-semibold">{t("newRequest.steps.step1.studentProfileData")}</p>
         </div>
 
         <div className="flex flex-col gap-8 lg:flex-row">

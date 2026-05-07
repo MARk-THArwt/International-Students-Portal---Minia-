@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { MdLockPerson } from "react-icons/md";
 import { PiBankLight } from "react-icons/pi";
+import { useTranslation } from "react-i18next";
 
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch } from "../../store/store";
@@ -34,6 +35,7 @@ import { useNavigate } from "react-router-dom";
 // ───────────────────────────────────────────────────────────────────────────────
 
 export const Login = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
@@ -68,34 +70,33 @@ export const Login = () => {
 
         <div className="h-[calc(100dvh-64px-64px-114px)] mt-60.5 flex justify-between items-start flex-col px-16">
           <div className="flex flex-col gap-3">
-            <p className="text-left w-full text-[60px] leading-15 font-bold bg-linear-to-bl from-[rgba(254,240,138,1)] to-90% to-pizza bg-clip-text text-transparent">
-              Excellence in International Education
+            <p className="text-start w-full text-[60px] leading-15 font-bold bg-linear-to-bl from-[rgba(254,240,138,1)] to-90% to-pizza bg-clip-text text-transparent">
+              {t("loginPage.excellenceTitle")}
             </p>
-            <div className="border-l-2 pl-3 text-white border-pizza/50 overflow-hidden">
+            <div className="border-s-2 ps-3 text-white border-pizza/50 overflow-hidden">
               <p>
-                Welcome to Minya University. A hub of innovation, culture, and
-                academic distinction in the heart of Egypt.
+                {t("loginPage.excellenceDesc")}
               </p>
             </div>
           </div>
 
           <ul className="flex gap-4 justify-center items-center uppercase">
             <li className="flex gap-1 items-center font-bold text-[#BFDBFE] text-[12px]">
-              <FlaskConical className="text-pizza size-5" /> research
+              <FlaskConical className="text-pizza size-5" /> {t("loginPage.research")}
             </li>
             <li className="flex gap-1 items-center font-bold text-[#BFDBFE] text-[12px]">
               <PiBankLight className="text-pizza size-5" />
-              culture
+              {t("loginPage.culture")}
             </li>
             <li className="flex gap-1 items-center font-bold text-[#BFDBFE] text-[12px]">
               <Lightbulb className="text-pizza size-5" />
-              innovation
+              {t("loginPage.innovation")}
             </li>
           </ul>
 
           <p className="flex justify-center items-center gap-1 text-center w-full">
             <Globe />
-            Official International Students Portal
+            {t("loginPage.officialPortal")}
           </p>
         </div>
       </div>
@@ -104,11 +105,11 @@ export const Login = () => {
       <div className="bg-gray-100 px-3 flex justify-center items-center text-black">
         <div className="mx-auto w-full max-w-md">
           <div className="mb-10 w-60.5 text-[26px] space-y-2 leading-8 tracking-tighter font-bold mx-auto text-center">
-            <h3>Minia University</h3>
+            <h3>{t("miniaUniversity")}</h3>
             <div className="text-blue-800 flex items-center gap-2">
               <Separator className="flex-1 bg-[#144BB8]" />
               <span className="text-sm font-bold text-[11px] uppercase tracking-[2.2px]">
-                International Portal
+                {t("footer.internationalPortal")}
               </span>
               <Separator className="flex-1 bg-[#144BB8]" />
             </div>
@@ -121,21 +122,21 @@ export const Login = () => {
                   <div className="bg-[#EFF6FF] rounded-full">
                     <MdLockPerson className="m-2 size-7" />
                   </div>
-                  <h4>Secure Login</h4>
+                    <h4>{t("loginPage.secureLogin")}</h4>
                   <p className="text-center">
-                    Access your academic records securely.
+                    {t("loginPage.secureLoginDesc")}
                   </p>
                 </div>
 
                 <div className="flex flex-col gap-4 w-full text-gray-700">
                   {/* Email */}
                   <Field>
-                    <FieldLabel>Email</FieldLabel>
+                    <FieldLabel>{t("loginPage.email")}</FieldLabel>
                     <InputGroup className="bg-gray-100 rounded-md py-3">
                       <InputGroupInput
                         name="email"
-                        placeholder="student@minia.edu.eg"
-                        className="pl-3!"
+                        placeholder={t("loginPage.emailPlaceholder")}
+                        className="ps-3!"
                       />
                       <InputGroupAddon>
                         <IdCardLanyardIcon />
@@ -145,13 +146,13 @@ export const Login = () => {
 
                   {/* Password */}
                   <Field>
-                    <FieldLabel>Password</FieldLabel>
+                    <FieldLabel>{t("loginPage.password")}</FieldLabel>
                     <InputGroup className="bg-gray-100 rounded-md py-3">
                       <InputGroupInput
                         name="password"
                         type="password"
                         placeholder="••••••••"
-                        className="pl-3!"
+                        className="ps-3!"
                       />
                       <InputGroupAddon>
                         <LockKeyhole />
@@ -163,15 +164,15 @@ export const Login = () => {
                   </Field>
                   {/* role */}
                   <Field>
-                    <FieldLabel>Role</FieldLabel>
+                    <FieldLabel>{t("loginPage.role")}</FieldLabel>
                     <select
                       name="role"
                       className="bg-gray-100 rounded-md py-1 px-3 w-full"
                       defaultValue="student"
                     >
-                      <option value="student">Student</option>
-                      <option value="staff">Staff</option>
-                      <option value="admin">Admin</option>
+                      <option value="student">{t("loginPage.roles.student")}</option>
+                      <option value="staff">{t("loginPage.roles.staff")}</option>
+                      <option value="admin">{t("loginPage.roles.admin")}</option>
                     </select>
                   </Field>
                   {/* Error */}
@@ -188,12 +189,12 @@ export const Login = () => {
                     {loading ? (
                       <>
                         <Loader2 className="animate-spin size-4" />
-                        Signing In...
+                        {t("loginPage.signingIn")}
                       </>
                     ) : (
                       <>
                         <LogIn className="size-4" />
-                        Sign In
+                        {t("loginPage.signIn")}
                       </>
                     )}
                   </Button>
@@ -204,7 +205,7 @@ export const Login = () => {
               <div className="text-muted-foreground/70 my-3 flex items-center gap-2">
                 <Separator className="flex-1 bg-muted-foreground/60" />
                 <span className="text-sm font-bold text-[11px] uppercase tracking-[2.2px]">
-                  OR CONTINUE WITH
+                  {t("loginPage.orContinueWith")}
                 </span>
                 <Separator className="flex-1 bg-muted-foreground/60" />
               </div>
@@ -213,16 +214,16 @@ export const Login = () => {
               <div className="flex justify-center">
                 <Button variant="outline" className="text-sm">
                   <GraduationCap className="bg-[#EFF6FF] p-1" />
-                  Login with University SSO
+                  {t("loginPage.loginSSO")}
                 </Button>
               </div>
             </div>
 
             <div className="bg-gray-100 px-8 py-3 flex justify-between">
-              <p className="text-[12px] font-semibold">SSL secure</p>
+              <p className="text-[12px] font-semibold">{t("loginPage.sslSecure")}</p>
               <div className="flex gap-3">
-                <p className="text-[12px] font-semibold">Privacy</p>
-                <p className="text-[12px] font-semibold">Terms</p>
+                <p className="text-[12px] font-semibold">{t("loginPage.privacy")}</p>
+                <p className="text-[12px] font-semibold">{t("loginPage.terms")}</p>
               </div>
             </div>
           </div>

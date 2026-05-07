@@ -1,6 +1,4 @@
-import React from "react";
 import ServicesCard from "../../component/common/card/card";
-import MainNav from "../../layout/mainNavbar/navbar";
 import Footer from "../../layout/mainFooter/footer";
 import { Link } from "react-router-dom";
 import AdmissionLogo from "../../assets/icons-svg/admission-guide.svg?react";
@@ -17,73 +15,67 @@ import Virtual from "../../assets/icons-svg/virtual.svg?react";
 import ExploreArrow from "../../assets/icons-svg/exploreArrow.svg?react";
 import BackgraundImage from "@/assets/Background+Shadow.jpg";
 import logo from "@/assets/Minya University Logo.jpg";
+import { useTranslation } from "react-i18next";
 
-const navigation = [
-  { title: "Home", path: "/" },
-  { title: "Services", path: "/Services" },
-  { title: "Announcements", path: "/Announcements" },
-  { title: "Contact", path: "/Contact" },
-];
+
 export const Home = () => {
+  const { t } = useTranslation();
   return (
     <>
-      <MainNav navigation={navigation} />
       <div className="flex flex-col gap-12 w-full p-4 font-['Public_Sans']">
         {/* head */}
         <div className="flex flex-col md:flex-row p-4 min-h-full">
           {/* left */}
-          <div className="w-full md:w-1/2 flex flex-col gap-[0.3rem] md:pr-[8rem]">
+          <div className="w-full md:w-1/2 flex flex-col gap-[0.3rem] md:pe-[8rem]">
             {/* acadmic */}
-            <div className="flex items-center w-[35%] gap-[0.3rem] text-[12px] font-bold leading-[16px] text-[#0F0FBD] bg-[rgba(15,15,189,0.1)] px-3 py-[4px] rounded-full">
+            <div className="flex items-center w-fit gap-[0.3rem] text-[12px] font-bold leading-[16px] text-[#0F0FBD] bg-[rgba(15,15,189,0.1)] px-3 py-[4px] rounded-full">
               <Dot />
-              Academic Year 2025-2026
+              {t("academicYear")}
             </div>
 
             {/* titles */}
-            <h1 className="font-[Arial] font-extrabold text-[44px] leading-[48px] text-[#0D0D1C] m-0">
-              Start Your Global
+            <h1 className="font-[Arial] font-extrabold text-[32px] md:text-[44px] leading-[40px] md:leading-[48px] text-[#0D0D1C] m-0">
+              {t("heroTitle1")}
             </h1>
-            <h1 className="font-[Arial] font-extrabold text-[44px] leading-[48px] text-[#0D0D1C] m-0">
-              Journey at
+            <h1 className="font-[Arial] font-extrabold text-[32px] md:text-[44px] leading-[40px] md:leading-[48px] text-[#0D0D1C] m-0">
+              {t("heroTitle2")}
             </h1>
 
             {/* title special */}
-            <h1 className="font-[Arial] font-extrabold text-[44px] leading-[48px] text-[#0909AA] w-fit border-b-[8px] border-[#FFD700] pb-[10px] m-0">
-              Minia University
+            <h1 className="font-[Arial] font-extrabold text-[32px] md:text-[44px] leading-[40px] md:leading-[48px] text-[#0909AA] w-fit border-b-[8px] border-[#FFD700] pb-[10px] m-0">
+              {t("heroTitle3")}
             </h1>
 
             {/* paragraph */}
             <p className="text-[18px] leading-[29.25px] text-[#475569]">
-              Welcome to the Minia University International Students Portal.
-              Your journey to academic success starts here with world-class
-              programs and a supportive community.
+              {t("heroDesc")}
             </p>
 
             {/* buttons */}
-            <div className="flex text-[16px] leading-[24px] p-2 gap-2">
+            <div className="flex flex-col sm:flex-row text-[16px] leading-[24px] py-2 md:p-2 gap-3 sm:gap-2">
               <Link
                 to="/"
-                className="flex gap-[5px] items-center justify-center w-[11.9rem] h-[3rem] p-4 rounded-lg bg-[#0F0FBD] text-white no-underline"
+                className="flex gap-[5px] items-center justify-center w-full sm:w-[11.9rem] h-[3rem] p-4 rounded-lg bg-[#0F0FBD] text-white no-underline"
               >
-                Explore Services <ExploreArrow />
+                {t("exploreServices")} <ExploreArrow />
               </Link>
 
               <Link
                 to="/"
-                className="flex gap-[5px] items-center justify-center w-[11.9rem] h-[3rem] p-4 rounded-lg border border-[#E2E8F0] text-[#002147] no-underline"
+                className="flex gap-[5px] items-center justify-center w-full sm:w-[11.9rem] h-[3rem] p-4 rounded-lg border border-[#E2E8F0] text-[#002147] no-underline"
               >
-                <Virtual /> Virtual Tour
+                <Virtual /> {t("virtualTour")}
               </Link>
             </div>
 
             {/* numbers */}
-            <div className="flex w-1/2 gap-8 mt-2">
+            <div className="flex w-full sm:w-3/4 md:w-1/2 justify-between sm:justify-start gap-4 sm:gap-8 mt-6 md:mt-2">
               <div className="text-center">
                 <p className="m-0 font-black text-[30px] leading-[36px] text-[#002147]">
                   15K+
                 </p>
                 <p className="font-medium text-[14px] leading-[20px] text-[#64748B]">
-                  Students
+                  {t("stats.students")}
                 </p>
               </div>
 
@@ -92,7 +84,7 @@ export const Home = () => {
                   120+
                 </p>
                 <p className="font-medium text-[14px] leading-[20px] text-[#64748B]">
-                  Programs
+                  {t("stats.programs")}
                 </p>
               </div>
 
@@ -101,14 +93,14 @@ export const Home = () => {
                   45
                 </p>
                 <p className="font-medium text-[14px] leading-[20px] text-[#64748B]">
-                  Countries
+                  {t("stats.countries")}
                 </p>
               </div>
             </div>
           </div>
 
           {/* right */}
-          <div className="w-full md:w-1/2 md:pl-12 flex items-center justify-center relative mt-8 md:mt-0">
+          <div className="w-full md:w-1/2 md:ps-12 flex items-center justify-center relative mt-8 md:mt-0">
             <div className="relative w-full max-w-md md:max-w-full flex items-center justify-center p-2 sm:p-4 lg:p-8">
               {/* gradient */}
               <div className="absolute inset-0 bg-[linear-gradient(rgba(15,15,189,0.05),rgba(197,160,89,0.1))] rotate-[178deg] rounded-xl lg:rounded-2xl"></div>
@@ -121,8 +113,8 @@ export const Home = () => {
 
               {/* floating card */}
               <div
-                className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 lg:bottom-10 lg:left-12 
-                    bg-white/60 border-l-4 border-[#C5A059] backdrop-blur-sm 
+                className="absolute bottom-3 start-3 sm:bottom-4 sm:start-4 lg:bottom-10 lg:start-12 
+                    bg-white/60 border-s-4 border-[#C5A059] backdrop-blur-sm 
                     rounded-xl lg:rounded-2xl p-2 sm:p-3 lg:p-5 
                     w-[85%] sm:w-[75%] md:w-[70%] lg:w-[280px]"
               >
@@ -134,12 +126,11 @@ export const Home = () => {
 
                   <div>
                     <span className="font-bold text-[#002147] text-sm sm:text-base">
-                      Excellence in Education
+                      {t("excellenceTitle")}
                     </span>
 
                     <p className="text-[#475569] text-xs sm:text-sm mt-1 leading-relaxed">
-                      Join a community dedicated to innovation and research
-                      across 18 faculties.
+                      {t("excellenceDesc")}
                     </p>
                   </div>
                 </div>
@@ -148,59 +139,58 @@ export const Home = () => {
           </div>
         </div>
         {/* news */}
-        <div className="flex items-center bg-[rgba(197,160,89,0.1)] border-l-4 border-[#C5A059] rounded-lg h-[52px] px-4">
-          <div className="w-2/12 flex items-center gap-1">
+        <div className="flex flex-col md:flex-row items-start md:items-center bg-[rgba(197,160,89,0.1)] border-s-4 border-[#C5A059] rounded-lg h-auto md:h-[52px] px-4 py-3 md:py-0 gap-2 md:gap-0">
+          <div className="w-full md:w-2/12 flex items-center gap-1">
             <LastestNews />{" "}
-            <p className="text-[#C5A059] font-bold text-sm uppercase tracking-wide">
+            <p className="text-[#C5A059] font-bold text-sm uppercase tracking-wide m-0">
               {" "}
-              Latest News{" "}
+              {t("latestNews")}{" "}
             </p>
           </div>{" "}
-          <div className="w-8/12 flex gap-1 text-sm">
+          <div className="w-full md:w-8/12 flex flex-col md:flex-row gap-1 text-sm">
             {" "}
-            <p className="text-[#002147] font-medium">
+            <p className="text-[#002147] font-medium m-0">
               {" "}
-              Registration for the Spring Semester 2026 is now open.{" "}
+              {t("newsDesc1")}{" "}
             </p>
-            <p className="text-[#002147] font-bold"> Deadline: March 15th. </p>
+            <p className="text-[#002147] font-bold m-0"> {t("newsDesc2")} </p>
           </div>
-          <div className="w-2/12">
+          <div className="w-full md:w-2/12 flex justify-start md:justify-end mt-1 md:mt-0">
             <Link
               to="/"
-              className="flex items-center gap-1 text-[#0F0FBD] font-bold text-sm"
+              className="flex items-center gap-1 text-[#0F0FBD] font-bold text-sm no-underline"
             >
               {" "}
-              Read details <Arow />{" "}
+              {t("readDetails")} <Arow />{" "}
             </Link>
           </div>
         </div>
         {/* services */}
         <div className="flex flex-col gap-6">
-          <div className="flex border-b border-[#E2E8F0] p-4">
-            <div className="w-10/12">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center border-b border-[#E2E8F0] pb-4 gap-4 sm:gap-0">
+            <div className="w-full sm:w-10/12">
               {" "}
-              <h2 className="text-[#002147] font-bold text-3xl">
+              <h2 className="text-[#002147] font-bold text-2xl sm:text-3xl m-0">
                 {" "}
-                Student Services{" "}
+                {t("studentServices")}{" "}
               </h2>
-              <p className="text-[#64748B] text-base">
+              <p className="text-[#64748B] text-base m-0 mt-1">
                 {" "}
-                Comprehensive support for your acadimic journey{" "}
+                {t("studentServicesDesc")}{" "}
               </p>
             </div>{" "}
-            <div className="flex items-end ml-auto">
-              <Link to="/" className="text-[#0F0FBD] font-bold text-sm">
+            <div className="flex w-full sm:w-auto items-end sm:ms-auto justify-end sm:justify-start">
+              <Link to="/" className="text-[#0F0FBD] font-bold text-sm no-underline">
                 {" "}
-                View All Services{" "}
+                {t("viewAllServices")}{" "}
               </Link>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <ServicesCard
               data={{
-                title: "Admission Guide",
-                description:
-                  "Step-by-step procedures for international applicants, including document requirements and…",
+                title: t("servicesList.admissionGuide"),
+                description: t("servicesList.admissionGuideDesc"),
               }}
             >
               {" "}
@@ -208,9 +198,8 @@ export const Home = () => {
             </ServicesCard>{" "}
             <ServicesCard
               data={{
-                title: "Visa Support",
-                description:
-                  "Complete guidance on obtaining and renewing your student visa, residency permits, and legal…",
+                title: t("servicesList.visaSupport"),
+                description: t("servicesList.visaSupportDesc"),
               }}
             >
               {" "}
@@ -218,9 +207,8 @@ export const Home = () => {
             </ServicesCard>{" "}
             <ServicesCard
               data={{
-                title: "Campus Housing",
-                description:
-                  "Find comfortable accommodation on or off campus with our housing assistance program for…",
+                title: t("servicesList.campusHousing"),
+                description: t("servicesList.campusHousingDesc"),
               }}
             >
               {" "}
@@ -230,16 +218,15 @@ export const Home = () => {
         </div>
 
         {/* map */}
-        <div className="border border-[#F1F5F9] rounded-2xl bg-[#F8FAFC] p-8 flex flex-col md:flex-row gap-6">
+        <div className="border border-[#F1F5F9] rounded-2xl bg-[#F8FAFC] p-4 sm:p-8 flex flex-col md:flex-row gap-6">
           {/* left */}
-          <div className="w-full md:w-7/12 flex flex-col gap-4 pr-8">
+          <div className="w-full md:w-7/12 flex flex-col gap-4 md:pe-8">
             <h2 className="font-bold text-2xl text-[#002147]">
-              Find your way around campus
+              {t("campusMapTitle")}
             </h2>
 
             <p className="text-[#475569]">
-              Explore our interactive map to locate faculties, libraries, and
-              student centers.
+              {t("campusMapDesc")}
             </p>
 
             {/* map list */}
@@ -247,21 +234,21 @@ export const Home = () => {
               <div className="flex bg-white border border-[#F1F5F9] rounded-lg gap-[5px] items-center p-3">
                 <LibraryIcon />
                 <p className="m-0 font-medium text-[14px] text-[#002147]">
-                  Central Library
+                  {t("locations.centralLibrary")}
                 </p>
               </div>
 
               <div className="flex bg-white border border-[#F1F5F9] rounded-lg gap-[5px] items-center p-3">
                 <LabIcon />
                 <p className="m-0 font-medium text-[14px] text-[#002147]">
-                  Science Labs Complex
+                  {t("locations.scienceLabs")}
                 </p>
               </div>
 
               <div className="flex bg-white border border-[#F1F5F9] rounded-lg gap-[5px] items-center p-3">
                 <SportCenerIcon />
                 <p className="m-0 font-medium text-[14px] text-[#002147]">
-                  Sports Center
+                  {t("locations.sportsCenter")}
                 </p>
               </div>
             </div>
@@ -278,7 +265,7 @@ export const Home = () => {
             <div className="absolute flex items-center justify-center gap-1 w-[13rem] h-[2.6rem] bg-white rounded-full ">
               <Map />
               <span className="font-bold text-[16px] text-[#002147]">
-                Open Interactive Map
+                {t("openInteractiveMap")}
               </span>
             </div>
           </div>

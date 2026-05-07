@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export interface ColumnConfig<T> {
   key: string;
@@ -28,6 +29,7 @@ export function ReusableTable<T extends Record<string, any>>({
   actions,
   rowsPerPage = 5,
 }: ReusableTableProps<T>) {
+  const { t } = useTranslation();
   const [page, setPage] = useState(1);
 
   // Pagination calculation
@@ -69,7 +71,7 @@ export function ReusableTable<T extends Record<string, any>>({
 
       {/* Table Content */}
       <div className="overflow-x-auto">
-        <table className="w-full text-left border-collapse">
+        <table className="w-full text-start border-collapse">
           <thead>
             <tr className="bg-gray-50/50 border-b border-gray-100">
               {columns.map((col) => (
@@ -88,7 +90,7 @@ export function ReusableTable<T extends Record<string, any>>({
               <tr>
                 <td colSpan={columns.length} className="px-6 py-12 text-center">
                   <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                  <p className="mt-2 text-sm text-gray-500 font-medium">Loading data...</p>
+                  <p className="mt-2 text-sm text-gray-500 font-medium">{t("table.loadingData")}</p>
                 </td>
               </tr>
             ) : data.length === 0 ? (
@@ -97,7 +99,7 @@ export function ReusableTable<T extends Record<string, any>>({
                   colSpan={columns.length}
                   className="px-6 py-12 text-center text-gray-500 italic"
                 >
-                  No records found.
+                  {t("table.noRecords")}
                 </td>
               </tr>
             ) : (
@@ -122,9 +124,14 @@ export function ReusableTable<T extends Record<string, any>>({
       {!isLoading && data.length > 0 && (
         <div className="px-6 py-4 border-t border-gray-50 flex items-center justify-between bg-gray-50/30">
           <p className="text-sm text-gray-500">
-            Showing <span className="font-medium">{(page - 1) * rowsPerPage + 1}</span> to{" "}
-            <span className="font-medium">{Math.min(page * rowsPerPage, data.length)}</span> of{" "}
-            <span className="font-medium">{data.length}</span> results
+            {t("table.showing")}{" "}
+            <span className="font-medium">{(page - 1) * rowsPerPage + 1}</span>{" "}
+            {t("table.to")}{" "}
+            <span className="font-medium">
+              {Math.min(page * rowsPerPage, data.length)}
+            </span>{" "}
+            {t("table.of")}{" "}
+            <span className="font-medium">{data.length}</span> {t("table.results")}
           </p>
 
           <div className="flex items-center gap-2">

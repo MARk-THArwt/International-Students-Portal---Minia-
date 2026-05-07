@@ -4,6 +4,8 @@ import requestsReducer from "./slices/requestsSlice";
 import authReducer from "./slices/authSlice";
 import eventsReducer from "./slices/eventsSlice";
 import reportsReducer from "./slices/reportsSlice";
+import messagesReducer from "./slices/messagesSlice";
+import notificationsReducer from "./slices/notificationsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +14,8 @@ export const store = configureStore({
     requests: requestsReducer,
     events: eventsReducer,
     reports: reportsReducer,
+    messages: messagesReducer,
+    notifications: notificationsReducer,
   },
 });
 

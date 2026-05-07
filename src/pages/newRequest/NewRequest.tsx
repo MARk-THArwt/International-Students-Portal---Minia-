@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import MaxContainerWrapper from "@/reusable-components/max-containerWrap";
 import { ArrowLeft, ArrowRight } from "lucide-react";
@@ -10,21 +10,21 @@ import STEP_3 from "./steps/step3";
 import { STEP_4 } from "./steps/step4";
 import { useAppDispatch, useAppSelector } from "@/store/hooks/hook";
 import { createRequest } from "@/store/AsyncThunks/requestsThunks";
-import { getAllServices, getServiceById } from "@/store/AsyncThunks/servicesThunks";
+import { getServiceById } from "@/store/AsyncThunks/servicesThunks";
 import { selectServiceById } from "@/store/slices/servicesslice";
 import { toast } from "sonner";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 export const NewRequest = () => {
+  const { t, i18n } = useTranslation();
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const serviceId = searchParams.get("serviceId");
   const selectedService = useAppSelector(selectServiceById(serviceId || ""));
 
   const [currentStep, setCurrentStep] = useState(1);
   const [files, setFiles] = useState<File[]>([]);
-  const [requestId, setRequestId] = useState<string | null>(null);
   const { loading } = useAppSelector((state) => state.requests);
 
   useEffect(() => {
@@ -39,9 +39,7 @@ export const NewRequest = () => {
     } else if (currentStep === 3) {
       // Final submission logic at Step 3
       if (!serviceId) {
-        toast.error(
-          "No service selected. Please go back and select a service.",
-        );
+        toast.error(t("newRequest.noServiceSelected"));
         return;
       }
 
@@ -50,8 +48,7 @@ export const NewRequest = () => {
           createRequest({ serviceId, documents: files }),
         );
         if (createRequest.fulfilled.match(resultAction)) {
-          toast.success("Request submitted successfully!");
-          setRequestId(resultAction.payload._id);
+          toast.success(t("newRequest.success"));
           setCurrentStep(4);
         } else {
           toast.error(
@@ -59,7 +56,7 @@ export const NewRequest = () => {
           );
         }
       } catch {
-        toast.error("An unexpected error occurred");
+        toast.error(t("newRequest.unexpectedError"));
       }
     }
   };
@@ -84,7 +81,6 @@ export const NewRequest = () => {
       case 4:
         return (
           <STEP_4
-            requestId={requestId}
             serviceName={selectedService?.name}
           />
         );
@@ -109,7 +105,7 @@ export const NewRequest = () => {
               disabled={currentStep === 1}
               className="px-8 h-12 text-[16px] font-semibold"
             >
-              <ArrowLeft className="mr-2 h-4 w-4" /> Previous
+              <ArrowLeft className="me-2 h-4 w-4 rtl:rotate-180" /> {t("newRequest.previous")}
             </Button>
 
             <Button
@@ -121,15 +117,15 @@ export const NewRequest = () => {
                   {loading.create ? (
                     <span className="flex items-center gap-2">
                       <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      Submitting...
+                      {t("newRequest.submitting")}
                     </span>
                   ) : (
-                    <>Submit Request</>
+                    <>{t("newRequest.submitRequest")}</>
                   )}
                 </>
               ) : (
                 <>
-                  Next <ArrowRight className="ml-2 h-4 w-4" />
+                  {t("newRequest.next")} <ArrowRight className="ms-2 h-4 w-4 rtl:rotate-180" />
                 </>
               )}
             </Button>

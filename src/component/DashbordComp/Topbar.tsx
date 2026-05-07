@@ -1,7 +1,10 @@
 import { Bell, Search } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../../store/hooks/hook";
 import { selectUser } from "../../store/slices/authSlice";
+import { NotificationsDropdown } from "./NotificationsDropdown";
+import { LanguageSwitcher } from "../LanguageSwitcher/LanguageSwitcher";
 
 interface TopbarProps {
   title?: string;
@@ -10,19 +13,22 @@ interface TopbarProps {
 }
 
 export const Topbar = ({
-  title = "Dashboard",
+  title,
   subtitle,
   showSearch = true,
 }: TopbarProps = {}) => {
+  const { t } = useTranslation();
   const user = useAppSelector(selectUser);
+
+  const displayTitle = title || t("dashboard");
 
   return (
     <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-8">
       {/* Welcome */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
+        <h1 className="text-2xl font-bold text-gray-900">{displayTitle}</h1>
         <p className="text-gray-500 text-sm mt-1">
-          {subtitle || `Welcome back, ${user?.name || "Student"}! Here's what's happening today.`}
+          {subtitle || `${t("welcome")}, ${user?.name || t("student")}!`}
         </p>
       </div>
 
@@ -33,29 +39,24 @@ export const Topbar = ({
           <div className="relative hidden sm:block w-64">
             <input
               type="text"
-              placeholder="Search applications..."
-              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all bg-white"
+              placeholder={t("search")}
+              className="w-full ps-10 pe-4 py-2 border border-gray-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all bg-white"
             />
-            <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-gray-400 absolute start-3.5 top-1/2 -translate-y-1/2" />
           </div>
         )}
 
+        {/* Language Switcher */}
+        <LanguageSwitcher />
+
         {/* Notifications */}
-        <div className="relative">
-          <Link
-            to={"/events"}
-            className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-colors bg-white text-gray-600"
-          >
-            <Bell className="w-5 h-5" />
-          </Link>
-          <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 border-2 border-[#F4F7FB] rounded-full"></span>
-        </div>
+        <NotificationsDropdown />
 
         {/* Profile */}
-        <div className="flex items-center gap-3 pl-2 border-l border-gray-200 flex">
-          <div className="text-right hidden sm:block">
+        <div className="flex items-center gap-3 ps-2 border-s border-gray-200 flex">
+          <div className="text-end hidden sm:block">
             <p className="text-sm font-bold text-gray-900 leading-tight">
-              {user?.name || "Staff Member"}
+              {user?.name || t("staffMember")}
             </p>
             <p className="text-xs text-gray-500 font-medium uppercase mt-0.5">
               {user?.email || "Admin"}

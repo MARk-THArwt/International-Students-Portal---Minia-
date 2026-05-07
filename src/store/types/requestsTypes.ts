@@ -24,8 +24,9 @@ export interface RequestDocument {
 
 export interface ServiceRequest {
   _id: string;
-  student: StudentDetails;
+  student: StudentDetails | any;
   service: RequestService | null;
+  assignedTo?: any | null;
   category?: string;
   status: RequestStatus;
   documents: string[];
@@ -33,7 +34,7 @@ export interface ServiceRequest {
   reviewNotes?: string;
   createdAt: string;
   updatedAt: string;
-  __v: number;
+  __v?: number;
 }
 
 // ─── API Payload Types ────────────────────────────────────────────────────────

@@ -8,6 +8,7 @@ import { CheckCircle2, Info, Trash2, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 type FileStatus = "complete" | "uploading" | "error";
 type FileType = "pdf" | "img" | "doc";
@@ -64,6 +65,7 @@ function FileRow({
   file: UploadFile;
   onRemove: (id: number) => void;
 }) {
+  const { t } = useTranslation();
   return (
     <div
       className={cn(
@@ -86,7 +88,7 @@ function FileRow({
             <>
               <span className="text-gray-200 text-xs">·</span>
               <span className="text-xs text-emerald-600 font-medium">
-                Complete
+                {t("newRequest.steps.step3.fileComplete")}
               </span>
             </>
           )}
@@ -94,7 +96,7 @@ function FileRow({
             <>
               <span className="text-gray-200 text-xs">·</span>
               <span className="text-xs text-red-500 font-medium">
-                Format not supported
+                {t("newRequest.steps.step3.fileError")}
               </span>
             </>
           )}
@@ -126,10 +128,11 @@ function FileRow({
 }
 
 function EmptyFiles() {
+  const { t } = useTranslation();
   return (
     <div className="flex flex-col items-center justify-center gap-2 py-8 border border-dashed border-gray-200 rounded-xl bg-gray-50/50">
       <p className="text-xs text-gray-400 font-medium">
-        Uploaded files will appear here
+        {t("newRequest.steps.step3.emptyFiles")}
       </p>
     </div>
   );
@@ -142,6 +145,7 @@ export default function STEP_3({
   onFilesChange: (files: File[]) => void;
   initialFiles?: File[];
 }) {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const dispatch = useAppDispatch();
   const serviceId = searchParams.get("serviceId");
@@ -208,7 +212,7 @@ export default function STEP_3({
     });
 
     if (oversized.length > 0) {
-      toast.error(`Files exceed 6 MB limit: ${oversized.join(", ")}`);
+      toast.error(t("newRequest.steps.step3.maxSizeLimit", { files: oversized.join(", ") }));
     }
 
     if (valid.length === 0) return;
@@ -238,10 +242,10 @@ export default function STEP_3({
         {/* Header */}
         <div className="px-5 pt-5 pb-4 sm:px-7 sm:pt-7 sm:pb-5 border-b border-gray-100">
           <h1 className="text-lg font-semibold tracking-tight text-gray-900">
-            Upload Required Documents
+            {t("newRequest.steps.step3.header")}
           </h1>
           <p className="mt-1 text-sm text-gray-500">
-            Clear scans only · Any format accepted · Max 6 MB per file
+            {t("newRequest.steps.step3.headerDesc")}
           </p>
         </div>
 
@@ -255,12 +259,11 @@ export default function STEP_3({
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between">
                 <p className="text-[11px] font-semibold tracking-widest text-gray-400 uppercase">
-                  Attached Files
+                  {t("newRequest.steps.step3.attachedFiles")}
                 </p>
                 {uploadFiles.length > 0 && (
                   <span className="text-[11px] text-gray-400">
-                    {uploadFiles.length} file
-                    {uploadFiles.length !== 1 ? "s" : ""}
+                    {t("newRequest.steps.step3.fileCount", { count: uploadFiles.length })}
                   </span>
                 )}
               </div>
@@ -268,8 +271,8 @@ export default function STEP_3({
               {uploadFiles.length === 0 ? (
                 <EmptyFiles />
               ) : (
-                <ScrollArea className="h-45 pr-1">
-                  <div className="flex flex-col gap-1.5 pr-2">
+                <ScrollArea className="h-45 pe-1">
+                  <div className="flex flex-col gap-1.5 pe-2">
                     {uploadFiles.map((f) => (
                       <FileRow key={f.id} file={f} onRemove={removeFile} />
                     ))}
@@ -286,7 +289,7 @@ export default function STEP_3({
               <div className="flex items-center gap-2 mb-4">
                 <CheckCircle2 className="size-3.5 text-indigo-500" />
                 <h2 className="text-sm font-semibold text-gray-800">
-                  Required Documents
+                  {t("newRequest.steps.step3.requiredDocs")}
                 </h2>
               </div>
 
@@ -300,7 +303,7 @@ export default function STEP_3({
                   </li>
                 )) || (
                   <p className="text-xs text-gray-400 italic">
-                    No specific documents required.
+                    {t("newRequest.steps.step3.noSpecificDocs")}
                   </p>
                 )}
               </ul>
@@ -310,8 +313,7 @@ export default function STEP_3({
             <div className="flex gap-2.5 p-3.5 bg-indigo-50 border border-indigo-100 rounded-xl">
               <Info className="size-3.5 text-indigo-400 shrink-0 mt-0.5" />
               <p className="text-xs text-indigo-600 leading-relaxed">
-                Files must be clear and legible. Blurred documents will delay
-                your application significantly.
+                {t("newRequest.steps.step3.fileQualityNote")}
               </p>
             </div>
           </div>

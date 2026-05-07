@@ -21,6 +21,7 @@ import {
 
 import Logo from "@/assets/Minya University Logo.jpg";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "@/store/hooks/hook";
 import { logout, selectUser } from "@/store/slices/authSlice";
 import { dashboardLinks } from "./../../component/DashbordComp/dashboardLinks";
@@ -33,6 +34,8 @@ import {
 } from "@/store/slices/servicesslice";
 
 export function AppSidebar() {
+  const { t, i18n } = useTranslation();
+  const side = i18n.language === "ar" ? "right" : "left";
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useAppDispatch();
@@ -70,7 +73,7 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar className="bg-[#0A1931] text-white flex flex-col h-screen px-1 py-3">
+    <Sidebar side={side} className="bg-[#0A1931] text-white flex flex-col h-screen px-1 py-3">
       {/* HEADER */}
       <SidebarHeader className="border-b border-white/10">
         <div className="flex gap-3 items-center">
@@ -82,9 +85,9 @@ export function AppSidebar() {
             />
           </Link>
           <div>
-            <h1 className="m-0 text-lg font-bold">Minia University</h1>
+            <h1 className="m-0 text-lg font-bold">{t("miniaUniversity")}</h1>
             <p className="m-0 text-xs font-medium">
-              International Students Portal
+              {t("internationalStudentsPortal")}
             </p>
           </div>
         </div>
@@ -135,7 +138,7 @@ export function AppSidebar() {
                           <div className="flex items-center gap-3">
                             <Icon className="w-5 h-5" />
                             <span className="text-sm font-medium">
-                              {typedItem.label}
+                              {t(itemId, { defaultValue: typedItem.label })}
                             </span>
                           </div>
                           <IconChevronDown
@@ -146,7 +149,7 @@ export function AppSidebar() {
                         </SidebarMenuButton>
 
                         {isMenuOpen && (
-                          <SidebarMenuSub className="mt-1 ml-4 border-l border-white/10">
+                          <SidebarMenuSub className="mt-1 ms-4 border-s border-white/10">
                             {servicesLoading ? (
                               <SidebarMenuSubItem>
                                 <div className="px-4 py-2 text-xs text-white/40 animate-pulse">
@@ -193,13 +196,13 @@ export function AppSidebar() {
                         className={`flex items-center gap-3 h-11 px-4 rounded-lg transition cursor-pointer
                           ${
                             isActive
-                              ? "bg-white/10 border-l-4 border-[#C5A059]"
+                              ? "bg-white/10 border-s-4 border-[#C5A059]"
                               : "hover:bg-white/5"
                           }`}
                       >
                         <Icon className="w-5 h-5" />
                         <span className="text-sm font-medium">
-                          {typedItem.label}
+                          {t(itemId, { defaultValue: typedItem.label })}
                         </span>
                       </SidebarMenuButton>
                     )}
@@ -221,7 +224,7 @@ export function AppSidebar() {
           rounded-lg py-3 transition cursor-pointer"
         >
           <IconLogout className="w-4 h-4" />
-          Logout
+          {t("logout")}
         </button>
       </SidebarFooter>
     </Sidebar>

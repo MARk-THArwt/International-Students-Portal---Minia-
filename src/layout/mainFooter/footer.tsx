@@ -1,5 +1,6 @@
 import React from "react";
 import logo from "@/assets/Minya University Logo.jpg";
+import { useTranslation } from "react-i18next";
 import "./Footer.css";
 import {
   FaFacebookF,
@@ -11,6 +12,7 @@ import {
 } from "react-icons/fa";
 
 const Footer: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <footer className="footer">
       <div className="footer-container">
@@ -27,18 +29,16 @@ const Footer: React.FC = () => {
                   margin: "0px",
                 }}
               >
-                Minia University
+                {t("miniaUniversity")}
               </h2>
               <p className="subtitle " style={{ margin: "0px" }}>
-                International Portal
+                {t("footer.internationalPortal")}
               </p>
             </div>
           </div>
 
           <p className="description">
-            Providing excellence in higher education and research since 1976.
-            Minia University is committed to fostering a diverse and inclusive
-            academic environment.
+            {t("footer.desc")}
           </p>
 
           <div className="social-icons">
@@ -50,51 +50,51 @@ const Footer: React.FC = () => {
 
         {/* Column 2 */}
         <div className="footer-col">
-          <h3>QUICK LINKS</h3>
+          <h3>{t("footer.quickLinks")}</h3>
           <ul>
-            <li>About University</li>
-            <li>Academic Calendar</li>
-            <li>E-Learning Portal</li>
-            <li>Library</li>
-            <li>Staff Directory</li>
+            <li>{t("footer.aboutUniversity")}</li>
+            <li>{t("footer.academicCalendar")}</li>
+            <li>{t("footer.eLearningPortal")}</li>
+            <li>{t("footer.library")}</li>
+            <li>{t("footer.staffDirectory")}</li>
           </ul>
         </div>
 
         {/* Column 3 */}
         <div className="footer-col">
-          <h3>ADMISSION</h3>
+          <h3>{t("footer.admission")}</h3>
           <ul>
-            <li>How to Apply</li>
-            <li>Tuition Fees</li>
-            <li>Scholarships</li>
-            <li>Transfer Students</li>
-            <li>FAQ</li>
+            <li>{t("footer.howToApply")}</li>
+            <li>{t("footer.tuitionFees")}</li>
+            <li>{t("footer.scholarships")}</li>
+            <li>{t("footer.transferStudents")}</li>
+            <li>{t("footer.faq")}</li>
           </ul>
         </div>
 
         {/* Column 4 */}
         <div className="footer-col">
-          <h3>CONTACT US</h3>
+          <h3>{t("footer.contactUs")}</h3>
           <ul className="contact">
             <li>
-              <FaMapMarkerAlt /> Main Campus, Minia City, Egypt
+              <FaMapMarkerAlt /> {t("footer.address")}
             </li>
             <li>
-              <FaPhoneAlt /> +20 86 236 2365
+              <FaPhoneAlt /> {t("footer.phone")}
             </li>
             <li>
-              <FaEnvelope /> info@minia.edu.eg
+              <FaEnvelope /> {t("footer.email")}
             </li>
           </ul>
         </div>
       </div>
 
       <div className="footer-bottom">
-        <p>© 2026 Minia University. All Rights Reserved.</p>
+        <p>{t("footer.copyright")}</p>
         <div className="footer-links">
-          <span>Privacy Policy</span>
-          <span>Terms of Use</span>
-          <span>Sitemap</span>
+          <span>{t("footer.privacyPolicy")}</span>
+          <span>{t("footer.termsOfUse")}</span>
+          <span>{t("footer.sitemap")}</span>
         </div>
       </div>
     </footer>

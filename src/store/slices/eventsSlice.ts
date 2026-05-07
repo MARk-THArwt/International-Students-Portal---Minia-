@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk} from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
 import api, { extractErrorMessage } from "../../api/api";
 
 // ================== TYPES ==================
@@ -10,6 +9,7 @@ export interface Event {
   description: string;
   date: string;
   location: string;
+  image?: string;
   createdBy?: string;
   createdAt?: string;
   updatedAt?: string;
@@ -36,16 +36,11 @@ export interface PaginatedEventsResponse {
   data: Event[];
 }
 
-export interface CreateEventPayload {
-  title: string;
-  description: string;
-  date: string;
-  location: string;
-}
+export type CreateEventPayload = FormData;
 
 export interface UpdateEventPayload {
   eventId: string;
-  data: Partial<CreateEventPayload>;
+  data: FormData;
 }
 
 // ================== THUNKS ==================
@@ -67,14 +62,13 @@ export const getEvents = createAsyncThunk<
 
 export const createEvent = createAsyncThunk<
   Event,
-  CreateEventPayload,
+  FormData,
   { rejectValue: string }
 >("events/createEvent", async (eventData, { rejectWithValue }) => {
   try {
-    // Note: Assuming API returns { data: Event } or just Event directly. 
-    // Adapting to typical REST patterns (e.g. response.data.data if wrapped)
-    const { data } = await api.post<{ data: Event } | Event>("/events", eventData);
-    // Handle standard vs wrapped response formats seamlessly
+    const { data } = await api.post<{ data: Event } | Event>("/events", eventData, {
+      headers: { "Content-Type": "multipart/form-data" }
+    });
     return "data" in data && data.data && typeof data.data === "object" ? data.data : (data as Event);
   } catch (error) {
     return rejectWithValue(extractErrorMessage(error));
@@ -91,7 +85,8 @@ export const updateEvent = createAsyncThunk<
     try {
       const { data } = await api.patch<{ data: Event } | Event>(
         `/events/${eventId}`,
-        updateData
+        updateData,
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
 
       return "data" in data && typeof data.data === "object"

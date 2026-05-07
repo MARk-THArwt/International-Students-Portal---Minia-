@@ -22,10 +22,12 @@ import {
   selectAuthError 
 } from "../../store/slices/authSlice";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 type Role = "student" | "staff" | "admin";
 
 export const RegisterForm = () => {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const isLoading = useAppSelector(selectAuthLoading());
@@ -68,24 +70,24 @@ export const RegisterForm = () => {
 
     // Basic Validation
     if (!formData.name || !formData.email || !formData.password) {
-      setFormError("Please fill in all basic fields.");
+      setFormError(t("registerPage.errors.fillBasic"));
       return;
     }
 
     // Role-specific Validation
     if (role === "student") {
       if (!formData.studentId || !formData.passportNumber || !formData.nationality || !formData.phone) {
-        setFormError("Please fill in all student details.");
+        setFormError(t("registerPage.errors.fillStudent"));
         return;
       }
     } else if (role === "staff") {
       if (!formData.employeeId || !formData.staffRole || !formData.department) {
-        setFormError("Please fill in all staff details.");
+        setFormError(t("registerPage.errors.fillStaff"));
         return;
       }
     } else if (role === "admin") {
       if (!formData.employeeId) {
-        setFormError("Please provide an Employee ID.");
+        setFormError(t("registerPage.errors.fillEmployee"));
         return;
       }
     }
@@ -135,14 +137,14 @@ export const RegisterForm = () => {
   return (
     <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
       <div className="bg-blue-600 p-8 text-white text-center">
-        <h2 className="text-3xl font-bold">Create Account</h2>
-        <p className="text-blue-100 mt-2">Join our international academic community</p>
+        <h2 className="text-3xl font-bold">{t("registerPage.createAccount")}</h2>
+        <p className="text-blue-100 mt-2">{t("registerPage.joinCommunity")}</p>
       </div>
 
       <form onSubmit={handleSubmit} className="p-8 space-y-8">
         {/* Role Selection */}
         <div className="flex flex-col space-y-2">
-          <label className="text-sm font-semibold text-gray-700">I am registering as a:</label>
+          <label className="text-sm font-semibold text-gray-700">{t("registerPage.iAmRegisteringAs")}</label>
           <div className="grid grid-cols-3 gap-4">
             {(["student", "staff", "admin"] as Role[]).map((r) => (
               <button
@@ -155,7 +157,7 @@ export const RegisterForm = () => {
                     : "bg-gray-50 border-transparent text-gray-500 hover:bg-gray-100"
                 }`}
               >
-                {r}
+                {t(`loginPage.roles.${r}`)}
               </button>
             ))}
           </div>
@@ -176,22 +178,22 @@ export const RegisterForm = () => {
               <input type="file" className="hidden" accept="image/*" onChange={handleFileChange} />
             </label>
           </div>
-          <p className="text-xs text-gray-400">Upload profile picture (Optional)</p>
+          <p className="text-xs text-gray-400">{t("registerPage.uploadProfile")}</p>
         </div>
 
         {/* Form Fields Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Common Fields */}
           <InputField 
-            icon={<User />} label="Full Name" name="name" 
+            icon={<User />} label={t("registerPage.fullName")} name="name" 
             value={formData.name} onChange={handleInputChange} required 
           />
           <InputField 
-            icon={<Mail />} label="Email Address" name="email" type="email"
+            icon={<Mail />} label={t("registerPage.emailAddress")} name="email" type="email"
             value={formData.email} onChange={handleInputChange} required 
           />
           <InputField 
-            icon={<Lock />} label="Password" name="password" type="password"
+            icon={<Lock />} label={t("registerPage.password")} name="password" type="password"
             value={formData.password} onChange={handleInputChange} required 
           />
 
@@ -199,19 +201,19 @@ export const RegisterForm = () => {
           {role === "student" && (
             <>
               <InputField 
-                icon={<IdCard />} label="Student ID" name="studentId" 
+                icon={<IdCard />} label={t("registerPage.studentId")} name="studentId" 
                 value={formData.studentId} onChange={handleInputChange} required 
               />
               <InputField 
-                icon={<IdCard />} label="Passport Number" name="passportNumber" 
+                icon={<IdCard />} label={t("registerPage.passportNumber")} name="passportNumber" 
                 value={formData.passportNumber} onChange={handleInputChange} required 
               />
               <InputField 
-                icon={<Globe />} label="Nationality" name="nationality" 
+                icon={<Globe />} label={t("registerPage.nationality")} name="nationality" 
                 value={formData.nationality} onChange={handleInputChange} required 
               />
               <InputField 
-                icon={<Phone />} label="Phone Number" name="phone" 
+                icon={<Phone />} label={t("registerPage.phoneNumber")} name="phone" 
                 value={formData.phone} onChange={handleInputChange} required 
               />
             </>
@@ -219,19 +221,19 @@ export const RegisterForm = () => {
 
           {/* Common Gender Selection (Hidden from student block to be for everyone) */}
           <div className="flex flex-col space-y-1.5">
-            <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Gender</label>
+            <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ms-1">{t("registerPage.gender")}</label>
             <div className="relative">
-              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+              <div className="absolute start-3 top-1/2 -translate-y-1/2 text-gray-400">
                 <Users className="w-5 h-5" />
               </div>
               <select
                 name="gender"
                 value={formData.gender}
                 onChange={handleInputChange}
-                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 outline-none transition text-sm"
+                className="w-full ps-10 pe-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 outline-none transition text-sm"
               >
-                <option value="male">Male</option>
-                <option value="female">Female</option>
+                <option value="male">{t("registerPage.male")}</option>
+                <option value="female">{t("registerPage.female")}</option>
               </select>
             </div>
           </div>
@@ -239,7 +241,7 @@ export const RegisterForm = () => {
           {/* Staff & Admin Specific Fields */}
           {(role === "staff" || role === "admin") && (
             <InputField 
-              icon={<IdCard />} label="Employee ID" name="employeeId" 
+              icon={<IdCard />} label={t("registerPage.employeeId")} name="employeeId" 
               value={formData.employeeId} onChange={handleInputChange} required 
             />
           )}
@@ -247,12 +249,12 @@ export const RegisterForm = () => {
           {role === "staff" && (
             <>
               <InputField 
-                icon={<Briefcase />} label="Staff Role" name="staffRole" 
-                placeholder="e.g. Professor, Manager"
+                icon={<Briefcase />} label={t("registerPage.staffRole")} name="staffRole" 
+                placeholder={t("registerPage.staffRolePlaceholder")}
                 value={formData.staffRole} onChange={handleInputChange} required 
               />
               <InputField 
-                icon={<Building2 />} label="Department" name="department" 
+                icon={<Building2 />} label={t("registerPage.department")} name="department" 
                 value={formData.department} onChange={handleInputChange} required 
               />
             </>
@@ -276,10 +278,10 @@ export const RegisterForm = () => {
           {isLoading ? (
             <>
               <Loader2 className="w-6 h-6 animate-spin" />
-              Registering...
+              {t("registerPage.registering")}
             </>
           ) : (
-            "Create Account"
+            t("registerPage.createAccount")
           )}
         </button>
       </form>
@@ -300,9 +302,9 @@ interface InputFieldProps {
 
 const InputField = ({ icon, label, name, value, onChange, type = "text", required, placeholder }: InputFieldProps) => (
   <div className="flex flex-col space-y-1.5 w-full">
-    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">{label}</label>
+    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ms-1">{label}</label>
     <div className="relative">
-      <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+      <div className="absolute start-3 top-1/2 -translate-y-1/2 text-gray-400">
         {React.cloneElement(icon as React.ReactElement<any>, { className: "w-5 h-5" })}
       </div>
       <input
@@ -312,7 +314,7 @@ const InputField = ({ icon, label, name, value, onChange, type = "text", require
         onChange={onChange}
         required={required}
         placeholder={placeholder}
-        className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 outline-none transition text-sm"
+        className="w-full ps-10 pe-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 outline-none transition text-sm"
       />
     </div>
   </div>

@@ -15,35 +15,9 @@ import {
 } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-const URGENCY_CONFIG = {
-  Normal: {
-    icon: IconCircleCheck,
-    color: "text-emerald-600",
-    bg: "bg-emerald-50",
-    border: "border-emerald-500",
-    dot: "bg-emerald-500",
-    label: "Standard processing time applies.",
-  },
-  Urgent: {
-    icon: IconFlame,
-    color: "text-amber-600",
-    bg: "bg-amber-50",
-    border: "border-amber-500",
-    dot: "bg-amber-500",
-    label: "Expedited review within 48 hrs.",
-  },
-  Critical: {
-    icon: IconAlertTriangle,
-    color: "text-red-600",
-    bg: "bg-red-50",
-    border: "border-red-500",
-    dot: "bg-red-500",
-    label: "Immediate attention required.",
-  },
-} as const;
-
-type UrgencyLevel = keyof typeof URGENCY_CONFIG;
+type UrgencyLevel = "Normal" | "Urgent" | "Critical";
 
 const ReadOnlyField = ({
   label,
@@ -55,38 +29,71 @@ const ReadOnlyField = ({
   value: string;
   icon?: React.ElementType;
   required?: boolean;
-}) => (
-  <div className="space-y-1.5">
-    <Label className="text-[11px] font-bold tracking-widest uppercase text-muted-foreground/70">
-      {label}
-      {required && <span className="ml-1 text-red-400 normal-case">*</span>}
-    </Label>
-    <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl border border-dashed border-slate-200 bg-slate-50/60">
-      {Icon && <Icon size={14} className="text-slate-400 shrink-0" />}
-      <span className="text-sm font-medium text-slate-700 truncate">
-        {value || "—"}
-      </span>
+}) => {
+  const { t } = useTranslation();
+  return (
+    <div className="space-y-1.5">
+      <Label className="text-[11px] font-bold tracking-widest uppercase text-muted-foreground/70">
+        {label}
+        {required && <span className="ms-1 text-red-400 normal-case">*</span>}
+      </Label>
+      <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl border border-dashed border-slate-200 bg-slate-50/60">
+        {Icon && <Icon size={14} className="text-slate-400 shrink-0" />}
+        <span className="text-sm font-medium text-slate-700 truncate">
+          {value || "—"}
+        </span>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
-const SectionHeader = ({ step, title }: { step: string; title: string }) => (
-  <div className="flex items-center gap-3 mb-5">
-    <div className="flex items-center justify-center w-5 h-5 rounded-full bg-primary/90 text-primary-foreground text-[10px] font-bold shrink-0">
-      {step}
+const SectionHeader = ({ step, title }: { step: string; title: string }) => {
+  return (
+    <div className="flex items-center gap-3 mb-5">
+      <div className="flex items-center justify-center w-5 h-5 rounded-full bg-primary/90 text-primary-foreground text-[10px] font-bold shrink-0">
+        {step}
+      </div>
+      <h2 className="text-[11px] font-bold tracking-[0.18em] uppercase text-muted-foreground/80">
+        {title}
+      </h2>
+      <div className="flex-1 h-px bg-border/60" />
     </div>
-    <h2 className="text-[11px] font-bold tracking-[0.18em] uppercase text-muted-foreground/80">
-      {title}
-    </h2>
-    <div className="flex-1 h-px bg-border/60" />
-  </div>
-);
+  );
+};
 
 export const STEP_2 = () => {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const dispatch = useAppDispatch();
   const serviceId = searchParams.get("serviceId");
   const selectedService = useAppSelector(selectServiceById(serviceId || ""));
+
+  const URGENCY_CONFIG = {
+    Normal: {
+      icon: IconCircleCheck,
+      color: "text-emerald-600",
+      bg: "bg-emerald-50",
+      border: "border-emerald-500",
+      dot: "bg-emerald-500",
+      label: t("newRequest.steps.step2.urgency.NormalDesc"),
+    },
+    Urgent: {
+      icon: IconFlame,
+      color: "text-amber-600",
+      bg: "bg-amber-50",
+      border: "border-amber-500",
+      dot: "bg-amber-500",
+      label: t("newRequest.steps.step2.urgency.UrgentDesc"),
+    },
+    Critical: {
+      icon: IconAlertTriangle,
+      color: "text-red-600",
+      bg: "bg-red-50",
+      border: "border-red-500",
+      dot: "bg-red-500",
+      label: t("newRequest.steps.step2.urgency.CriticalDesc"),
+    },
+  } as const;
 
   useEffect(() => {
     if (serviceId && !selectedService) {
@@ -97,7 +104,7 @@ export const STEP_2 = () => {
   const [urgency] = useState<UrgencyLevel>("Normal");
   const [subject, setSubject] = useState("");
   const [serviceType, setServiceType] = useState("");
-  const [deliveryPreference] = useState("Digital Copy (Email)");
+  const [deliveryPreference] = useState(t("newRequest.steps.step2.digitalCopy"));
 
   useEffect(() => {
     if (selectedService) {
@@ -113,27 +120,26 @@ export const STEP_2 = () => {
     <div className="max-w-3xl mx-auto">
       {/* Page Header */}
       <div className="mb-7">
-        <h1 className="text-2xl font-bold tracking-tight">Service Details</h1>
+        <h1 className="text-2xl font-bold tracking-tight">{t("newRequest.steps.step2.header")}</h1>
         <p className="mt-1.5 text-sm text-muted-foreground max-w-md">
-          Review the details of your selected service before proceeding to
-          document upload.
+          {t("newRequest.steps.step2.headerDesc")}
         </p>
       </div>
 
       <div className="space-y-5">
         {/* Section 1 — Request Information */}
         <div className="p-6 border rounded-2xl bg-card shadow-sm">
-          <SectionHeader step="1" title="Request Information" />
+          <SectionHeader step="1" title={t("newRequest.steps.step2.requestInfo")} />
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <ReadOnlyField
-              label="Service Category"
+              label={t("newRequest.steps.step2.serviceCategory")}
               value={serviceType}
               icon={IconTag}
               required
             />
             <ReadOnlyField
-              label="Delivery Preference"
+              label={t("newRequest.steps.step2.deliveryPreference")}
               value={deliveryPreference}
               icon={IconSend}
             />
@@ -142,7 +148,7 @@ export const STEP_2 = () => {
           {/* Urgency — read-only display */}
           <div className="mt-4 space-y-2">
             <Label className="text-[11px] font-bold tracking-widest uppercase text-muted-foreground/70">
-              Urgency Level <span className="text-red-400 normal-case">*</span>
+              {t("newRequest.steps.step2.urgencyLevel")} <span className="text-red-400 normal-case">*</span>
             </Label>
             <div className="grid grid-cols-3 gap-2.5">
               {(Object.keys(URGENCY_CONFIG) as UrgencyLevel[]).map((level) => {
@@ -163,13 +169,13 @@ export const STEP_2 = () => {
                     {isActive && (
                       <span
                         className={cn(
-                          "absolute top-2 right-2 w-1.5 h-1.5 rounded-full",
+                          "absolute top-2 end-2 w-1.5 h-1.5 rounded-full",
                           cfg.dot,
                         )}
                       />
                     )}
                     <LevelIcon size={16} />
-                    <span className="text-xs">{level}</span>
+                    <span className="text-xs">{t(`newRequest.steps.step2.urgency.${level}`)}</span>
                   </div>
                 );
               })}
@@ -189,11 +195,11 @@ export const STEP_2 = () => {
 
         {/* Section 2 — Service Details */}
         <div className="p-6 border rounded-2xl bg-card shadow-sm">
-          <SectionHeader step="2" title="Service Details & Description" />
+          <SectionHeader step="2" title={t("newRequest.steps.step2.serviceDetailsSection")} />
 
           <div className="space-y-4">
             <ReadOnlyField
-              label="Service Name"
+              label={t("newRequest.steps.step2.serviceName")}
               value={subject}
               icon={IconFileDescription}
               required
@@ -201,12 +207,12 @@ export const STEP_2 = () => {
 
             <div className="space-y-1.5">
               <Label className="text-[11px] font-bold tracking-widest uppercase text-muted-foreground/70">
-                Service Description
+                {t("newRequest.steps.step2.serviceDescription")}
               </Label>
               <Textarea
                 readOnly
                 value={
-                  selectedService?.description || "No description provided."
+                  selectedService?.description || t("newRequest.steps.step2.noDescription")
                 }
                 className={cn(
                   "resize-none min-h-[80px] text-sm bg-slate-50/60",
@@ -217,13 +223,13 @@ export const STEP_2 = () => {
             </div>
 
             {/* Required Documents */}
-            {selectedService?.requiredDocuments?.length > 0 && (
+            {(selectedService?.requiredDocuments?.length ?? 0) > 0 && (
               <div className="space-y-2">
                 <Label className="text-[11px] font-bold tracking-widest uppercase text-muted-foreground/70">
-                  Required Documents
+                  {t("newRequest.steps.step2.requiredDocuments")}
                 </Label>
                 <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                  {selectedService.requiredDocuments?.map(
+                  {selectedService?.requiredDocuments?.map(
                     (doc: string, i: number) => (
                       <div
                         key={i}
@@ -235,7 +241,7 @@ export const STEP_2 = () => {
                         <span className="text-xs font-medium text-slate-600 leading-tight">
                           {doc}
                         </span>
-                        <span className="ml-auto text-[10px] font-bold text-slate-400">
+                        <span className="ms-auto text-[10px] font-bold text-slate-400">
                           #{i + 1}
                         </span>
                       </div>

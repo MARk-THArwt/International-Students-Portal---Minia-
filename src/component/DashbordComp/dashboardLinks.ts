@@ -48,12 +48,6 @@ export const dashboardLinks = {
       route: "/dashboard",
     },
     {
-      id: "requests",
-      label: "My Requests",
-      icon: IconFileText,
-      route: "/requests",
-    },
-    {
       id: "services",
       label: "Services",
       icon: IconTools,
@@ -66,6 +60,12 @@ export const dashboardLinks = {
       icon: IconCalendar,
       route: "/events",
     },
+    {
+      id: "Contact",
+      label: "Contact us",
+      icon: IconCalendar,
+      route: "/Contact",
+    },
    
     { id: "profile", label: "Profile", icon: IconUser, route: "/profile" },
   ],
@@ -77,10 +77,10 @@ export const dashboardLinks = {
       route: "/dashboard/staff",
     },
     {
-      id: "requests",
-      label: "Requests",
-      icon: IconFileText,
-      route: "/dashboard/staff/requests",
+      id: "Contact",
+      label: "Contact us",
+      icon: IconCalendar,
+      route: "/Contact",
     },
   ],
 };
