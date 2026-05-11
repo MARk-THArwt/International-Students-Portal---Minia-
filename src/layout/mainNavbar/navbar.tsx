@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import Logo from "@/assets/Minya University Logo.jpg";
-import LanguageIcon from "@mui/icons-material/Language";
 import LoginIcon from "@mui/icons-material/Login";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "../../component/LanguageSwitcher/LanguageSwitcher";

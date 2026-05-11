@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import{ useEffect, useMemo, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks/hook";
 import { getEvents, selectEventsState, type Event } from "../../store/slices/eventsSlice";
 import { useTranslation } from "react-i18next";
@@ -15,7 +15,6 @@ import {
   ArrowRight,
   Sparkles
 } from "lucide-react";
-import { cn } from "../../lib/utils";
 
 // --- REUSABLE COMPONENTS ---
 

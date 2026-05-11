@@ -9,7 +9,7 @@ import {
 } from "../../store/slices/eventsSlice";
 import { selectUser } from "../../store/slices/authSlice";
 import { useTranslation } from "react-i18next";
-import { Plus, Search, Edit2, Trash2, X, Upload, Calendar, MapPin, Loader2 } from "lucide-react";
+import { Plus, Edit2, Trash2, X, Upload, Calendar, MapPin, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import type { Event } from "../../store/slices/eventsSlice";
 

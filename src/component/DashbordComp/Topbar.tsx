@@ -1,5 +1,4 @@
-import { Bell, Search } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../../store/hooks/hook";
 import { selectUser } from "../../store/slices/authSlice";

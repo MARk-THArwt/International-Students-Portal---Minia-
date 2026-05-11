@@ -17,7 +17,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 export const NewRequest = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const dispatch = useAppDispatch();
   const serviceId = searchParams.get("serviceId");

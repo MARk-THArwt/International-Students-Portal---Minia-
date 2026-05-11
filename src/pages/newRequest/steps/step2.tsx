@@ -30,7 +30,6 @@ const ReadOnlyField = ({
   icon?: React.ElementType;
   required?: boolean;
 }) => {
-  const { t } = useTranslation();
   return (
     <div className="space-y-1.5">
       <Label className="text-[11px] font-bold tracking-widest uppercase text-muted-foreground/70">
