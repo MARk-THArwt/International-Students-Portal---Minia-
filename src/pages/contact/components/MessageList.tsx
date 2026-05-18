@@ -26,14 +26,14 @@ export const MessageList = ({ messages, currentUserId, currentUserRole, loading,
   }, [sortedMessages]);
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 bg-gray-50 flex flex-col gap-2 rounded-t-xl border border-gray-200 border-b-0 h-[400px]">
+    <div className="flex-1 overflow-y-auto p-4 bg-original-background-alt flex flex-col gap-2 rounded-t-xl border border-original-border border-b-0 h-[400px]">
       {loading && sortedMessages.length === 0 ? (
         <div className="flex items-center justify-center h-full">
-          <p className="text-gray-500 font-medium">Loading messages...</p>
+          <p className="text-original-text-muted font-medium">Loading messages...</p>
         </div>
       ) : sortedMessages.length === 0 ? (
         <div className="flex items-center justify-center h-full">
-          <p className="text-gray-500 font-medium">No messages yet. Start the conversation!</p>
+          <p className="text-original-text-muted font-medium">No messages yet. Start the conversation!</p>
         </div>
       ) : (
         sortedMessages.map((msg) => (

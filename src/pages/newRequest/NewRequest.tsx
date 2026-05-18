@@ -90,7 +90,7 @@ export const NewRequest = () => {
   };
 
   return (
-    <div className="min-h-screen py-10 bg-gray-300/40">
+    <div className="min-h-screen py-10 bg-original-border/40">
       <MaxContainerWrapper className="flex flex-col justify-center items-center gap-5">
         <Stepper activeStep={currentStep} />
 
@@ -110,13 +110,13 @@ export const NewRequest = () => {
 
             <Button
               onClick={handleNext}
-              className="px-8 h-12 bg-blue-800 transition duration-300 hover:bg-blue-900 active:scale-95 text-[16px] font-semibold"
+              className="px-8 h-12 bg-original-primary-hover text-white transition duration-300 hover:bg-original-secondary active:scale-95 text-[16px] font-semibold"
             >
               {currentStep === 3 ? (
                 <>
                   {loading.create ? (
                     <span className="flex items-center gap-2">
-                      <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      <span className="w-4 h-4 border-2 border-original-border-light border-t-transparent rounded-full animate-spin" />
                       {t("newRequest.submitting")}
                     </span>
                   ) : (

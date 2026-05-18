@@ -40,43 +40,154 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
+:root, [data-theme="original"] {
+  --color-primary: #0F0FBD;
+  --color-primary-hover: #0909AA;
+  --color-primary-light: #144BB8;
+  --color-primary-active: #0c0ca0;
+  --color-secondary: #002147;
+  --color-secondary-hover: #0A1931;
+  --color-accent: #C5A059;
+  --color-accent-light: rgba(197, 160, 89, 0.1);
+  --color-background: #F4F7FB;
+  --color-background-alt: #F8FAFC;
+  --color-text: #1e293b;
+  --color-text-dark: #0D0D1C;
+  --color-text-muted: #475569;
+  --color-border: #E2E8F0;
+  --color-border-light: #F1F5F9;
+  --color-card: #FFFFFF;
+
+  --color-success: #10B981;
+  --color-success-light: #ECFDF5;
+  --color-warning: #F59E0B;
+  --color-warning-light: #FFFBEB;
+  --color-danger: #EF4444;
+  --color-danger-light: #FEF2F2;
+
+  --color-primary-subtle: rgba(15, 15, 189, 0.1);
+  --color-accent-subtle: rgba(197, 160, 89, 0.1);
+  --color-sidebar-bg: #0A1931;
+  --color-login-overlay: rgba(0, 33, 71, 0.4);
+  --color-login-gradient-via: var(--color-primary-active);
+}
+
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.87 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.371 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* Primary Brand */
+  --color-primary: #4F6BFF;
+  --color-primary-hover: #3D5AFE;
+  --color-primary-light: #6F86FF;
+  --color-primary-active: #2F49E8;
+
+  /* Secondary - Used for Sidebar and deep UI elements */
+  --color-secondary: #1E293B;
+  --color-secondary-hover: #0F172A;
+
+  /* Specific Sidebar BG - Deep Navy */
+  --color-sidebar-bg: #070C18;
+
+  /* Accent Gold */
+  --color-accent: #D4A94D;
+  --color-accent-light: rgba(212, 169, 77, 0.15);
+
+  /* Backgrounds */
+  --color-background: #0B1120;
+  --color-background-alt: #111827;
+  --color-card: #172033;
+
+  /* Text */
+  --color-text: #F8FAFC;
+  --color-text-dark: #FFFFFF;
+  --color-text-muted: #94A3B8;
+
+  /* Borders */
+  --color-border: #243041;
+  --color-border-light: #334155;
+
+  /* States */
+  --color-success: #22C55E;
+  --color-success-light: rgba(34, 197, 94, 0.15);
+
+  --color-warning: #F59E0B;
+  --color-warning-light: rgba(245, 158, 11, 0.15);
+
+  --color-danger: #EF4444;
+  --color-danger-light: rgba(239, 68, 68, 0.15);
+
+  --color-primary-subtle: rgba(79, 107, 255, 0.15);
+  --color-accent-subtle: rgba(212, 169, 77, 0.05);
+  
+  /* Login Specific */
+  --color-login-overlay: rgba(11, 17, 32, 0.8);
+  --color-login-gradient-via: var(--color-sidebar-bg);
+
+  /* Extra UI */
+  --shadow-color: rgba(0, 0, 0, 0.35);
+  --overlay-color: rgba(15, 23, 42, 0.7);
+   --background: oklch(0.16 0.02 260);
+  --foreground: oklch(0.97 0.01 260);
+
+  --card: oklch(0.22 0.02 260);
+  --card-foreground: oklch(0.97 0.01 260);
+
+  --popover: oklch(0.22 0.02 260);
+  --popover-foreground: oklch(0.97 0.01 260);
+
+  --primary: oklch(0.62 0.22 264);
+  --primary-foreground: oklch(0.98 0.01 260);
+
+  --secondary: oklch(0.28 0.02 260);
+  --secondary-foreground: oklch(0.97 0.01 260);
+
+  --muted: oklch(0.28 0.02 260);
+  --muted-foreground: oklch(0.72 0.02 260);
+
+  --accent: oklch(0.74 0.16 85);
+  --accent-foreground: oklch(0.18 0.02 260);
+
+  --destructive: oklch(0.63 0.24 25);
+
+  --border: oklch(0.30 0.02 260);
+  --input: oklch(0.30 0.02 260);
+  --ring: oklch(0.62 0.22 264);
+
+  --sidebar: oklch(0.20 0.02 260);
+  --sidebar-foreground: oklch(0.97 0.01 260);
 }
 
 @theme inline {
   --color-pizza: rgba(197, 160, 23);
   --animate-slide-in-left: slideInLeft 0.5s ease-out;
+
+  --color-original-primary: var(--color-primary);
+  --color-original-primary-hover: var(--color-primary-hover);
+  --color-original-primary-light: var(--color-primary-light);
+  --color-original-primary-active: var(--color-primary-active);
+  --color-original-secondary: var(--color-secondary);
+  --color-original-secondary-hover: var(--color-secondary-hover);
+  --color-original-accent: var(--color-accent);
+  --color-original-accent-light: var(--color-accent-light);
+  --color-original-background: var(--color-background);
+  --color-original-background-alt: var(--color-background-alt);
+  --color-original-text: var(--color-text);
+  --color-original-text-dark: var(--color-text-dark);
+  --color-original-text-muted: var(--color-text-muted);
+  --color-original-border: var(--color-border);
+  --color-original-border-light: var(--color-border-light);
+  --color-original-card: var(--color-card);
+  --color-original-sidebar-bg: var(--color-sidebar-bg);
+
+  --color-original-success: var(--color-success);
+  --color-original-success-light: var(--color-success-light);
+  --color-original-warning: var(--color-warning);
+  --color-original-warning-light: var(--color-warning-light);
+  --color-original-danger: var(--color-danger);
+  --color-original-danger-light: var(--color-danger-light);
+
+  --color-original-primary-subtle: var(--color-primary-subtle);
+  --color-original-accent-subtle: var(--color-accent-subtle);
+  --color-original-login-overlay: var(--color-login-overlay);
+  --color-original-login-gradient-via: var(--color-login-gradient-via);
 
   --font-sans: "Geist Variable", sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);

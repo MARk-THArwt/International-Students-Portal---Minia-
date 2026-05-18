@@ -28,7 +28,6 @@ export function StudentDashboard() {
   const requests = useAppSelector(selectRequests);
   const isLoading = useAppSelector(selectFetchLoading);
   const user = useAppSelector(selectUser);
-  console.log(user);
   useEffect(() => {
     if (user) {
       dispatch(getMyRequests({ page: 1, limit: 8 }));
@@ -54,10 +53,10 @@ export function StudentDashboard() {
         label: t("table.serviceName"),
         render: (row) => (
           <div>
-            <p className="font-semibold text-gray-900">
+            <p className="font-semibold text-original-text-dark">
               {row.service?.name || t("serviceUnavailable")}
             </p>
-            <p className="text-xs text-gray-500 mt-0.5">ID: {row._id}</p>
+            <p className="text-xs text-original-text-muted mt-0.5">ID: {row._id}</p>
           </div>
         ),
       },
@@ -65,7 +64,7 @@ export function StudentDashboard() {
         key: "category",
         label: t("dashboardPage.category"),
         render: (row) => (
-          <span className="text-gray-700">
+          <span className="text-original-text">
             {row.service?.name || t("serviceUnavailable")}
           </span>
         ),
@@ -74,7 +73,7 @@ export function StudentDashboard() {
         key: "date",
         label: t("table.createdAt"),
         render: (row) => (
-          <span className="text-gray-600">
+          <span className="text-original-text-muted">
             {new Date(row.createdAt).toLocaleDateString(document.documentElement.lang === "ar" ? "ar-EG" : "en-US")}
           </span>
         ),
@@ -88,12 +87,12 @@ export function StudentDashboard() {
           const isRejected = row.status === "Rejected";
           
           const colorClass = isPending
-            ? "bg-yellow-100 text-yellow-800"
+            ? "bg-original-warning-light text-original-warning"
             : isApproved
-              ? "bg-green-100 text-green-800"
+              ? "bg-original-success-light text-original-success"
               : isRejected
-                ? "bg-red-100 text-red-800"
-                : "bg-gray-100 text-gray-800";
+                ? "bg-original-danger-light text-original-danger"
+                : "bg-original-background-alt text-original-text";
                 
           // Camel case for translation key: Pending -> pending
           const statusKey = row.status.charAt(0).toLowerCase() + row.status.slice(1).replace(" ", "");
@@ -120,7 +119,7 @@ export function StudentDashboard() {
   );
 
   return (
-    <div className="flex min-h-screen bg-[#F4F7FB]">
+    <div className="flex min-h-screen bg-original-background">
       <main className="flex-1 p-4 md:p-6 overflow-y-auto">
         <Topbar
           title={t("dashboard")}
@@ -134,33 +133,33 @@ export function StudentDashboard() {
             value={isLoading ? "..." : stats.total.toString()}
           >
             <div className="flex gap-2 mt-2 flex-wrap">
-              <span className="bg-yellow-100 text-yellow-700 px-2 rounded-full text-xs">
+              <span className="bg-original-warning-light text-original-warning px-2 rounded-full text-xs">
                 {stats.pending} {t("status.pending")}
               </span>
-              <span className="bg-blue-100 text-blue-700 px-2 rounded-full text-xs">
+              <span className="bg-original-background-alt text-original-primary text-original-primary-hover px-2 rounded-full text-xs">
                 {stats.inReview} {t("status.inProgress")}
               </span>
             </div>
           </Card>
 
           <Card title={t("dashboardPage.outstandingFees")} value="$4,500">
-            <p className="text-xs text-gray-500">{t("dashboardPage.due")} Oct 15, 2026</p>
-            <button className="text-blue-600 text-sm mt-2">{t("dashboardPage.payNow")} →</button>
+            <p className="text-xs text-original-text-muted">{t("dashboardPage.due")} Oct 15, 2026</p>
+            <button className="text-original-primary text-sm mt-2">{t("dashboardPage.payNow")} →</button>
           </Card>
 
           <Card title={t("dashboardPage.profileStatus")} value="85%">
-            <div className="w-full bg-gray-200 h-2 rounded-full mt-2">
-              <div className="bg-blue-600 h-2 rounded-full w-[85%]" />
+            <div className="w-full bg-original-background-alt h-2 rounded-full mt-2">
+              <div className="bg-original-primary text-white h-2 rounded-full w-[85%]" />
             </div>
           </Card>
 
           {/* Gradient */}
-          <div className="p-4 rounded-xl text-white bg-gradient-to-r from-blue-900 to-blue-600 shadow-sm flex flex-col justify-center">
-            <p className="text-sm font-medium text-blue-100">
+          <div className="p-4 rounded-xl text-white bg-gradient-to-r from-original-secondary via-original-primary to-original-primary-active shadow-sm flex flex-col justify-center">
+            <p className="text-sm font-medium text-original-primary-light">
               {t("dashboardPage.tuitionBalance")}
             </p>
             <h2 className="text-3xl font-bold mt-1">$1,200.00</h2>
-            <button className="bg-white hover:bg-gray-50 text-blue-700 w-full mt-4 py-2 rounded-lg font-bold transition-colors">
+            <button className="bg-original-card hover:bg-original-background-alt text-original-primary-hover w-full mt-4 py-2 rounded-lg font-bold transition-colors">
               {t("dashboardPage.payNow")}
             </button>
           </div>
@@ -180,7 +179,7 @@ export function StudentDashboard() {
           </div>
 
           {/* Map */}
-          <div className="relative h-[160px] rounded-xl overflow-hidden shadow-sm border border-gray-100 bg-[url('https://maps.gstatic.com/tactile/basepage/pegman_sherlock.png')] bg-cover bg-center group">
+          <div className="relative h-[160px] rounded-xl overflow-hidden shadow-sm border border-original-border-light bg-[url('https://maps.gstatic.com/tactile/basepage/pegman_sherlock.png')] bg-cover bg-center group">
             <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
             <div className="absolute bottom-3 start-3 text-white">
               <p className="font-bold drop-shadow-md">

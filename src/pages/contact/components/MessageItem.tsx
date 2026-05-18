@@ -38,7 +38,7 @@ export const MessageItem = ({ message, currentUserId, currentUserRole, onReply }
         {/* Name and Role */}
         <div className="flex items-center gap-2 mb-1">
           {!isMine && senderObj && (
-            <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center text-blue-800 text-xs font-bold shrink-0 overflow-hidden">
+            <div className="w-6 h-6 rounded-full bg-original-background-alt text-original-primary flex items-center justify-center text-original-primary-active text-xs font-bold shrink-0 overflow-hidden">
               {senderObj.avatar ? (
                 <img src={senderObj.avatar} alt="avatar" className="w-full h-full object-cover" />
               ) : (
@@ -46,7 +46,7 @@ export const MessageItem = ({ message, currentUserId, currentUserRole, onReply }
               )}
             </div>
           )}
-          <span className="text-xs text-gray-500 font-medium">
+          <span className="text-xs text-original-text-muted font-medium">
             {senderObj?.name || "Unknown"} {senderObj?.role ? `(${senderObj.role})` : ""}
           </span>
         </div>
@@ -55,8 +55,8 @@ export const MessageItem = ({ message, currentUserId, currentUserRole, onReply }
         <div
           className={`px-4 py-2 rounded-2xl ${
             isMine
-              ? "bg-[#0F0FBD] text-white rounded-tr-none"
-              : "bg-white border border-gray-200 text-gray-800 rounded-tl-none shadow-sm"
+              ? "bg-original-primary text-white rounded-tr-none"
+              : "bg-original-card border border-original-border text-original-text rounded-tl-none shadow-sm"
           }`}
         >
           <p className="m-0 text-sm whitespace-pre-wrap leading-relaxed">{message.message}</p>
@@ -64,11 +64,11 @@ export const MessageItem = ({ message, currentUserId, currentUserRole, onReply }
 
         {/* Footer: Time & Action */}
         <div className="flex items-center gap-3 mt-1">
-          <span className="text-[10px] text-gray-400">{timeString}</span>
+          <span className="text-[10px] text-original-text-muted/70">{timeString}</span>
           {!isMine && isStudent && onReply && (
             <button
               onClick={() => onReply(senderId, senderObj?.name || "Student")}
-              className="text-[11px] text-blue-600 font-medium hover:underline bg-transparent border-none cursor-pointer p-0"
+              className="text-[11px] text-original-primary font-medium hover:underline bg-transparent border-none cursor-pointer p-0"
             >
               Reply
             </button>

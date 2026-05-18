@@ -9,10 +9,10 @@ function StepCircle({ status, id }: { status: StepStatus; id: number }) {
     <div
       className={cn(
         "w-11 h-11 rounded-full flex items-center justify-center text-lg font-semibold border-2 shrink-0 transition-all duration-300 z-10",
-        status === "complete" && "bg-green-50 border-green-600 text-green-700",
+        status === "complete" && "bg-original-success-light border-original-success text-original-success",
         status === "active" &&
-          "bg-white border-indigo-600 text-indigo-600 ring-4 ring-indigo-100 scale-110",
-        status === "pending" && "bg-white border-gray-200 text-gray-400",
+          "bg-original-card border-original-primary text-original-primary ring-4 ring-indigo-100 scale-110",
+        status === "pending" && "bg-original-card border-original-border text-original-text-muted/70",
       )}
     >
       {status === "complete" ? <Check className="w-5 h-5" /> : id}
@@ -25,7 +25,7 @@ function StepConnector({ complete }: { complete: boolean }) {
     <div
       className={cn(
         "h-0.5 transition-colors z-0 absolute top-[22px]",
-        complete ? "bg-indigo-600" : "bg-gray-200",
+        complete ? "bg-original-primary text-white" : "bg-original-background-alt",
       )}
       style={{ left: "calc(50% + 22px)", right: "-50%" }}
     />
@@ -51,12 +51,12 @@ function StepItem({
         <p
           className={cn(
             "text-sm font-medium leading-tight",
-            status === "pending" ? "text-gray-400" : "text-gray-900",
+            status === "pending" ? "text-original-text-muted/70" : "text-original-text-dark",
           )}
         >
           {step.title}
         </p>
-        <p className="text-xs text-gray-500 leading-tight">{step.sub}</p>
+        <p className="text-xs text-original-text-muted leading-tight">{step.sub}</p>
       </div>
     </div>
   );
@@ -134,8 +134,8 @@ export function Stepper({ activeStep }: { activeStep: number }) {
       </div>
 
       {/* Step counter */}
-      <div className="text-center mt-12 text-sm text-gray-500">
-        {t("newRequest.step")} <span className="font-semibold text-indigo-700">{activeStep}</span>{" "}
+      <div className="text-center mt-12 text-sm text-original-text-muted">
+        {t("newRequest.step")} <span className="font-semibold text-original-primary-hover">{activeStep}</span>{" "}
         {t("newRequest.of")} {total}
       </div>
     </div>

@@ -4,6 +4,7 @@ import {
   IconCalendar,
   IconFileText,
   IconUser,
+  IconChartBar,
 } from "@tabler/icons-react";
 
 export const dashboardLinks = {
@@ -23,7 +24,7 @@ export const dashboardLinks = {
     {
       id: "reports",
       label: "Reports",
-      icon: IconFileText,
+      icon: IconChartBar,
       route: "/dashboard/admin/reports",
     },
     {

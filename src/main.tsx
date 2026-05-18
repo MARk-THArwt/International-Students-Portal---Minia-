@@ -21,7 +21,9 @@ import { RegisterForm } from "./pages/register/RegisterForm";
 import { UsersPage } from "./pages/users/users";
 import { ServicesManagement } from "./pages/Services/ServicesManagement";
 import RequestDetailsPage from "./pages/Dashbord/RequestDetailsPage";
+import AdminReports from "./pages/dashboard/AdminReports";
 import MainNav from "./layout/mainNavbar/navbar";
+import { ThemeProvider } from "./components/theme-provider";
 
 import { Toaster } from "@/components/ui/sonner";
 const navigation = [
@@ -33,57 +35,67 @@ const navigation = [
 createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
     <Toaster richColors />
-    <BrowserRouter>
-      <Routes>
-        <Route element={<MainNav navigation={navigation} />}>
-          <Route index element={<Home />} />
-          <Route path="/Contact" element={<Contact />} />
-          <Route path="/Announcement" element={<Announcement />} />
-          <Route path="/Services" element={<Services />} />
-        </Route>
-        <Route path="/Login" element={<Login />} />
-        <Route element={<AppLayout />}>
-          <Route path="/dashboard" element={<DashboardSwitcher />} />
-          <Route
-            path="/staff-dashboard"
-            element={
-              <ProtectedStaffRoute>
-                <StaffDashboard />
-              </ProtectedStaffRoute>
-            }
-          />
-          <Route path="/events" element={<EventsList />} />
-          <Route path="/newRequest" element={<NewRequest />} />
-          <Route path="/profile" element={<StudentProfile />} />
-          <Route path="/RegisterForm" element={<RegisterForm />} />
-          <Route path="/users" element={<UsersPage />} />
-          <Route
-            path="/dashboard/admin"
-            element={
-              <ProtectedAdminRoute>
-                <AdminDashboard />
-              </ProtectedAdminRoute>
-            }
-          />
-          <Route
-            path="/services-management"
-            element={
-              <ProtectedAdminRoute>
-                <ServicesManagement />
-              </ProtectedAdminRoute>
-            }
-          />
-          <Route
-            path="/dashboard/requests/:requestId"
-            element={
-              <ProtectedStaffRoute>
-                <RequestDetailsPage />
-              </ProtectedStaffRoute>
-            }
-          />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<MainNav navigation={navigation} />}>
+            <Route index element={<Home />} />
+            <Route path="/Contact" element={<Contact />} />
+            <Route path="/Announcement" element={<Announcement />} />
+            <Route path="/Services" element={<Services />} />
+          </Route>
+          <Route path="/Login" element={<Login />} />
+          <Route element={<AppLayout />}>
+            <Route path="/dashboard" element={<DashboardSwitcher />} />
+            <Route
+              path="/staff-dashboard"
+              element={
+                <ProtectedStaffRoute>
+                  <StaffDashboard />
+                </ProtectedStaffRoute>
+              }
+            />
+            <Route path="/events" element={<EventsList />} />
+            <Route path="/newRequest" element={<NewRequest />} />
+            <Route path="/profile" element={<StudentProfile />} />
+            <Route path="/RegisterForm" element={<RegisterForm />} />
+            <Route path="/users" element={<UsersPage />} />
+            <Route
+              path="/dashboard/admin"
+              element={
+                <ProtectedAdminRoute>
+                  <AdminDashboard />
+                </ProtectedAdminRoute>
+              }
+            />
+            <Route
+              path="/services-management"
+              element={
+                <ProtectedAdminRoute>
+                  <ServicesManagement />
+                </ProtectedAdminRoute>
+              }
+            />
+            <Route
+              path="/dashboard/admin/reports"
+              element={
+                <ProtectedAdminRoute>
+                  <AdminReports />
+                </ProtectedAdminRoute>
+              }
+            />
+            <Route
+              path="/dashboard/requests/:requestId"
+              element={
+                <ProtectedStaffRoute>
+                  <RequestDetailsPage />
+                </ProtectedStaffRoute>
+              }
+            />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   </Provider>,
 );
 

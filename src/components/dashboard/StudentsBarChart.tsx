@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { ResponsiveBar } from "@nivo/bar";
+import { useChartTheme } from "../../util/chartTheme";
 import type { StudentsReportItem, PaginatedMeta } from "../../store/slices/reportsSlice";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -26,6 +27,7 @@ export function StudentsBarChart({
   currentPage,
   onPageChange,
 }: StudentsBarChartProps) {
+  const theme = useChartTheme();
   const barData = useMemo(
     () =>
       data.map((item, i) => ({
@@ -89,12 +91,7 @@ export function StudentsBarChart({
           labelSkipWidth={32}
           labelTextColor="#ffffff"
           motionConfig="gentle"
-          theme={{
-            axis: {
-              ticks: { text: { fill: "#94a3b8", fontSize: 11 } },
-            },
-            grid: { line: { stroke: "#f1f5f9" } },
-          }}
+          theme={theme}
           tooltip={({ indexValue, value, color }) => (
             <div className="chart-tooltip">
               <span className="chart-tooltip__dot" style={{ background: color }} />

@@ -128,14 +128,14 @@ export function StaffDashboard() {
         label: "Student Name",
         render: (row) => (
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs shrink-0">
+            <div className="w-8 h-8 rounded-full bg-original-background-alt text-original-primary text-original-primary flex items-center justify-center font-bold text-xs shrink-0">
               {row.student?.name?.charAt(0) || "?"}
             </div>
             <div>
-              <p className="text-sm font-semibold text-gray-900">
+              <p className="text-sm font-semibold text-original-text-dark">
                 {row.student?.name || "Unknown"}
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-original-text-muted">
                 {row.student?.email || "N/A"}
               </p>
             </div>
@@ -146,7 +146,7 @@ export function StaffDashboard() {
         key: "service",
         label: "Service Name",
         render: (row) => (
-          <span className="text-sm text-gray-700">
+          <span className="text-sm text-original-text">
             {row.service?.name || "Service unavailable"}
           </span>
         ),
@@ -155,7 +155,7 @@ export function StaffDashboard() {
         key: "category",
         label: "Category",
         render: (row) => (
-          <span className="text-sm font-medium text-gray-700">
+          <span className="text-sm font-medium text-original-text">
             {row.category || row.service?.category || "N/A"}
           </span>
         ),
@@ -165,10 +165,10 @@ export function StaffDashboard() {
         label: "Status",
         render: (row) => {
           const styles = {
-            Pending: "bg-yellow-100 text-yellow-700 border-yellow-200",
-            Approved: "bg-green-100 text-green-700 border-green-200",
-            Rejected: "bg-red-100 text-red-700 border-red-200",
-            Cancelled: "bg-gray-100 text-gray-700 border-gray-200",
+            Pending: "bg-original-warning-light text-original-warning border-original-warning-light",
+            Approved: "bg-original-success-light text-original-success border-original-success-light",
+            Rejected: "bg-original-danger-light text-original-danger border-original-danger-light",
+            Cancelled: "bg-original-background-alt text-original-text border-original-border",
           };
           return (
             <span
@@ -183,7 +183,7 @@ export function StaffDashboard() {
         key: "documents",
         label: "Documents Count",
         render: (row) => (
-          <span className="text-sm text-gray-600">
+          <span className="text-sm text-original-text-muted">
             {row.requiredDocuments?.length > 0
               ? row.requiredDocuments.length
               : "No required documents"}
@@ -194,7 +194,7 @@ export function StaffDashboard() {
         key: "createdAt",
         label: "Created At",
         render: (row) => (
-          <span className="text-sm text-gray-600">
+          <span className="text-sm text-original-text-muted">
             {row.createdAt
               ? new Date(row.createdAt).toLocaleDateString("en-US", {
                   month: "short",
@@ -213,14 +213,14 @@ export function StaffDashboard() {
             <button
               onClick={() => navigate(`/dashboard/requests/${row._id}`)}
               title="View Details"
-              className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+              className="p-1.5 text-original-primary hover:bg-original-background-alt text-original-primary rounded-md transition-colors"
             >
               <Eye className="w-4 h-4" />
             </button>
             {row.status !== "Approved" && row.status !== "Cancelled" && (
               <button
                 onClick={() => handleOpenReview(row)}
-                className="px-3 py-1 bg-blue-600 text-white hover:bg-blue-700 rounded-md text-xs font-semibold transition-colors"
+                className="px-3 py-1 bg-original-primary text-white text-white hover:bg-original-primary-hover rounded-md text-xs font-semibold transition-colors"
               >
                 Review
               </button>
@@ -233,80 +233,80 @@ export function StaffDashboard() {
   );
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#F4F7FB] w-full">
+    <div className="flex flex-col min-h-screen bg-original-background w-full">
       <main className="flex-1 w-full min-w-0 p-4 sm:p-6 lg:p-8">
         <Topbar title="Staff Overview" showSearch={true} />
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {/* Card 1 */}
-          <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex flex-col">
+          <div className="bg-original-card p-5 rounded-xl shadow-sm border border-original-border-light flex flex-col">
             <div className="flex justify-between items-start mb-4">
-              <div className="w-10 h-10 rounded-lg bg-yellow-50 text-yellow-600 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-lg bg-original-warning-light text-original-warning flex items-center justify-center">
                 <Clock className="w-5 h-5" />
               </div>
-              <span className="text-xs font-semibold text-red-600 bg-red-50 px-2 py-1 rounded-full flex items-center gap-1">
+              <span className="text-xs font-semibold text-original-danger bg-original-danger-light px-2 py-1 rounded-full flex items-center gap-1">
                 ↑ 12%
               </span>
             </div>
-            <p className="text-sm font-medium text-gray-500 mb-1">
+            <p className="text-sm font-medium text-original-text-muted mb-1">
               Pending Requests
             </p>
-            <h3 className="text-2xl font-bold text-gray-900">
+            <h3 className="text-2xl font-bold text-original-text-dark">
               {stats.pending}
             </h3>
           </div>
 
           {/* Card 2 */}
-          <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex flex-col">
+          <div className="bg-original-card p-5 rounded-xl shadow-sm border border-original-border-light flex flex-col">
             <div className="flex justify-between items-start mb-4">
-              <div className="w-10 h-10 rounded-lg bg-green-50 text-green-600 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-lg bg-original-success-light text-original-success flex items-center justify-center">
                 <CheckCircle2 className="w-5 h-5" />
               </div>
-              <span className="text-xs font-semibold text-green-600 bg-green-50 px-2 py-1 rounded-full flex items-center gap-1">
+              <span className="text-xs font-semibold text-original-success bg-original-success-light px-2 py-1 rounded-full flex items-center gap-1">
                 ↑ 8%
               </span>
             </div>
-            <p className="text-sm font-medium text-gray-500 mb-1">
+            <p className="text-sm font-medium text-original-text-muted mb-1">
               Approved Today
             </p>
-            <h3 className="text-2xl font-bold text-gray-900">
+            <h3 className="text-2xl font-bold text-original-text-dark">
               {stats.approvedToday}
             </h3>
           </div>
 
           {/* Card 3 */}
-          <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex flex-col">
+          <div className="bg-original-card p-5 rounded-xl shadow-sm border border-original-border-light flex flex-col">
             <div className="flex justify-between items-start mb-4">
-              <div className="w-10 h-10 rounded-lg bg-red-50 text-red-600 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-lg bg-original-danger-light text-original-danger flex items-center justify-center">
                 <XCircle className="w-5 h-5" />
               </div>
-              <span className="text-xs font-semibold text-gray-600 bg-gray-50 px-2 py-1 rounded-full flex items-center gap-1">
+              <span className="text-xs font-semibold text-original-text-muted bg-original-background-alt px-2 py-1 rounded-full flex items-center gap-1">
                 ↓ 2%
               </span>
             </div>
-            <p className="text-sm font-medium text-gray-500 mb-1">
+            <p className="text-sm font-medium text-original-text-muted mb-1">
               Rejected Today
             </p>
-            <h3 className="text-2xl font-bold text-gray-900">
+            <h3 className="text-2xl font-bold text-original-text-dark">
               {stats.rejectedToday}
             </h3>
           </div>
 
           {/* Card 4 */}
-          <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex flex-col">
+          <div className="bg-original-card p-5 rounded-xl shadow-sm border border-original-border-light flex flex-col">
             <div className="flex justify-between items-start mb-4">
-              <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-lg bg-original-background-alt text-original-primary text-original-primary flex items-center justify-center">
                 <Timer className="w-5 h-5" />
               </div>
-              <span className="text-xs font-semibold text-green-600 bg-green-50 px-2 py-1 rounded-full flex items-center gap-1">
+              <span className="text-xs font-semibold text-original-success bg-original-success-light px-2 py-1 rounded-full flex items-center gap-1">
                 ↓ 5%
               </span>
             </div>
-            <p className="text-sm font-medium text-gray-500 mb-1">
+            <p className="text-sm font-medium text-original-text-muted mb-1">
               Avg Processing Time
             </p>
-            <h3 className="text-2xl font-bold text-gray-900">
+            <h3 className="text-2xl font-bold text-original-text-dark">
               {stats.avgProcessingTime}
             </h3>
           </div>
@@ -314,33 +314,33 @@ export function StaffDashboard() {
 
         {/* Dynamic Reusable Table Section */}
         {loading.fetchAll ? (
-          <div className="flex flex-col items-center justify-center py-20 bg-white rounded-xl shadow-sm border border-gray-100">
-            <Loader2 className="w-10 h-10 text-blue-600 animate-spin mb-4" />
-            <p className="text-gray-500 font-medium">Loading requests...</p>
+          <div className="flex flex-col items-center justify-center py-20 bg-original-card rounded-xl shadow-sm border border-original-border-light">
+            <Loader2 className="w-10 h-10 text-original-primary animate-spin mb-4" />
+            <p className="text-original-text-muted font-medium">Loading requests...</p>
           </div>
         ) : error ? (
-          <div className="flex flex-col items-center justify-center py-20 bg-white rounded-xl shadow-sm border border-red-100">
-            <AlertCircle className="w-10 h-10 text-red-500 mb-4" />
-            <p className="text-red-600 font-semibold mb-2">
+          <div className="flex flex-col items-center justify-center py-20 bg-original-card rounded-xl shadow-sm border border-original-danger-light">
+            <AlertCircle className="w-10 h-10 text-original-danger mb-4" />
+            <p className="text-original-danger font-semibold mb-2">
               Error loading requests
             </p>
-            <p className="text-gray-500 text-sm">{error}</p>
+            <p className="text-original-text-muted text-sm">{error}</p>
             <button
               onClick={() => dispatch(getAllRequests({ page: 1, limit: 10 }))}
-              className="mt-4 px-4 py-2 bg-red-50 text-red-600 rounded-lg text-sm font-semibold hover:bg-red-100 transition-colors"
+              className="mt-4 px-4 py-2 bg-original-danger-light text-original-danger rounded-lg text-sm font-semibold hover:bg-original-danger-light transition-colors"
             >
               Try Again
             </button>
           </div>
         ) : requests.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 bg-white rounded-xl shadow-sm border border-gray-100">
-            <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
-              <Clock className="w-8 h-8 text-gray-400" />
+          <div className="flex flex-col items-center justify-center py-20 bg-original-card rounded-xl shadow-sm border border-original-border-light">
+            <div className="w-16 h-16 bg-original-background-alt rounded-full flex items-center justify-center mb-4">
+              <Clock className="w-8 h-8 text-original-text-muted/70" />
             </div>
-            <h3 className="text-lg font-bold text-gray-900 mb-1">
+            <h3 className="text-lg font-bold text-original-text-dark mb-1">
               No Requests Found
             </h3>
-            <p className="text-gray-500 text-sm">
+            <p className="text-original-text-muted text-sm">
               There are no student requests waiting in the queue.
             </p>
           </div>
@@ -357,7 +357,7 @@ export function StaffDashboard() {
                   <select
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value)}
-                    className="appearance-none pl-10 pr-8 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer"
+                    className="appearance-none pl-10 pr-8 py-2 text-sm font-medium text-original-text bg-original-card border border-original-border rounded-lg hover:bg-original-background-alt transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-original-primary focus:border-transparent cursor-pointer"
                   >
                     <option value="All">All Statuses</option>
                     <option value="Pending">Pending</option>
@@ -365,11 +365,11 @@ export function StaffDashboard() {
                     <option value="Rejected">Rejected</option>
                     <option value="Cancelled">Cancelled</option>
                   </select>
-                  <Filter className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <Filter className="w-4 h-4 text-original-text-muted/70 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                 </div>
                 <button
                   onClick={handleExport}
-                  className="flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
+                  className="flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium text-white bg-original-primary text-white border border-transparent rounded-lg hover:bg-original-primary-hover transition-colors shadow-sm"
                 >
                   <Download className="w-4 h-4" />
                   <span className="hidden sm:inline">Export</span>
@@ -382,22 +382,22 @@ export function StaffDashboard() {
         {/* Review Modal */}
         {isReviewModalOpen && selectedRequest && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 duration-200">
-              <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+            <div className="bg-original-card rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 duration-200">
+              <div className="p-6 border-b border-original-border-light flex justify-between items-center bg-original-background-alt/50">
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900">
+                  <h3 className="text-xl font-bold text-original-text-dark">
                     Review Request
                   </h3>
-                  <p className="text-sm text-gray-500 mt-1">
+                  <p className="text-sm text-original-text-muted mt-1">
                     Updating status for{" "}
-                    <span className="font-semibold text-blue-600">
+                    <span className="font-semibold text-original-primary">
                       {selectedRequest.student?.name}
                     </span>
                   </p>
                 </div>
                 <button
                   onClick={handleCloseReview}
-                  className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
+                  className="p-2 text-original-text-muted/70 hover:text-original-text-muted hover:bg-original-background-alt rounded-full transition-colors"
                 >
                   <X className="w-6 h-6" />
                 </button>
@@ -406,7 +406,7 @@ export function StaffDashboard() {
               <form onSubmit={handleSubmitReview} className="p-6 space-y-6">
                 {/* Status Selection */}
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold text-gray-700">
+                  <label className="text-sm font-semibold text-original-text">
                     Set Status
                   </label>
                   <div className="grid grid-cols-2 gap-3">
@@ -419,11 +419,11 @@ export function StaffDashboard() {
                           className={`flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-2 text-sm font-bold transition-all ${
                             reviewStatus === status
                               ? status === "Approved"
-                                ? "border-green-500 bg-green-50 text-green-700"
+                                ? "border-original-success bg-original-success-light text-original-success"
                                 : status === "Rejected"
-                                  ? "border-red-500 bg-red-50 text-red-700"
-                                  : "border-gray-100 bg-white text-gray-500 hover:border-gray-200 hover:bg-gray-50"
-                              : "border-gray-100 bg-white text-gray-500 hover:border-gray-200 hover:bg-gray-50"
+                                  ? "border-original-danger bg-original-danger-light text-original-danger"
+                                  : "border-original-border-light bg-original-card text-original-text-muted hover:border-original-border hover:bg-original-background-alt"
+                              : "border-original-border-light bg-original-card text-original-text-muted hover:border-original-border hover:bg-original-background-alt"
                           }`}
                         >
                           {status === "Approved" && (
@@ -441,7 +441,7 @@ export function StaffDashboard() {
 
                 {/* Notes Input */}
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold text-gray-700">
+                  <label className="text-sm font-semibold text-original-text">
                     Review Notes
                   </label>
                   <textarea
@@ -449,23 +449,23 @@ export function StaffDashboard() {
                     onChange={(e) => setReviewNotes(e.target.value)}
                     placeholder="Add feedback or reasons for the status update..."
                     rows={4}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all resize-none text-gray-700 placeholder:text-gray-400"
+                    className="w-full px-4 py-3 rounded-xl border border-original-border focus:ring-4 focus:ring-original-primary-light focus:border-original-primary outline-none transition-all resize-none text-original-text placeholder:text-original-text-muted/70"
                   />
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
+                <div className="flex items-center gap-3 pt-4 border-t border-original-border-light">
                   <button
                     type="button"
                     onClick={handleCloseReview}
-                    className="flex-1 px-6 py-3 border border-gray-200 text-gray-600 rounded-xl font-bold hover:bg-gray-50 transition-colors"
+                    className="flex-1 px-6 py-3 border border-original-border text-original-text-muted rounded-xl font-bold hover:bg-original-background-alt transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={loading.review}
-                    className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-200"
+                    className="flex-1 px-6 py-3 bg-original-primary text-white text-white rounded-xl font-bold hover:bg-original-primary-hover disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 shadow-lg dark:shadow-black/20"
                   >
                     {loading.review ? (
                       <Loader2 className="w-5 h-5 animate-spin" />

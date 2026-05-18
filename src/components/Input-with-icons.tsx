@@ -23,7 +23,7 @@ export const InputWithIcons = ({
 }) => {
   return (
     <Field className="w-full">
-      <FieldLabel className="text-gray-700">{data.name}</FieldLabel>
+      <FieldLabel className="text-original-text">{data.name}</FieldLabel>
 
       <InputGroup>
         {data.iconStart && (

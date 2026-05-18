@@ -35,7 +35,7 @@ const DeleteButton = ({ userId }: { userId: string }) => {
     <button
       onClick={handleDelete}
       disabled={isLoading}
-      className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      className="p-2 text-original-danger hover:bg-original-danger-light rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       title={t("usersPage.deleteUser")}
     >
       {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
@@ -95,14 +95,14 @@ export const UsersPage = () => {
       label: t("usersPage.columns.user"),
       render: (row) => (
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden border border-gray-200">
+          <div className="w-8 h-8 rounded-full bg-original-background-alt flex items-center justify-center overflow-hidden border border-original-border">
             {row.avatar ? (
               <img src={row.avatar} alt={row.name} className="w-full h-full object-cover" />
             ) : (
-              <span className="text-xs font-bold text-gray-400">{row.name.charAt(0)}</span>
+              <span className="text-xs font-bold text-original-text-muted/70">{row.name.charAt(0)}</span>
             )}
           </div>
-          <span className="font-medium text-gray-900">{row.name}</span>
+          <span className="font-medium text-original-text-dark">{row.name}</span>
         </div>
       ),
     },
@@ -112,9 +112,9 @@ export const UsersPage = () => {
       label: t("usersPage.columns.role"),
       render: (row) => (
         <span className={`px-2 py-1 rounded-full text-xs font-semibold capitalize ${
-          row.role === 'admin' ? 'bg-purple-100 text-purple-700' :
-          row.role === 'staff' ? 'bg-blue-100 text-blue-700' :
-          'bg-green-100 text-green-700'
+          row.role === 'admin' ? 'bg-original-background-alt text-original-primary-hover' :
+          row.role === 'staff' ? 'bg-original-background-alt text-original-primary text-original-primary-hover' :
+          'bg-original-success-light text-original-success'
         }`}>
           {t(`usersPage.roles.${row.role}`)}
         </span>
@@ -137,23 +137,23 @@ export const UsersPage = () => {
     <div className="flex flex-wrap items-center gap-4">
       {/* Search Input */}
       <div className="relative">
-        <Search className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+        <Search className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-original-text-muted/70" />
         <input
           type="text"
           placeholder={t("usersPage.searchPlaceholder")}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="ps-9 pe-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500/20 outline-none w-64"
+          className="ps-9 pe-4 py-2 bg-original-background-alt border border-original-border rounded-xl text-sm focus:ring-2 focus:ring-original-primary/20 outline-none w-64"
         />
       </div>
 
       {/* Role Filter */}
-      <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-xl px-3 py-2">
-        <Filter className="w-4 h-4 text-gray-400" />
+      <div className="flex items-center gap-2 bg-original-background-alt border border-original-border rounded-xl px-3 py-2">
+        <Filter className="w-4 h-4 text-original-text-muted/70" />
         <select 
           value={roleFilter}
           onChange={(e) => setRoleFilter(e.target.value)}
-          className="bg-transparent text-sm text-gray-700 outline-none cursor-pointer"
+          className="bg-transparent text-sm text-original-text outline-none cursor-pointer"
         >
           <option value="all">{t("usersPage.allRoles")}</option>
           <option value="student">{t("usersPage.roles.student")}</option>
@@ -163,12 +163,12 @@ export const UsersPage = () => {
       </div>
 
       {/* Sort Order */}
-      <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-xl px-3 py-2">
-        <ArrowUpDown className="w-4 h-4 text-gray-400" />
+      <div className="flex items-center gap-2 bg-original-background-alt border border-original-border rounded-xl px-3 py-2">
+        <ArrowUpDown className="w-4 h-4 text-original-text-muted/70" />
         <select 
           value={sortOrder}
           onChange={(e) => setSortOrder(e.target.value as any)}
-          className="bg-transparent text-sm text-gray-700 outline-none cursor-pointer"
+          className="bg-transparent text-sm text-original-text outline-none cursor-pointer"
         >
           <option value="newest">{t("usersPage.sort.newest")}</option>
           <option value="oldest">{t("usersPage.sort.oldest")}</option>
@@ -181,12 +181,12 @@ export const UsersPage = () => {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{t("usersPage.title")}</h1>
-          <p className="text-gray-500">{t("usersPage.desc")}</p>
+          <h1 className="text-2xl font-bold text-original-text-dark">{t("usersPage.title")}</h1>
+          <p className="text-original-text-muted">{t("usersPage.desc")}</p>
         </div>
         <Link 
           to="/RegisterForm"
-          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-all shadow-lg shadow-blue-100 hover:scale-[1.02] active:scale-[0.98]"
+          className="flex items-center gap-2 bg-original-primary text-white hover:bg-original-primary-hover text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-all shadow-lg dark:shadow-black/20 hover:scale-[1.02] active:scale-[0.98]"
         >
           <UserPlus className="w-4 h-4" />
           {t("usersPage.addNewUser")}

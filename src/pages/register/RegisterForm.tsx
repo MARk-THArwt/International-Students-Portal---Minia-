@@ -135,16 +135,16 @@ export const RegisterForm = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-      <div className="bg-blue-600 p-8 text-white text-center">
+    <div className="max-w-4xl mx-auto bg-original-card rounded-2xl shadow-xl border border-original-border-light overflow-hidden">
+      <div className="bg-original-primary text-white p-8 text-white text-center">
         <h2 className="text-3xl font-bold">{t("registerPage.createAccount")}</h2>
-        <p className="text-blue-100 mt-2">{t("registerPage.joinCommunity")}</p>
+        <p className="text-original-primary-light mt-2">{t("registerPage.joinCommunity")}</p>
       </div>
 
       <form onSubmit={handleSubmit} className="p-8 space-y-8">
         {/* Role Selection */}
         <div className="flex flex-col space-y-2">
-          <label className="text-sm font-semibold text-gray-700">{t("registerPage.iAmRegisteringAs")}</label>
+          <label className="text-sm font-semibold text-original-text">{t("registerPage.iAmRegisteringAs")}</label>
           <div className="grid grid-cols-3 gap-4">
             {(["student", "staff", "admin"] as Role[]).map((r) => (
               <button
@@ -153,8 +153,8 @@ export const RegisterForm = () => {
                 onClick={() => setRole(r)}
                 className={`py-3 px-4 rounded-xl text-sm font-bold capitalize transition-all duration-200 border-2 ${
                   role === r
-                    ? "bg-blue-50 border-blue-600 text-blue-600 shadow-sm"
-                    : "bg-gray-50 border-transparent text-gray-500 hover:bg-gray-100"
+                    ? "bg-original-background-alt text-original-primary border-original-primary text-original-primary shadow-sm"
+                    : "bg-original-background-alt border-transparent text-original-text-muted hover:bg-original-background-alt"
                 }`}
               >
                 {t(`loginPage.roles.${r}`)}
@@ -164,21 +164,21 @@ export const RegisterForm = () => {
         </div>
 
         {/* Avatar Upload */}
-        <div className="flex flex-col items-center space-y-4 pt-4 border-t border-gray-100">
+        <div className="flex flex-col items-center space-y-4 pt-4 border-t border-original-border-light">
           <div className="relative group">
-            <div className="w-32 h-32 rounded-full bg-gray-100 border-4 border-white shadow-md overflow-hidden flex items-center justify-center">
+            <div className="w-32 h-32 rounded-full bg-original-background-alt border-4 border-original-border-light shadow-md overflow-hidden flex items-center justify-center">
               {preview ? (
                 <img src={preview} alt="Preview" className="w-full h-full object-cover" />
               ) : (
-                <User className="w-12 h-12 text-gray-300" />
+                <User className="w-12 h-12 text-original-text-muted" />
               )}
             </div>
-            <label className="absolute bottom-1 right-1 bg-blue-600 p-2 rounded-full text-white cursor-pointer hover:bg-blue-700 transition shadow-lg group-hover:scale-110">
+            <label className="absolute bottom-1 right-1 bg-original-primary text-white p-2 rounded-full text-white cursor-pointer hover:bg-original-primary-hover transition shadow-lg group-hover:scale-110">
               <Camera className="w-5 h-5" />
               <input type="file" className="hidden" accept="image/*" onChange={handleFileChange} />
             </label>
           </div>
-          <p className="text-xs text-gray-400">{t("registerPage.uploadProfile")}</p>
+          <p className="text-xs text-original-text-muted/70">{t("registerPage.uploadProfile")}</p>
         </div>
 
         {/* Form Fields Grid */}
@@ -221,16 +221,16 @@ export const RegisterForm = () => {
 
           {/* Common Gender Selection (Hidden from student block to be for everyone) */}
           <div className="flex flex-col space-y-1.5">
-            <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ms-1">{t("registerPage.gender")}</label>
+            <label className="text-xs font-bold text-original-text-muted/70 uppercase tracking-wider ms-1">{t("registerPage.gender")}</label>
             <div className="relative">
-              <div className="absolute start-3 top-1/2 -translate-y-1/2 text-gray-400">
+              <div className="absolute start-3 top-1/2 -translate-y-1/2 text-original-text-muted/70">
                 <Users className="w-5 h-5" />
               </div>
               <select
                 name="gender"
                 value={formData.gender}
                 onChange={handleInputChange}
-                className="w-full ps-10 pe-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 outline-none transition text-sm"
+                className="w-full ps-10 pe-4 py-3 bg-original-background-alt border border-original-border rounded-xl focus:ring-2 focus:ring-original-primary/20 focus:border-original-primary outline-none transition text-sm"
               >
                 <option value="male">{t("registerPage.male")}</option>
                 <option value="female">{t("registerPage.female")}</option>
@@ -263,7 +263,7 @@ export const RegisterForm = () => {
 
         {/* Errors */}
         {(error || formError) && (
-          <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-100 text-red-600 rounded-xl text-sm animate-shake">
+          <div className="flex items-center gap-2 p-4 bg-original-danger-light border border-original-danger-light text-original-danger rounded-xl text-sm animate-shake">
             <AlertCircle className="w-5 h-5 shrink-0" />
             <p>{error || formError}</p>
           </div>
@@ -273,7 +273,7 @@ export const RegisterForm = () => {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-200 transition-all active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-lg"
+          className="w-full bg-original-primary text-white hover:bg-original-primary-hover text-white font-bold py-4 rounded-xl shadow-lg dark:shadow-black/20 transition-all active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-lg"
         >
           {isLoading ? (
             <>
@@ -302,9 +302,9 @@ interface InputFieldProps {
 
 const InputField = ({ icon, label, name, value, onChange, type = "text", required, placeholder }: InputFieldProps) => (
   <div className="flex flex-col space-y-1.5 w-full">
-    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ms-1">{label}</label>
+    <label className="text-xs font-bold text-original-text-muted/70 uppercase tracking-wider ms-1">{label}</label>
     <div className="relative">
-      <div className="absolute start-3 top-1/2 -translate-y-1/2 text-gray-400">
+      <div className="absolute start-3 top-1/2 -translate-y-1/2 text-original-text-muted/70">
         {React.cloneElement(icon as React.ReactElement<any>, { className: "w-5 h-5" })}
       </div>
       <input
@@ -314,7 +314,7 @@ const InputField = ({ icon, label, name, value, onChange, type = "text", require
         onChange={onChange}
         required={required}
         placeholder={placeholder}
-        className="w-full ps-10 pe-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 outline-none transition text-sm"
+        className="w-full ps-10 pe-4 py-3 bg-original-background-alt border border-original-border rounded-xl focus:ring-2 focus:ring-original-primary/20 focus:border-original-primary outline-none transition text-sm"
       />
     </div>
   </div>

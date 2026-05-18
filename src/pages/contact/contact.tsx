@@ -59,20 +59,20 @@ function formatTime(iso: string, t: any): string {
 const LatestReplyCard = ({ message }: { message: Message }) => {
   const { t } = useTranslation();
   return (
-    <div className="bg-white border border-blue-200 rounded-2xl p-5 shadow-sm mb-6">
+    <div className="bg-original-card border border-original-border-light rounded-2xl p-5 shadow-sm mb-6">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <MarkEmailUnreadIcon className="text-[#0F0FBD]" sx={{ fontSize: 22 }} />
-          <span className="text-sm font-bold text-[#0F0FBD]">{t("contactPage.newReplyFromSupport")}</span>
+          <MarkEmailUnreadIcon className="text-original-primary" sx={{ fontSize: 22 }} />
+          <span className="text-sm font-bold text-original-primary">{t("contactPage.newReplyFromSupport")}</span>
         </div>
-        <span className="text-[11px] font-bold text-white bg-[#0F0FBD] px-2.5 py-0.5 rounded-full">
+        <span className="text-[11px] font-bold text-white bg-original-primary px-2.5 py-0.5 rounded-full">
           {t("contactPage.newReply")}
         </span>
       </div>
 
     <div className="flex items-start gap-3">
       {/* Avatar */}
-      <div className="w-9 h-9 rounded-full bg-[#002147] flex items-center justify-center text-white font-bold text-sm shrink-0">
+      <div className="w-9 h-9 rounded-full bg-original-secondary flex items-center justify-center text-white font-bold text-sm shrink-0">
         {message.sender.avatar ? (
           <img src={message.sender.avatar} alt={message.sender.name} className="w-full h-full object-cover rounded-full" />
         ) : (
@@ -82,15 +82,15 @@ const LatestReplyCard = ({ message }: { message: Message }) => {
 
       <div className="flex-1">
         <div className="flex items-center gap-2 mb-1">
-          <span className="text-sm font-semibold text-gray-800">{message.sender.name}</span>
-          <span className="text-xs text-gray-400 capitalize">· {message.sender.role}</span>
+          <span className="text-sm font-semibold text-original-text">{message.sender.name}</span>
+          <span className="text-xs text-original-text-muted/70 capitalize">· {message.sender.role}</span>
         </div>
-        <p className="text-sm text-gray-700 leading-relaxed m-0 bg-blue-50 border border-blue-100 rounded-xl px-4 py-3">
+        <p className="text-sm text-original-text leading-relaxed m-0 bg-original-background-alt text-original-primary border border-original-border-light rounded-xl px-4 py-3">
           "{message.message}"
         </p>
         <div className="flex items-center gap-1 mt-2">
-          <AccessTimeIcon sx={{ fontSize: 13 }} className="text-gray-400" />
-          <span className="text-[11px] text-gray-400">{formatTime(message.createdAt, t)}</span>
+          <AccessTimeIcon sx={{ fontSize: 13 }} className="text-original-text-muted/70" />
+          <span className="text-[11px] text-original-text-muted/70">{formatTime(message.createdAt, t)}</span>
         </div>
       </div>
     </div>
@@ -121,17 +121,17 @@ const InquiryForm = ({
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm mb-6">
+    <div className="bg-original-card border border-original-border rounded-2xl p-5 shadow-sm mb-6">
       <div className="flex items-center gap-2 mb-4">
-        <SupportAgentIcon className="text-[#C5A059]" sx={{ fontSize: 22 }} />
-        <span className="text-sm font-bold text-gray-700">{t("contactPage.sendInquiry")}</span>
+        <SupportAgentIcon className="text-original-accent" sx={{ fontSize: 22 }} />
+        <span className="text-sm font-bold text-original-text">{t("contactPage.sendInquiry")}</span>
       </div>
 
       {sent ? (
         <div className="flex flex-col items-center justify-center py-6 text-center">
-          <CheckCircleOutlineIcon className="text-green-500 mb-2" sx={{ fontSize: 40 }} />
-          <p className="font-semibold text-green-700 text-sm m-0">{t("contactPage.messageSentSuccess")}</p>
-          <p className="text-xs text-gray-500 mt-1">
+          <CheckCircleOutlineIcon className="text-original-success mb-2" sx={{ fontSize: 40 }} />
+          <p className="font-semibold text-original-success text-sm m-0">{t("contactPage.messageSentSuccess")}</p>
+          <p className="text-xs text-original-text-muted mt-1">
             {t("contactPage.supportReviewNote")}
           </p>
         </div>
@@ -142,14 +142,14 @@ const InquiryForm = ({
             onChange={(e) => setText(e.target.value)}
             placeholder={t("contactPage.describeIssuePlaceholder")}
             rows={5}
-            className="w-full resize-none border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#0F0FBD]/30 focus:border-[#0F0FBD] placeholder-gray-400 transition-all"
+            className="w-full resize-none border border-original-border rounded-xl px-4 py-3 text-sm text-original-text focus:outline-none focus:ring-2 focus:ring-original-primary/30 focus:border-original-primary placeholder-original-text-muted/50 transition-all"
           />
           <div className="flex items-center justify-between mt-3">
-            <span className="text-xs text-gray-400">{text.length} / 1000 {t("contactPage.characters")}</span>
+            <span className="text-xs text-original-text-muted/70">{text.length} / 1000 {t("contactPage.characters")}</span>
             <button
               onClick={handleSubmit}
               disabled={!text.trim() || sendLoading}
-              className="flex items-center gap-2 bg-[#0F0FBD] text-white text-sm font-semibold px-5 py-2 rounded-xl hover:bg-[#0a0a9e] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 bg-original-primary text-white text-sm font-semibold px-5 py-2 rounded-xl hover:bg-original-primary-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {sendLoading ? (
                 <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -163,7 +163,7 @@ const InquiryForm = ({
       )}
 
       {lastSentTime && !sent && (
-        <p className="text-xs text-gray-400 mt-3 flex items-center gap-1">
+        <p className="text-xs text-original-text-muted/70 mt-3 flex items-center gap-1">
           <AccessTimeIcon sx={{ fontSize: 12 }} />
           {t("contactPage.lastInquirySent")} {formatTime(lastSentTime, t)}
         </p>
@@ -176,11 +176,11 @@ const InquiryForm = ({
 const WaitingCard = () => {
   const { t } = useTranslation();
   return (
-    <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 flex items-start gap-3">
-      <AccessTimeIcon className="text-amber-500 shrink-0 mt-0.5" sx={{ fontSize: 22 }} />
+    <div className="bg-original-warning-light border border-original-warning-light rounded-2xl p-5 flex items-start gap-3">
+      <AccessTimeIcon className="text-original-warning shrink-0 mt-0.5" sx={{ fontSize: 22 }} />
       <div>
-        <p className="font-semibold text-amber-800 text-sm m-0 mb-1">{t("contactPage.awaitingStaffResponse")}</p>
-        <p className="text-xs text-amber-700 m-0 leading-relaxed">
+        <p className="font-semibold text-original-warning text-sm m-0 mb-1">{t("contactPage.awaitingStaffResponse")}</p>
+        <p className="text-xs text-original-warning m-0 leading-relaxed">
           {t("contactPage.awaitingResponseDesc")}
         </p>
       </div>
@@ -263,24 +263,24 @@ const Contact = () => {
   // ══════════════════════════════════════════════════════════════════
   if (isStudent) {
     return (
-      <div className="min-h-screen bg-[#F5F7FA] font-['Public_Sans']">
+      <div className="min-h-screen bg-original-background font-['Public_Sans']">
         <div className="max-w-2xl mx-auto px-4 py-8 md:py-12">
 
           {/* Page Header */}
           <div className="mb-8 text-center">
-            <div className="inline-flex items-center justify-center w-14 h-14 bg-[#002147] rounded-2xl mb-4">
-              <SupportAgentIcon className="text-[#C5A059]" sx={{ fontSize: 32 }} />
+            <div className="inline-flex items-center justify-center w-14 h-14 bg-original-secondary rounded-2xl mb-4">
+              <SupportAgentIcon className="text-original-accent" sx={{ fontSize: 32 }} />
             </div>
-            <h1 className="text-2xl md:text-3xl font-bold text-[#002147] m-0">{t("contactPage.supportCenter")}</h1>
-            <p className="text-gray-500 text-sm mt-2 mb-0">
+            <h1 className="text-2xl md:text-3xl font-bold text-original-secondary m-0">{t("contactPage.supportCenter")}</h1>
+            <p className="text-original-text-muted text-sm mt-2 mb-0">
               {t("contactPage.supportCenterDesc")}
             </p>
           </div>
 
           {loading ? (
             <div className="text-center py-16">
-              <div className="w-8 h-8 border-4 border-[#0F0FBD]/20 border-t-[#0F0FBD] rounded-full animate-spin mx-auto mb-3" />
-              <p className="text-sm text-gray-500">{t("contactPage.loadingInquiries")}</p>
+              <div className="w-8 h-8 border-4 border-original-primary/20 border-t-original-primary rounded-full animate-spin mx-auto mb-3" />
+              <p className="text-sm text-original-text-muted">{t("contactPage.loadingInquiries")}</p>
             </div>
           ) : (
             <>
@@ -311,8 +311,8 @@ const Contact = () => {
 
       {/* Header */}
       <div className={`mb-3 md:mb-4 ${hasActiveChat ? "hidden md:block" : "block"}`}>
-        <h2 className="text-xl md:text-2xl font-bold text-[#002147] m-0">{t("contactPage.studentInquiries")}</h2>
-        <p className="text-sm text-gray-500 mt-1 mb-0">
+        <h2 className="text-xl md:text-2xl font-bold text-original-secondary m-0">{t("contactPage.studentInquiries")}</h2>
+        <p className="text-sm text-original-text-muted mt-1 mb-0">
           {t("contactPage.selectConversation")}
         </p>
       </div>
@@ -321,7 +321,7 @@ const Contact = () => {
       {hasActiveChat && (
         <button
           onClick={handleBack}
-          className="flex items-center gap-1 text-[#0F0FBD] font-semibold text-sm mb-3 md:hidden bg-transparent border-none cursor-pointer p-0 rtl:flex-row-reverse"
+          className="flex items-center gap-1 text-original-primary font-semibold text-sm mb-3 md:hidden bg-transparent border-none cursor-pointer p-0 rtl:flex-row-reverse"
         >
           <ArrowBackIcon sx={{ fontSize: 20 }} className="rtl:rotate-180" />
           {t("contactPage.backToInquiries")}

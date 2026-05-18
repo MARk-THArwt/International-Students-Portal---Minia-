@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { ResponsivePie } from "@nivo/pie";
+import { useChartTheme } from "../../util/chartTheme";
 import type { StatusReportItem, PaginatedMeta } from "../../store/slices/reportsSlice";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -19,7 +20,7 @@ const STATUS_COLORS: Record<string, string> = {
   rejected:  "#ef4444",
   review:    "#6366f1",
   completed: "#06b6d4",
-  cancelled: "#8b5cf6",
+  cancelled: "#94a3b8",
 };
 
 function statusColor(status: string): string {
@@ -34,6 +35,7 @@ export function StatusPieChart({
   currentPage,
   onPageChange,
 }: StatusPieChartProps) {
+  const theme = useChartTheme();
   const pieData = useMemo(
     () =>
       data.map((item) => ({
@@ -89,6 +91,7 @@ export function StatusPieChart({
           arcLabelsTextColor="#ffffff"
           arcLabelsRadiusOffset={0.6}
           motionConfig="gentle"
+          theme={theme}
           legends={[
             {
               anchor: "right",
@@ -99,7 +102,7 @@ export function StatusPieChart({
               itemsSpacing: 10,
               itemWidth: 100,
               itemHeight: 18,
-              itemTextColor: "#64748b",
+              itemTextColor: theme.textColor,
               itemDirection: "left-to-right",
               symbolSize: 10,
               symbolShape: "circle",

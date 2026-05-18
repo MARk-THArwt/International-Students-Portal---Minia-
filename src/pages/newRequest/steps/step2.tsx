@@ -34,11 +34,11 @@ const ReadOnlyField = ({
     <div className="space-y-1.5">
       <Label className="text-[11px] font-bold tracking-widest uppercase text-muted-foreground/70">
         {label}
-        {required && <span className="ms-1 text-red-400 normal-case">*</span>}
+        {required && <span className="ms-1 text-original-danger normal-case">*</span>}
       </Label>
-      <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl border border-dashed border-slate-200 bg-slate-50/60">
-        {Icon && <Icon size={14} className="text-slate-400 shrink-0" />}
-        <span className="text-sm font-medium text-slate-700 truncate">
+      <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl border border-dashed border-original-border bg-original-background-alt/60">
+        {Icon && <Icon size={14} className="text-original-text-muted shrink-0" />}
+        <span className="text-sm font-medium text-original-text truncate">
           {value || "—"}
         </span>
       </div>
@@ -70,26 +70,26 @@ export const STEP_2 = () => {
   const URGENCY_CONFIG = {
     Normal: {
       icon: IconCircleCheck,
-      color: "text-emerald-600",
-      bg: "bg-emerald-50",
-      border: "border-emerald-500",
-      dot: "bg-emerald-500",
+      color: "text-original-success",
+      bg: "bg-original-success-light",
+      border: "border-original-success",
+      dot: "bg-original-success text-white",
       label: t("newRequest.steps.step2.urgency.NormalDesc"),
     },
     Urgent: {
       icon: IconFlame,
-      color: "text-amber-600",
-      bg: "bg-amber-50",
-      border: "border-amber-500",
-      dot: "bg-amber-500",
+      color: "text-original-warning",
+      bg: "bg-original-warning-light",
+      border: "border-original-warning",
+      dot: "bg-original-warning text-white",
       label: t("newRequest.steps.step2.urgency.UrgentDesc"),
     },
     Critical: {
       icon: IconAlertTriangle,
-      color: "text-red-600",
-      bg: "bg-red-50",
-      border: "border-red-500",
-      dot: "bg-red-500",
+      color: "text-original-danger",
+      bg: "bg-original-danger-light",
+      border: "border-original-danger",
+      dot: "bg-original-danger text-white",
       label: t("newRequest.steps.step2.urgency.CriticalDesc"),
     },
   } as const;
@@ -100,7 +100,7 @@ export const STEP_2 = () => {
     }
   }, [serviceId, selectedService, dispatch]);
 
-  const [urgency] = useState<UrgencyLevel>("Normal");
+  const [urgency, setUrgency] = useState<UrgencyLevel>("Normal");
   const [subject, setSubject] = useState("");
   const [serviceType, setServiceType] = useState("");
   const [deliveryPreference] = useState(t("newRequest.steps.step2.digitalCopy"));
@@ -109,6 +109,11 @@ export const STEP_2 = () => {
     if (selectedService) {
       setServiceType(selectedService.category || "");
       setSubject(selectedService.name || "");
+
+      // Map priority to urgency
+      if (selectedService.priority === "low") setUrgency("Normal");
+      else if (selectedService.priority === "medium") setUrgency("Urgent");
+      else if (selectedService.priority === "high") setUrgency("Critical");
     }
   }, [selectedService]);
 
@@ -147,7 +152,7 @@ export const STEP_2 = () => {
           {/* Urgency — read-only display */}
           <div className="mt-4 space-y-2">
             <Label className="text-[11px] font-bold tracking-widest uppercase text-muted-foreground/70">
-              {t("newRequest.steps.step2.urgencyLevel")} <span className="text-red-400 normal-case">*</span>
+              {t("newRequest.steps.step2.urgencyLevel")} <span className="text-original-danger normal-case">*</span>
             </Label>
             <div className="grid grid-cols-3 gap-2.5">
               {(Object.keys(URGENCY_CONFIG) as UrgencyLevel[]).map((level) => {
@@ -162,7 +167,7 @@ export const STEP_2 = () => {
                       "relative flex flex-col items-center gap-1.5 py-3 px-2 rounded-xl border-2 text-sm font-semibold select-none",
                       isActive
                         ? cn(cfg.border, cfg.bg, cfg.color)
-                        : "border-slate-100 text-slate-300 bg-slate-50/50",
+                        : "border-original-border-light text-original-text-muted bg-original-background-alt/50",
                     )}
                   >
                     {isActive && (
@@ -214,8 +219,8 @@ export const STEP_2 = () => {
                   selectedService?.description || t("newRequest.steps.step2.noDescription")
                 }
                 className={cn(
-                  "resize-none min-h-[80px] text-sm bg-slate-50/60",
-                  "border-dashed border-slate-200 rounded-xl text-slate-600",
+                  "resize-none min-h-[80px] text-sm bg-original-background-alt/60",
+                  "border-dashed border-original-border rounded-xl text-original-text-muted",
                   "focus-visible:ring-0 focus-visible:ring-offset-0 cursor-default",
                 )}
               />
@@ -232,15 +237,15 @@ export const STEP_2 = () => {
                     (doc: string, i: number) => (
                       <div
                         key={i}
-                        className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-dashed border-slate-200 bg-slate-50/60"
+                        className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-dashed border-original-border bg-original-background-alt/60"
                       >
                         <div className="flex items-center justify-center w-6 h-6 rounded-md bg-primary/10 shrink-0">
                           <IconFileText size={13} className="text-primary" />
                         </div>
-                        <span className="text-xs font-medium text-slate-600 leading-tight">
+                        <span className="text-xs font-medium text-original-text-muted leading-tight">
                           {doc}
                         </span>
-                        <span className="ms-auto text-[10px] font-bold text-slate-400">
+                        <span className="ms-auto text-[10px] font-bold text-original-text-muted">
                           #{i + 1}
                         </span>
                       </div>

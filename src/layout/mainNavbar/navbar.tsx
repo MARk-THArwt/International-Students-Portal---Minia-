@@ -3,7 +3,10 @@ import { Link, NavLink } from "react-router-dom";
 import Logo from "@/assets/Minya University Logo.jpg";
 import LoginIcon from "@mui/icons-material/Login";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { selectIsAuthenticated } from "@/store/slices/authSlice";
 import { LanguageSwitcher } from "../../component/LanguageSwitcher/LanguageSwitcher";
+import { ThemeToggle } from "@/components/theme-toggle";
 import "./navbar.css";
 import { Outlet } from "react-router-dom";
 const MainNav = ({
@@ -13,10 +16,11 @@ const MainNav = ({
 }) => {
   const { t } = useTranslation();
   const [state, setState] = useState(false);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
 
   return (
     <>
-      <nav className="bg-white w-full border-[#E2E8F0] md:border-b md:static">
+      <nav className="bg-original-card w-full border-original-border md:border-b md:static">
         <div className="items-center px-4 w-full mx-auto md:flex md:px-8">
           {/* HEADER */}
           <div className="flex items-center justify-between py-1 md:py-2 md:block">
@@ -29,10 +33,10 @@ const MainNav = ({
                 />
               </Link>
               <div>
-                <h1 className="m-0 text-lg sm:text-xl md:text-2xl font-bold text-[#1e1e1e]">
+                <h1 className="m-0 text-lg sm:text-xl md:text-2xl font-bold text-original-text-dark">
                   {t("miniaUniversity")}
                 </h1>
-                <p className="m-0 text-[10px] sm:text-xs md:text-sm font-medium text-[#2f66c5]">
+                <p className="m-0 text-[10px] sm:text-xs md:text-sm font-medium text-original-primary">
                   {t("internationalStudentsPortal")}
                 </p>
               </div>
@@ -41,7 +45,7 @@ const MainNav = ({
             {/* MOBILE MENU BUTTON */}
             <div className="md:hidden">
               <button
-                className="text-gray-700 outline-none p-2 rounded-md focus:border-gray-400 focus:border"
+                className="text-original-text outline-none p-2 rounded-md focus:border-original-text-muted/70 focus:border"
                 onClick={() => setState(!state)}
               >
                 {state ? (
@@ -86,8 +90,7 @@ const MainNav = ({
                 <li key={idx} className="text-center md:text-left">
                   <NavLink
                     to={item.path}
-                    style={{ textDecoration: "none", color: "#475569" }}
-                    className="block py-2 md:py-0 font-medium"
+                    className="block py-2 md:py-0 font-medium text-original-text-muted hover:text-original-primary transition-colors no-underline"
                   >
                     {t(item.title.toLowerCase())}
                   </NavLink>
@@ -97,13 +100,16 @@ const MainNav = ({
 
             {/* MOBILE RIGHT SIDE */}
             <div className="mt-6 flex flex-col items-center gap-4 md:hidden">
-              <LanguageSwitcher />
+              <div className="flex items-center gap-4">
+                <ThemeToggle />
+                <LanguageSwitcher />
+              </div>
               <Link
-                to="/Login"
+                to={isAuthenticated ? "/dashboard" : "/Login"}
                 style={{ textDecoration: "none", fontSize: "16px" }}
-                className="flex justify-center items-center w-full max-w-[200px] py-2 px-4 text-white bg-[#0F0FBD] hover:bg-[#0c0ca0] rounded-md shadow gap-1"
+                className="flex justify-center items-center w-full max-w-[200px] py-2 px-4 text-white bg-original-primary hover:bg-original-primary-active rounded-md shadow gap-1"
               >
-                <LoginIcon /> {t("login")}
+                <LoginIcon /> {isAuthenticated ? t("dashboard") : t("login")}
               </Link>
             </div>
           </div>
@@ -111,14 +117,15 @@ const MainNav = ({
           {/* RIGHT SIDE */}
           <div className="hidden md:inline-block">
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <ThemeToggle />
               <LanguageSwitcher />
               <Link
-                to="/Login"
+                to={isAuthenticated ? "/dashboard" : "/Login"}
                 style={{ textDecoration: "none", fontSize: "16px" }}
-                className="flex py-1.5 px-4 text-white bg-[#0F0FBD] hover:bg-[#0c0ca0] rounded-md shadow gap-1"
+                className="flex py-1.5 px-4 text-white bg-original-primary hover:bg-original-primary-active rounded-md shadow gap-1"
               >
                 <LoginIcon />
-                {t("login")}
+                {isAuthenticated ? t("dashboard") : t("login")}
               </Link>
             </div>
           </div>

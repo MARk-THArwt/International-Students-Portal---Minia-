@@ -73,7 +73,7 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar side={side} className="bg-[#0A1931] text-white flex flex-col h-screen px-1 py-3">
+    <Sidebar side={side} className="bg-original-sidebar-bg text-white flex flex-col h-screen px-1 py-3">
       {/* HEADER */}
       <SidebarHeader className="border-b border-white/10">
         <div className="flex gap-3 items-center">
@@ -118,9 +118,7 @@ export function AppSidebar() {
                 const route =
                   itemId === "dashboard" ? getDashboardRoute() : itemRoute;
                 const isActive =
-                  location.pathname === route ||
-                  (itemId === "dashboard" &&
-                    location.pathname.startsWith(route));
+                  location.pathname === route;
 
                 return (
                   <SidebarMenuItem key={itemId}>
@@ -168,7 +166,7 @@ export function AppSidebar() {
                                         isActive={isSubActive}
                                         className={`h-9 px-4 rounded-md transition cursor-pointer ${
                                           isSubActive
-                                            ? "text-[#C5A059] font-semibold"
+                                            ? "text-original-accent font-semibold"
                                             : "text-white/70 hover:text-white hover:bg-white/5"
                                         }`}
                                       >
@@ -196,7 +194,7 @@ export function AppSidebar() {
                         className={`flex items-center gap-3 h-11 px-4 rounded-lg transition cursor-pointer
                           ${
                             isActive
-                              ? "bg-white/10 border-s-4 border-[#C5A059]"
+                              ? "bg-white/10 border-s-4 border-original-accent"
                               : "hover:bg-white/5"
                           }`}
                       >

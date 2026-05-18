@@ -24,7 +24,7 @@ const MessageItem = ({ message, currentUserId }: MessageItemProps) => {
     <div className={`flex w-full mb-3 ${isMine ? "justify-end" : "justify-start"}`}>
       {/* Avatar for received messages */}
       {!isMine && (
-        <div className="w-8 h-8 rounded-full bg-[#002147]/10 flex items-center justify-center text-[#002147] text-xs font-bold overflow-hidden shrink-0 mr-2 mt-1">
+        <div className="w-8 h-8 rounded-full bg-original-secondary/10 flex items-center justify-center text-original-secondary text-xs font-bold overflow-hidden shrink-0 mr-2 mt-1">
           {message.sender.avatar ? (
             <img src={message.sender.avatar} alt={message.sender.name} className="w-full h-full object-cover" />
           ) : (
@@ -36,7 +36,7 @@ const MessageItem = ({ message, currentUserId }: MessageItemProps) => {
       <div className={`flex flex-col max-w-[72%] ${isMine ? "items-end" : "items-start"}`}>
         {/* Sender name — only for received */}
         {!isMine && (
-          <span className="text-[11px] text-gray-500 font-medium mb-0.5 ml-1">
+          <span className="text-[11px] text-original-text-muted font-medium mb-0.5 ml-1">
             {message.sender.name}
           </span>
         )}
@@ -45,15 +45,15 @@ const MessageItem = ({ message, currentUserId }: MessageItemProps) => {
         <div
           className={`px-3.5 py-2 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
             isMine
-              ? "bg-[#0F0FBD] text-white rounded-tr-sm"
-              : "bg-white border border-gray-200 text-gray-800 rounded-tl-sm shadow-sm"
+              ? "bg-original-primary text-white rounded-tr-sm"
+              : "bg-original-card border border-original-border text-original-text rounded-tl-sm shadow-sm"
           }`}
         >
           {message.message}
         </div>
 
         {/* Time */}
-        <span className="text-[10px] text-gray-400 mt-1 mx-1">{timeStr}</span>
+        <span className="text-[10px] text-original-text-muted/70 mt-1 mx-1">{timeStr}</span>
       </div>
 
       {/* Avatar placeholder for sent messages (keeps alignment) */}
@@ -102,19 +102,19 @@ export const ChatWindow = ({
   // Empty placeholder when no conversation is selected
   if (!selectedConversation) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center h-full bg-gray-50 rounded-xl border border-gray-200">
+      <div className="flex-1 flex flex-col items-center justify-center h-full bg-original-background-alt rounded-xl border border-original-border">
         <div className="text-5xl mb-3">💬</div>
-        <h3 className="text-base font-bold text-gray-700 m-0">No conversation selected</h3>
-        <p className="text-sm text-gray-400 mt-1">Choose one from the sidebar to start.</p>
+        <h3 className="text-base font-bold text-original-text m-0">No conversation selected</h3>
+        <p className="text-sm text-original-text-muted/70 mt-1">Choose one from the sidebar to start.</p>
       </div>
     );
   }
 
   return (
-    <div className="flex-1 flex flex-col bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden h-full">
+    <div className="flex-1 flex flex-col bg-original-card rounded-xl border border-original-border shadow-sm overflow-hidden h-full">
       {/* Header */}
-      <div className="bg-[#002147] px-4 py-3 flex items-center gap-3 shrink-0">
-        <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center font-bold text-white text-sm overflow-hidden shrink-0">
+      <div className="bg-original-secondary px-4 py-3 flex items-center gap-3 shrink-0">
+        <div className="w-9 h-9 rounded-full bg-original-card/20 flex items-center justify-center font-bold text-white text-sm overflow-hidden shrink-0">
           {partner?.avatar ? (
             <img src={partner.avatar} alt={partner.name} className="w-full h-full object-cover" />
           ) : (
@@ -126,17 +126,17 @@ export const ChatWindow = ({
           <p className="m-0 text-[11px] text-white/60 capitalize">{partner?.role}</p>
         </div>
         {selectedConversation.unreadCount > 0 && (
-          <span className="ml-auto bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+          <span className="ml-auto bg-original-danger text-white text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
             {selectedConversation.unreadCount} unread
           </span>
         )}
       </div>
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-4 bg-[#F8FAFC] flex flex-col">
+      <div className="flex-1 overflow-y-auto p-4 bg-original-background-alt flex flex-col">
         {sortedMessages.length === 0 ? (
           <div className="flex-1 flex items-center justify-center">
-            <p className="text-sm text-gray-400">No messages yet. Say hi! 👋</p>
+            <p className="text-sm text-original-text-muted/70">No messages yet. Say hi! 👋</p>
           </div>
         ) : (
           sortedMessages.map((msg) => (
@@ -147,7 +147,7 @@ export const ChatWindow = ({
       </div>
 
       {/* Input */}
-      <div className="shrink-0 p-3 bg-white border-t border-gray-100">
+      <div className="shrink-0 p-3 bg-original-card border-t border-original-border-light">
         <MessageInput
           onSend={onSend}
           loading={sendLoading}

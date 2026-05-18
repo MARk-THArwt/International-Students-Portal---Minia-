@@ -21,10 +21,10 @@ export const CancelButton = ({ requestId, status }: { requestId: string; status:
       className="
         px-3 py-1.5
         text-xs font-medium
-        text-red-600
-        bg-red-50
+        text-original-danger
+        bg-original-danger-light
         rounded-md
-        hover:bg-red-100
+        hover:bg-original-danger-light
         transition
       "
     >

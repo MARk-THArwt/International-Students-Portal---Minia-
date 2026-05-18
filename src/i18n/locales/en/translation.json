@@ -74,6 +74,7 @@
   "welcome": "Welcome",
   "search": "Search...",
   "miniaUniversityLogo": "Minia University logo",
+  "dashboard": "Dashboard",
   "miniaUniversity": "Minia University",
   "internationalStudentsPortal": "International Students Portal",
   "home": "Home",
@@ -476,5 +477,45 @@
     "descriptionPlaceholder": "Describe the service in detail...",
     "priceLabel": "Price ($)",
     "priorityLabel": "Priority"
+  },
+  "reportsPage": {
+    "title": "Reports Dashboard",
+    "subtitle": "Comprehensive overview of system performance — requests, services, and most active students with interactive charts.",
+    "fetching": "Fetching reports...",
+    "totalRequests": "Total Requests",
+    "totalRequestsDesc": "Total count of all requests registered in the system since launch.",
+    "availableServices": "Available Services",
+    "availableServicesDesc": "Number of active services international students can submit requests for.",
+    "registeredStudents": "Registered Students",
+    "registeredStudentsDesc": "Number of international students registered in the system so far.",
+    "requestsByStatus": "Requests by Status",
+    "requestsByStatusDesc": "Pie chart showing the distribution of request statuses for diagnosis and action.",
+    "statusDetails": "Status Details",
+    "statusDetailsDesc": "Breakdown of each status with count and percentage for a better overview.",
+    "mostRequestedServices": "Most Requested Services",
+    "mostRequestedServicesDesc": "Bar chart showing which services attracted the highest number of requests.",
+    "topStudents": "Most Active Students",
+    "topStudentsDesc": "This chart shows students most engaged with the system.",
+    "service": "Service",
+    "student": "Student",
+    "count": "Count",
+    "percentage": "Percentage",
+    "noData": "No data available",
+    "statusLabels": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "cancelled": "Cancelled",
+      "completed": "Completed",
+      "processing": "Processing"
+    },
+    "statusDescriptions": {
+      "pending": "Requests that haven't been reviewed yet and are waiting for action.",
+      "approved": "Requests approved by administration and ready for execution.",
+      "rejected": "Requests that were rejected because they didn't meet requirements.",
+      "cancelled": "Requests cancelled by the student or administration.",
+      "completed": "Requests that have been finished and received by the student.",
+      "processing": "Requests that are currently being worked on."
+    }
   }
 }

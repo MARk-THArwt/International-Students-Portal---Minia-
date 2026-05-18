@@ -70,20 +70,20 @@ export const STEP_1 = () => {
     <div>
       <div className="mb-8">
         <h3 className="text-2xl font-bold">{t("newRequest.steps.step1.confirmIdentity")}</h3>
-        <p className="text-zinc-600">
+        <p className="text-original-text-muted">
           {t("newRequest.steps.step1.verifyPersonalInfo")}
         </p>
       </div>
 
-      <div className="w-full max-w-5xl p-6 mx-auto border shadow-md bg-card border-zinc-300 rounded-2xl sm:p-8">
+      <div className="w-full max-w-5xl p-6 mx-auto border shadow-md bg-card border-original-border rounded-2xl sm:p-8">
         <div className="flex items-center gap-2 mb-6">
-          <IdCardLanyardIcon className="text-blue-700" />
+          <IdCardLanyardIcon className="text-original-primary-hover" />
           <p className="text-lg font-semibold">{t("newRequest.steps.step1.studentProfileData")}</p>
         </div>
 
         <div className="flex flex-col gap-8 lg:flex-row">
           <div className="flex justify-center lg:justify-start">
-            <div className="w-32 h-32 overflow-hidden bg-gray-800 rounded-xl sm:w-40 sm:h-40">
+            <div className="w-32 h-32 overflow-hidden bg-original-text-dark text-white rounded-xl sm:w-40 sm:h-40">
               <img
                 alt="profile"
                 src={user?.avatar || "/src/assets/Image+Border+Shadow.jpg"}

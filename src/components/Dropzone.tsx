@@ -32,12 +32,12 @@ export function DropZone({ onFilesAdded }: DropZoneProps) {
       className={cn(
         "flex flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed cursor-pointer py-12 px-6 transition",
         isDragAccept
-          ? "border-green-400 bg-green-50"
+          ? "border-original-success bg-original-success-light"
           : isDragReject
-            ? "border-red-400 bg-red-50"
+            ? "border-original-danger bg-original-danger-light"
             : isDragActive
-              ? "border-indigo-400 bg-indigo-50"
-              : "border-indigo-200 hover:border-indigo-400 hover:bg-indigo-50/40",
+              ? "border-original-primary-light bg-original-background-alt"
+              : "border-original-border-light hover:border-original-primary-light hover:bg-original-background-alt/40",
       )}
     >
       <input {...getInputProps()} />
@@ -46,11 +46,11 @@ export function DropZone({ onFilesAdded }: DropZoneProps) {
         className={cn(
           "h-10 w-10",
           isDragAccept
-            ? "text-green-500"
+            ? "text-original-success"
             : isDragReject
-              ? "text-red-500"
+              ? "text-original-danger"
               : isDragActive
-                ? "text-indigo-500"
+                ? "text-original-primary"
                 : "text-indigo-300",
         )}
       />
@@ -63,14 +63,14 @@ export function DropZone({ onFilesAdded }: DropZoneProps) {
             "File type not supported ❌"
           ) : (
             <>
-              <span className="text-indigo-600 font-semibold">
+              <span className="text-original-primary font-semibold">
                 Click to upload
               </span>{" "}
               or drag and drop
             </>
           )}
         </p>
-        <p className="text-xs text-gray-400 mt-1">
+        <p className="text-xs text-original-text-muted/70 mt-1">
           Any file type accepted (max {MAX_FILE_SIZE_MB}MB)
         </p>
       </div>
